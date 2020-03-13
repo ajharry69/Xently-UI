@@ -1,12 +1,10 @@
-package com.xently.xui.list
+package com.xently.xui
 
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.xently.xui.R
-import com.xently.xui.SwipeRefreshFragment
 import com.xently.xui.databinding.ListFragmentBinding
 import com.xently.xui.utils.ui.ISearchParamsChange
 import com.xently.xui.utils.ui.fragment.IListFragment

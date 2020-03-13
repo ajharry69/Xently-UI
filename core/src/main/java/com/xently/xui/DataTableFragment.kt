@@ -1,4 +1,4 @@
-package com.xently.xui.table
+package com.xently.xui
 
 import android.content.SharedPreferences
 import android.os.Build
@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.evrencoskun.tableview.listener.ITableViewListener
 import com.evrencoskun.tableview.pagination.Pagination
 import com.evrencoskun.tableview.sort.SortState
-import com.xently.xui.R
-import com.xently.xui.SwipeRefreshFragment
 import com.xently.xui.adapters.table.ColumnHeaderViewHolder
 import com.xently.xui.adapters.table.DataTableAdapter
 import com.xently.xui.databinding.DataTableFragmentBinding
