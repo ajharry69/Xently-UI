@@ -2,8 +2,8 @@ package com.xently.xui
 
 import android.widget.EditText
 import com.xently.dialog.ButtonText
-import com.xently.dialog.DatePickerDialog
-import com.xently.dialog.TimePickerDialog
+import com.xently.xui.dialog.DatePickerDialog
+import com.xently.xui.dialog.TimePickerDialog
 
 /**
  * Contains helper methods to help show [DatePickerDialog] and [TimePickerDialog]

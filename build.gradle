@@ -7,6 +7,8 @@ buildscript {
         joda_version = '2.10.3'
         appcompat_version = '1.1.0'
         android_core_ktx= '1.2.0'
+        constraint_layout_version = '2.0.0-beta4'
+        navigation_version = '2.3.0-alpha03'
         // Test Dependencies
         androidx_test_core_version = '1.2.0'
         android_junit_version = '1.1.1'

@@ -10,9 +10,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.xently.dialog.ButtonText
 import com.xently.dialog.DialogParams
-import com.xently.dialog.MessageDialog
-import com.xently.dialog.XentlyDialog
 import com.xently.xui.R
+import com.xently.xui.dialog.DialogFragment
+import com.xently.xui.dialog.MessageDialog
 import com.xently.xui.utils.Log
 import com.xently.xui.utils.ui.IModifyToolbar
 import com.xently.xui.utils.ui.view.IView
@@ -61,12 +61,11 @@ interface IFragment : IView {
             ),
             icon = android.R.drawable.stat_sys_warning
         ).apply {
-            onDialogButtonClickListener = object : XentlyDialog.OnDialogButtonClickListener {
+            buttonClickListener = object : DialogFragment.DialogButtonClickListener {
                 override fun onDialogPositiveButtonClick(
                     dialog: DialogInterface,
                     index: Int,
-                    tag: String?,
-                    dialogXently: XentlyDialog
+                    tag: String?
                 ) {
                     onDeletionDialogDeleteClick()
                     dialog.dismiss()

@@ -3,6 +3,7 @@ package com.xently.xui.utils
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
+import com.xently.xui.dialog.BuildConfig
 import com.xently.xui.utils.Log.Type.*
 
 object Log {
@@ -27,7 +28,7 @@ object Log {
         throwable: Throwable? = null,
         type: Type = DEBUG
     ) {
-        if (message != null) {
+        if (BuildConfig.DEBUG && message != null) {
             when (type) {
                 DEBUG -> {
                     if (throwable == null) {

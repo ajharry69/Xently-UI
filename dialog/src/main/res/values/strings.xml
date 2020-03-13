@@ -1,0 +1,4 @@
+<resources>
+    <string name="xui_dialog_and">and</string>
+    <string name="xui_dialog_picker_dialog_positive_button_text">Set</string>
+</resources>
