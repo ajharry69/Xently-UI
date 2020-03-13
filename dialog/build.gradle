@@ -1,0 +1,82 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+ext {
+    bintrayRepo = 'Xenlty UI' // Name of the Bintray repo you created
+    bintrayName = 'com.xently.xui' // Bintray package name
+
+    publishedGroupId = 'com.xently.xui'
+    // Group ID of the SDK which will be added in implementation line of gradle
+    artifact = 'dialog'
+    // Artifact ID of the SDK which will be added in implementation line of gradle
+    libraryVersion = '1.0.0' // Version of the library you created in Bintray
+
+    libraryName = 'Xently Dialog' // It is generally the module name
+    libraryDescription = 'Android utility library to help create most types of (Alert)Dialog(s)'
+    // Small description of the library
+
+    siteUrl = 'https://github.com/ajharry69/Xently-UI'
+    gitUrl = 'https://github.com/ajharry69/Xently-UI.git'
+
+    developerId = 'mitchthealien'
+    developerName = 'Mitch'
+    developerEmail = 'mitchthealien90@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+
+    //Bintray Credentials
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+    bintrayUsername = properties.getProperty('BINTRAY_USERNAME')
+    bintrayUserOrg = properties.getProperty('BINTRAY_ORG')
+    bintrayApiKey = properties.getProperty('BINTRAY_API_KEY')
+}
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 29
+        versionCode 1
+        versionName libraryVersion
+
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    viewBinding {
+        enabled = true
+    }
+
+    useLibrary 'android.test.runner'
+    useLibrary 'android.test.base'
+    useLibrary 'android.test.mock'
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "androidx.fragment:fragment-ktx:$fragment_ktx_version"
+    implementation "androidx.core:core-ktx:$android_core_ktx"
+    implementation "com.google.android.material:material:$material_version"
+    implementation "joda-time:joda-time:$joda_version"
+
+    sharedGroup dependencies
+}
+apply from: 'bintray.script'

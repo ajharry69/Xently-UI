@@ -1,0 +1,4 @@
+rootProject.name='Xently UI'
+include ':app'
+include ':xui'
+include ':dialog'
