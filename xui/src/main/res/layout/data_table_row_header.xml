@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="@dimen/table_view_row_header_width"
+	android:layout_height="@dimen/xui_data_table_cell_height"
+	android:background="@color/unselected_header_background_color">
+
+	<LinearLayout
+		android:id="@+id/container"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:gravity="center_vertical"
+		android:orientation="vertical">
+
+		<TextView
+			android:id="@+id/data"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:ellipsize="end"
+			android:gravity="center"
+			android:maxLines="1"
+			android:textAlignment="gravity"
+			android:textColor="@color/unselected_text_color"
+			android:textSize="@dimen/xui_data_table_default_text_size"
+			tools:text="Row Data" />
+
+	</LinearLayout>
+
+	<View
+		android:layout_width="1px"
+		android:layout_height="match_parent"
+		android:layout_alignParentEnd="true"
+		android:layout_alignParentRight="true"
+		android:background="@color/separator_color" />
+</RelativeLayout>
