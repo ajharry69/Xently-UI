@@ -5,8 +5,8 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 ext {
-    bintrayRepo = 'Xenlty UI' // Name of the Bintray repo you created
-    bintrayName = 'com.xently.xui' // Bintray package name
+    bintrayRepo = 'XentlyUI' // Name of the Bintray repo you created
+    bintrayName = 'com.xently.xui.dialog' // Bintray package name
 
     publishedGroupId = 'com.xently.xui'
     // Group ID of the SDK which will be added in implementation line of gradle

@@ -5,7 +5,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 ext {
-    bintrayRepo = 'Xently UI' // Name of the Bintray repo you created
+    bintrayRepo = 'XentlyUI' // Name of the Bintray repo you created
     bintrayName = 'com.xently.xui' // Bintray package name
 
     publishedGroupId = 'com.xently.xui'
@@ -15,7 +15,7 @@ ext {
     libraryVersion = '1.0.0' // Version of the library you created in Bintray
 
     libraryName = 'Xently UI' // It is generally the module name
-    libraryDescription = 'Android utility library to help android developers create most types of Dialog(s) with ease'
+    libraryDescription = 'An android library containing helper functions and methods to help in creating ListFragment or DataTableFragment both with swipe refresh layout embedded.'
     // Small description of the library
 
     siteUrl = 'https://github.com/ajharry69/Xently-UI'
