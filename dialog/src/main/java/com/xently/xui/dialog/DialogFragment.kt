@@ -16,11 +16,10 @@ import com.xently.dialog.ButtonText
 /**
  * With this class overridden, there is no need of calling [onCreateDialog] again. In case the
  * intention was to recreate the dialog with a **content area** that shows a custom layout, just
- * override [onCreateDialogFromView] or [dialogContentFromResource]. With either of the 2
- * properties initialized to a non-null value, any initialization of [dialogMessage] or
- * [dialogMessageFromResource] will be ignored i.e. **custom layout** is given a higher priority
- * during [Dialog] creation. To create a message/information showing dialog, use [MessageDialog]
- * instead.
+ * override [dialogContentFromResource]. With either of the 2 properties initialized to a non-null
+ * value, any initialization of [dialogMessage] or [dialogMessageFromResource] will be ignored i.e.
+ * **custom layout** is given a higher priority during [Dialog] creation. To create a
+ * message/information showing dialog, use [MessageDialog] instead.
  * ===============================================================================================
  *
  * There are five(5) types of [Dialog]s that extends this class:
@@ -30,7 +29,7 @@ import com.xently.dialog.ButtonText
  *      3. _**Single Choice**_ - list items with **radio buttons**
  *  2. **Message** - shows an information in a [Dialog]. Use [MessageDialog]
  *  3. **Custom layout** - shows a custom layout/view in a [Dialog]. To implement, create a subclass
- *  of [DialogFragment] and override [onCreateDialogFromView] or [dialogContentFromResource]
+ *  of [DialogFragment] and override [dialogContentFromResource]
  *  4. **Date picker** - shows date-picker in a [Dialog]. Use [DatePickerDialog]
  *  5. **Time picker** - shows time-picker in a [Dialog]. Use [TimePickerDialog]
  *
@@ -80,11 +79,11 @@ open class DialogFragment : androidx.fragment.app.DialogFragment() {
 
     /**
      * Attach listener that responds to [Dialog] button clicks
-     * @see onDialogPositiveButtonClick
-     * @see onDialogNegativeButtonClick
-     * @see onDialogNeutralButtonClick
+     * @see onPositiveButtonClick
+     * @see onNegativeButtonClick
+     * @see onNeutralButtonClick
      */
-    interface DialogButtonClickListener {
+    interface ButtonClickListener {
         /**
          * What to do when [Dialog]'s **positive** button is clicked
          * @param tag set when `Dialog.show(fm: FragmentManager, **tag**: String)` was called. This
@@ -92,13 +91,13 @@ open class DialogFragment : androidx.fragment.app.DialogFragment() {
          * was shown from different views in the same screen or fragment, inorder to respond to
          * their **button** click you will need to identify them with their **transaction** tags to
          * be able to separate button click behaviours
-         * @see DialogButtonClickListener
+         * @see ButtonClickListener
          */
-        fun onDialogPositiveButtonClick(
+        fun onPositiveButtonClick(
             dialog: DialogInterface,
             index: Int,
             tag: String?
-        )
+        ) = dialog.dismiss()
 
         /**
          * What to do when [Dialog]'s **negative** button is clicked
@@ -107,9 +106,9 @@ open class DialogFragment : androidx.fragment.app.DialogFragment() {
          * was shown from different views in the same screen or fragment, inorder to respond to
          * their **button** click you will need to identify them with their **transaction** tags to
          * be able to separate button click behaviours
-         * @see DialogButtonClickListener
+         * @see ButtonClickListener
          */
-        fun onDialogNegativeButtonClick(
+        fun onNegativeButtonClick(
             dialog: DialogInterface,
             index: Int,
             tag: String?
@@ -122,9 +121,9 @@ open class DialogFragment : androidx.fragment.app.DialogFragment() {
          * was shown from different views in the same screen or fragment, inorder to respond to
          * their **button** click you will need to identify them with their **transaction** tags to
          * be able to separate button click behaviours
-         * @see DialogButtonClickListener
+         * @see ButtonClickListener
          */
-        fun onDialogNeutralButtonClick(
+        fun onNeutralButtonClick(
             dialog: DialogInterface,
             index: Int,
             tag: String?
@@ -187,7 +186,6 @@ open class DialogFragment : androidx.fragment.app.DialogFragment() {
 
     /**
      * What to use as data in the alert dialog's **content area** by calling `dialog.setView(..)`
-     * @see onCreateDialogFromView
      * @see DialogFragment
      */
     @LayoutRes
@@ -218,15 +216,15 @@ open class DialogFragment : androidx.fragment.app.DialogFragment() {
      * `null` and [setDialogButtonText] implementation is not provided then it's corresponding
      * click implementation is rendered useless. For example, if [ButtonText.positive] = `null`,
      * then **positive** button for the dialog will not be shown
-     * @see DialogButtonClickListener
+     * @see ButtonClickListener
      * @see DialogFragment
      */
     var dialogButtonText: ButtonText? = ButtonText(null)
 
     /**
-     * @see DialogButtonClickListener
+     * @see ButtonClickListener
      */
-    var buttonClickListener: DialogButtonClickListener? = null
+    var buttonClickListener: ButtonClickListener? = null
 
     override fun onDetach() {
         buttonClickListener = null
@@ -271,21 +269,21 @@ open class DialogFragment : androidx.fragment.app.DialogFragment() {
             // `dialogPositiveButtonText` is not null
             dialogButtonText?.positive?.let {
                 setPositiveButton(it) { d, i ->
-                    onDialogPositiveButtonClick(d, i)
+                    onPositiveButtonClick(d, i)
                 }
             }
             // Only show a "negative" button to the dialog and respond to its click iff
             // `dialogNegativeButtonText` is not null
             dialogButtonText?.negative?.let {
                 setNegativeButton(it) { d, i ->
-                    onDialogNegativeButtonClick(d, i)
+                    onNegativeButtonClick(d, i)
                 }
             }
             // Only show a "neutral" button to the dialog and respond to its click iff
             // `dialogNeutralButtonText` is not null
             dialogButtonText?.neutral?.let {
                 setNeutralButton(it) { d, i ->
-                    onDialogNeutralButtonClick(d, i)
+                    onNeutralButtonClick(d, i)
                 }
             }
             setAsDialogProperties(this)
@@ -328,7 +326,7 @@ open class DialogFragment : androidx.fragment.app.DialogFragment() {
     @CallSuper
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return if (item.itemId == android.R.id.home) {
-            onDialogNegativeButtonClick(this.requireDialog(), Int.MAX_VALUE)
+            onNegativeButtonClick(this.requireDialog(), Int.MAX_VALUE)
             true
         } else super.onOptionsItemSelected(item)
     }
@@ -339,20 +337,20 @@ open class DialogFragment : androidx.fragment.app.DialogFragment() {
      * will not be called hence is rendered useless.
      * =======================================================================================
      *
-     * **N/B:** Default behaviour is a call to `DialogButtonClickListener.onDialogPositiveButtonClick()`
-     * or [Dialog] dismissal **iff** [DialogButtonClickListener] is `null`
-     * ([DialogButtonClickListener] is not implemented)
+     * **N/B:** Default behaviour is a call to `ButtonClickListener.onDialogPositiveButtonClick()`
+     * or [Dialog] dismissal **iff** [ButtonClickListener] is `null`
+     * ([ButtonClickListener] is not implemented)
      *
      * =======================================================================================
      * @see dialogButtonText
      * @see DialogFragment
      */
-    open fun onDialogPositiveButtonClick(dialog: DialogInterface, index: Int) {
+    open fun onPositiveButtonClick(dialog: DialogInterface, index: Int) {
         if (buttonClickListener == null) {
             dialog.dismiss()
             return
         }
-        buttonClickListener?.onDialogPositiveButtonClick(dialog, index, tag)
+        buttonClickListener?.onPositiveButtonClick(dialog, index, tag)
     }
 
     /**
@@ -361,20 +359,20 @@ open class DialogFragment : androidx.fragment.app.DialogFragment() {
      * will not be called hence is rendered useless.
      * =======================================================================================
      *
-     * **N/B:** Default behaviour is a call to `DialogButtonClickListener.onDialogNegativeButtonClick()`
-     * or [Dialog] dismissal **iff** [DialogButtonClickListener] is `null`
-     * ([DialogButtonClickListener] is not implemented)
+     * **N/B:** Default behaviour is a call to `ButtonClickListener.onDialogNegativeButtonClick()`
+     * or [Dialog] dismissal **iff** [ButtonClickListener] is `null`
+     * ([ButtonClickListener] is not implemented)
      *
      * =======================================================================================
      * @see dialogButtonText
      * @see DialogFragment
      */
-    open fun onDialogNegativeButtonClick(dialog: DialogInterface, index: Int) {
+    open fun onNegativeButtonClick(dialog: DialogInterface, index: Int) {
         if (buttonClickListener == null) {
             dialog.dismiss()
             return
         }
-        buttonClickListener?.onDialogNegativeButtonClick(dialog, index, tag)
+        buttonClickListener?.onNegativeButtonClick(dialog, index, tag)
     }
 
     /**
@@ -383,19 +381,19 @@ open class DialogFragment : androidx.fragment.app.DialogFragment() {
      * will not be called hence is rendered useless.
      * =======================================================================================
      *
-     * **N/B:** Default behaviour is a call to `DialogButtonClickListener.onDialogNeutralButtonClick()`
-     * or [Dialog] dismissal **iff** [DialogButtonClickListener] is `null`
-     * ([DialogButtonClickListener] is not implemented)
+     * **N/B:** Default behaviour is a call to `ButtonClickListener.onDialogNeutralButtonClick()`
+     * or [Dialog] dismissal **iff** [ButtonClickListener] is `null`
+     * ([ButtonClickListener] is not implemented)
      *
      * =======================================================================================
      * @see DialogFragment
      */
-    open fun onDialogNeutralButtonClick(dialog: DialogInterface, index: Int) {
+    open fun onNeutralButtonClick(dialog: DialogInterface, index: Int) {
         if (buttonClickListener == null) {
             dialog.dismiss()
             return
         }
-        buttonClickListener?.onDialogNeutralButtonClick(dialog, index, tag)
+        buttonClickListener?.onNeutralButtonClick(dialog, index, tag)
     }
 
     /**
@@ -403,7 +401,7 @@ open class DialogFragment : androidx.fragment.app.DialogFragment() {
      * `null` and [dialogButtonText] implementation is not provided then it's corresponding click
      * implementation is rendered useless. For example, if [ButtonText.positive] = `null`, then
      * **positive** button for the dialog will not be shown
-     * @see DialogButtonClickListener
+     * @see ButtonClickListener
      * @see DialogFragment
      */
     open fun setDialogButtonText(context: Context): ButtonText? = dialogButtonText
@@ -420,21 +418,6 @@ open class DialogFragment : androidx.fragment.app.DialogFragment() {
      * @see DialogFragment
      */
     open fun setAsDialogProperties(dialog: MaterialAlertDialogBuilder) = Unit
-
-    /**
-     * What to use as data in the alert dialog's **content area** by calling `dialog.setView(..)`
-     * @see dialogContentFromResource
-     * @see DialogFragment
-     */
-    @Deprecated(
-        "To avoid repeatition, this method will be deleted",
-        replaceWith = ReplaceWith("onCreateView(requireActivity().layoutInflater, container, savedInstanceState)")
-    )
-    open fun onCreateDialogFromView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        attachToRoot: Boolean
-    ): View? = dialogContentFromResource?.let { inflater.inflate(it, container, attachToRoot) }
 
     /**
      * Initializes [launchMode] and [dialogStyle]

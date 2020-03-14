@@ -1,53 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="wrap_content"
-	android:layout_height="@dimen/xui_data_table_cell_height"
-	android:background="@color/unselected_header_background_color"
-	android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/xui_data_table_cell_height"
+    android:background="@color/unselected_header_background_color"
+    android:orientation="vertical">
 
-	<LinearLayout
-		android:id="@+id/container"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_gravity="center"
-		android:layout_marginStart="10dp"
-		android:layout_marginEnd="10dp"
-		android:orientation="horizontal">
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:orientation="horizontal">
 
-		<TextView
-			android:id="@+id/data"
-			android:layout_width="0dp"
-			android:layout_height="match_parent"
-			android:layout_gravity="center"
-			android:layout_weight="4"
-			android:gravity="center"
-			android:textColor="@color/unselected_text_color"
-			android:textSize="@dimen/xui_data_table_default_text_size"
-			android:textStyle="bold"
-			tools:text="Header Data" />
+        <TextView
+            android:id="@+id/data"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:textColor="@color/unselected_text_color"
+            android:textSize="@dimen/xui_data_table_default_text_size"
+            android:textStyle="bold"
+            tools:text="Header Data" />
 
-		<ImageButton
-			android:id="@+id/sort"
-			android:layout_width="15dp"
-			android:layout_height="match_parent"
-			android:layout_gravity="end|center"
-			android:layout_marginStart="4dp"
-			android:layout_marginTop="4dp"
-			android:layout_marginBottom="4dp"
-			android:background="@android:color/transparent"
-			android:contentDescription="@string/xui_content_desc_sort"
-			android:scaleType="fitXY"
-			android:visibility="gone"
-			app:srcCompat="@drawable/ic_action_arrow_down"
-			tools:ignore="RtlSymmetry"
-			android:layout_marginLeft="4dp" />
-	</LinearLayout>
+        <ImageButton
+            android:id="@+id/sort"
+            android:layout_width="15dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end|center"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/xui_content_desc_sort"
+            android:scaleType="fitXY"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_action_arrow_down"
+            tools:ignore="RtlSymmetry" />
+    </LinearLayout>
 
-	<View
-		android:layout_width="match_parent"
-		android:layout_height="1px"
-		android:layout_gravity="bottom"
-		android:background="@color/separator_color" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_gravity="bottom"
+        android:background="@color/separator_color" />
 </FrameLayout>

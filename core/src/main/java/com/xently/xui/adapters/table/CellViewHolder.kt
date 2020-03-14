@@ -7,8 +7,8 @@ import com.evrencoskun.tableview.TableView
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder.SelectionState.*
 import com.xently.xui.R
-import com.xently.xui.utils.ui.view.table.Cell
 import com.xently.xui.databinding.DataTableCellBinding
+import com.xently.xui.utils.ui.view.table.Cell
 
 /**
  * Used to populate [TableView]

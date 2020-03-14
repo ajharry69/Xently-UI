@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<dimen name="refresh_button_size">40dp</dimen>
-	<dimen name="refresh_icon_dimen">24dp</dimen>
+    <dimen name="refresh_button_size">40dp</dimen>
+    <dimen name="refresh_icon_dimen">24dp</dimen>
 
-	<dimen name="xui_data_table_column_header_height">20dp</dimen>
-	<dimen name="xui_data_table_row_header_width">20dp</dimen>
-	<dimen name="xui_data_table_cell_height">28dp</dimen>
-	<dimen name="table_view_row_header_width">30dp</dimen>
-	<dimen name="xui_data_table_default_text_size">14sp</dimen>
+    <dimen name="xui_data_table_column_header_height">20dp</dimen>
+    <dimen name="xui_data_table_row_header_width">20dp</dimen>
+    <dimen name="xui_data_table_cell_height">28dp</dimen>
+    <dimen name="table_view_row_header_width">30dp</dimen>
+    <dimen name="xui_data_table_default_text_size">14sp</dimen>
 
-	<dimen name="xui_menu_icon_width">24dp</dimen>
+    <dimen name="xui_menu_icon_width">24dp</dimen>
 </resources>

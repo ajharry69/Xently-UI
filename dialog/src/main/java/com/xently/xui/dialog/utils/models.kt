@@ -29,7 +29,12 @@ data class ButtonText(
 
         override fun newArray(size: Int): Array<ButtonText?> = arrayOfNulls(size)
 
-        fun fromStringResource(context: Context, @StringRes positive: Int?, @StringRes negative: Int? = null, @StringRes neutral: Int? = null): ButtonText {
+        fun fromStringResource(
+            context: Context,
+            @StringRes positive: Int?,
+            @StringRes negative: Int? = null,
+            @StringRes neutral: Int? = null
+        ): ButtonText {
             val pos = positive?.let { context.getString(it) }
             val neg = negative?.let { context.getString(it) }
             val neu = neutral?.let { context.getString(it) }

@@ -22,21 +22,21 @@ class TimePickerDialog : DialogFragment(), android.app.TimePickerDialog.OnTimeSe
 
     /**
      * Callback/listener to respond to time picked from [TimePickerDialog]
-     * @see onTimePickerDialogTimeSet
+     * @see onTimeSet
      */
-    interface OnTimePickerDialogTimeSetListener {
+    interface TimeSetListener {
         /**
          * Callback method to respond to time picked from [TimePickerDialog]
          * @param tag Used to identify different [TimePickerDialog]s sharing the same
-         * [OnTimePickerDialogTimeSetListener]
-         * @see OnTimePickerDialogTimeSetListener
+         * [TimeSetListener]
+         * @see TimeSetListener
          */
-        fun onTimePickerDialogTimeSet(time: String, tag: String?)
+        fun onTimeSet(time: String, tag: String?)
     }
 
     override fun onTimeSet(p0: TimePicker?, p1: Int, p2: Int) {
         val time = DateTime().withTime(p1, p2, 0, 0)
-        onTimePickerDialogTimeSetListener?.onTimePickerDialogTimeSet(
+        timeSetListener?.onTimeSet(
             time.toString(dateTimeFormatter()), tag
         )
     }
@@ -60,18 +60,22 @@ class TimePickerDialog : DialogFragment(), android.app.TimePickerDialog.OnTimeSe
     } else {
         DateFormat.TIME_HM_12_HRS
     }
+
     /**
-     * @see OnTimePickerDialogTimeSetListener
+     * @see TimeSetListener
      */
-    var onTimePickerDialogTimeSetListener: OnTimePickerDialogTimeSetListener? = null
+    var timeSetListener: TimeSetListener? = null
 
     override fun onDetach() {
         super.onDetach()
-        onTimePickerDialogTimeSetListener = null
+        timeSetListener = null
     }
 
     override fun setDialogButtonText(context: Context): ButtonText? =
-        ButtonText.fromStringResource(context, R.string.xui_dialog_picker_dialog_positive_button_text)
+        ButtonText.fromStringResource(
+            context,
+            R.string.xui_dialog_picker_dialog_positive_button_text
+        )
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 //        val is24hours = is24Hours ?: DateFormat.is24HourFormat(context)

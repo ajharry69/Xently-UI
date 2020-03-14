@@ -17,12 +17,12 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Dark" />
 
     <style name="AppTheme.FullScreenDialog" parent="@style/AppTheme">
-<!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
-<!--        <item name="colorAccent">@color/colorAccent</item>-->
-<!--        <item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--        <item name="colorAccent">@color/colorAccent</item>-->
+        <!--        <item name="colorPrimary">@color/colorPrimary</item>-->
         <item name="android:windowIsFloating">false</item>
-<!--        <item name="android:windowBackground">@android:color/white</item>-->
-<!--        <item name="actionMenuTextColor">@color/colorAccent</item>-->
+        <!--        <item name="android:windowBackground">@android:color/white</item>-->
+        <!--        <item name="actionMenuTextColor">@color/colorAccent</item>-->
     </style>
 
     <style name="AppTheme.Slide">

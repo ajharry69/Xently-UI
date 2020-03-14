@@ -21,21 +21,21 @@ class DatePickerDialog private constructor() : DialogFragment(),
 
     /**
      * Callback/listener to respond to date picked from [DatePickerDialog]
-     * @see onDatePickerDialogDateSetListener
+     * @see dateSetListener
      */
-    interface OnDatePickerDialogDateSetListener {
+    interface DateSetListener {
 
         /**
          * Callback method to respond to date picked from [DatePickerDialog]
          * @param tag Used to identify different [DatePickerDialog]s sharing the same
-         * [OnDatePickerDialogDateSetListener]
-         * @see OnDatePickerDialogDateSetListener
+         * [DateSetListener]
+         * @see DateSetListener
          */
-        fun onDatePickerDialogDateSet(date: String, tag: String?)
+        fun onDateSet(date: String, tag: String?)
     }
 
     override fun onDateSet(p0: DatePicker?, p1: Int, p2: Int, p3: Int) {
-        onDatePickerDialogDateSetListener?.onDatePickerDialogDateSet(
+        dateSetListener?.onDateSet(
             DateTime().withDate(p1, p2 + 1, p3).toString(dateTimeFormatter()), tag
         )
     }
@@ -55,17 +55,20 @@ class DatePickerDialog private constructor() : DialogFragment(),
     var returnDateFormat: String = DateFormat.dateOnly()
 
     /**
-     * @see OnDatePickerDialogDateSetListener
+     * @see DateSetListener
      */
-    var onDatePickerDialogDateSetListener: OnDatePickerDialogDateSetListener? = null
+    var dateSetListener: DateSetListener? = null
 
     override fun onDetach() {
         super.onDetach()
-        onDatePickerDialogDateSetListener = null
+        dateSetListener = null
     }
 
     override fun setDialogButtonText(context: Context): ButtonText? =
-        ButtonText.fromStringResource(context, R.string.xui_dialog_picker_dialog_positive_button_text)
+        ButtonText.fromStringResource(
+            context,
+            R.string.xui_dialog_picker_dialog_positive_button_text
+        )
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 

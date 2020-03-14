@@ -17,9 +17,9 @@ class ChoiceDialog : DialogFragment() {
 
     /**
      * Callback/listener to respond to [ChoiceDialog] item selections
-     * @see onChoiceDialogItemSelected
+     * @see onItemSelected
      */
-    interface OnChoiceDialogItemSelectedListener {
+    interface ItemSelectedListener {
         /**
          * Callback method to respond to [ChoiceDialog] item selections
          * @param selectedItems list of items selected from a **MultipleChoiceItems**. Only
@@ -29,21 +29,20 @@ class ChoiceDialog : DialogFragment() {
          * was shown from different views in the same screen or fragment, inorder to respond to
          * their **button** click you will need to identify them with their **transaction** tags to
          * be able to separate button click behaviours
-         * @see OnChoiceDialogItemSelectedListener
+         * @see ItemSelectedListener
          */
-        fun onChoiceDialogItemSelected(
+        fun onItemSelected(
             dialog: DialogInterface,
             index: Int,
             selectedItems: List<CharSequence>,
-            tag: String?,
-            choiceDialog: ChoiceDialog
+            tag: String?
         )
     }
 
     /**
-     * @see OnChoiceDialogItemSelectedListener
+     * @see ItemSelectedListener
      */
-    var onChoiceDialogItemSelectedListener: OnChoiceDialogItemSelectedListener? = null
+    var itemSelectedListener: ItemSelectedListener? = null
 
     /**
      * Type of [ChoiceDialog]
@@ -77,12 +76,11 @@ class ChoiceDialog : DialogFragment() {
                     setItems(entries) { dialog, which ->
                         val selected =
                             (dialog as AlertDialog).listView.getItemAtPosition(which) as String?
-                        onChoiceDialogItemSelectedListener?.onChoiceDialogItemSelected(
+                        itemSelectedListener?.onItemSelected(
                             dialog = dialog,
                             index = which,
                             selectedItems = selected?.let { listOf(it) } ?: listOf(),
-                            tag = tag,
-                            choiceDialog = this@ChoiceDialog
+                            tag = tag
                         )
                     }
                 }
@@ -90,12 +88,11 @@ class ChoiceDialog : DialogFragment() {
                     setSingleChoiceItems(entries, 0) { dialog, which ->
                         val selected =
                             (dialog as AlertDialog).listView.getItemAtPosition(which) as String?
-                        onChoiceDialogItemSelectedListener?.onChoiceDialogItemSelected(
+                        itemSelectedListener?.onItemSelected(
                             dialog = dialog,
                             index = which,
                             selectedItems = selected?.let { listOf(it) } ?: listOf(),
-                            tag = tag,
-                            choiceDialog = this@ChoiceDialog
+                            tag = tag
                         )
                     }
                 }
@@ -115,12 +112,11 @@ class ChoiceDialog : DialogFragment() {
                             }
                         }
 
-                        onChoiceDialogItemSelectedListener?.onChoiceDialogItemSelected(
+                        itemSelectedListener?.onItemSelected(
                             dialog = dialog,
                             index = which,
                             selectedItems = selectedItems,
-                            tag = tag,
-                            choiceDialog = this@ChoiceDialog
+                            tag = tag
                         )
                     }
                 }

@@ -13,10 +13,12 @@ data class RefreshEvent(val state: State, val forced: Boolean = false) {
          * refresh/fetch started
          */
         STARTED,
+
         /**
          * refresh/fetch is progress
          */
         ACTIVE,
+
         /**
          * refresh/fetch ended
          */
@@ -35,10 +37,12 @@ data class ListLoadEvent<T>(val status: Status, val data: List<T>? = null) {
          * list - null. Most so when dealing with observables e.g. LiveData
          */
         NULL,
+
         /**
          * list - 0(Zero)-sized
          */
         EMPTY,
+
         /**
          * list - contains at least one item of [T] and [data] should contain the same iff it was
          * initialized when status was reported

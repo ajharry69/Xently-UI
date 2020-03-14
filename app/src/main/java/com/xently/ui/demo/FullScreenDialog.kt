@@ -43,12 +43,12 @@ class FullScreenDialog : DialogFragment() {
         return when (item.itemId) {
             R.id.cancel -> {
                 Log.i(MainActivity.TAG, "Clicked fullscreen: ${item.title}")
-                onDialogNegativeButtonClick(this.requireDialog(), 1)
+                onNegativeButtonClick(this.requireDialog(), 1)
                 true
             }
             R.id.okay -> {
                 Log.i(MainActivity.TAG, "Clicked fullscreen: ${item.title}")
-                onDialogPositiveButtonClick(this.requireDialog(), 1)
+                onPositiveButtonClick(this.requireDialog(), 1)
                 true
             }
             else -> super.onOptionsItemSelected(item)

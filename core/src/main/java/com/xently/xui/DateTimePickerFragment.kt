@@ -8,9 +8,8 @@ import com.xently.xui.dialog.TimePickerDialog
 /**
  * Contains helper methods to help show [DatePickerDialog] and [TimePickerDialog]
  */
-abstract class DateTimePickerFragment : Fragment(),
-    DatePickerDialog.OnDatePickerDialogDateSetListener,
-    TimePickerDialog.OnTimePickerDialogTimeSetListener {
+abstract class DateTimePickerFragment : Fragment(), DatePickerDialog.DateSetListener,
+    TimePickerDialog.TimeSetListener {
 
     protected fun <T : EditText> showDatePicker(et: T, tag: String) =
         DatePickerDialog.getInstance(null, et.text).apply {
@@ -19,7 +18,7 @@ abstract class DateTimePickerFragment : Fragment(),
                 this@DateTimePickerFragment.requireContext(),
                 R.string.xui_date_picker_dialog_positive_button
             )
-            this.onDatePickerDialogDateSetListener = this@DateTimePickerFragment
+            this.dateSetListener = this@DateTimePickerFragment
         }.show(childFragmentManager, tag)
 
     protected fun <T : EditText> showTimePicker(et: T, tag: String) =
@@ -29,10 +28,10 @@ abstract class DateTimePickerFragment : Fragment(),
                 this@DateTimePickerFragment.requireContext(),
                 R.string.xui_date_picker_dialog_positive_button
             )
-            this.onTimePickerDialogTimeSetListener = this@DateTimePickerFragment
+            this.timeSetListener = this@DateTimePickerFragment
         }.show(childFragmentManager, tag)
 
-    override fun onDatePickerDialogDateSet(date: String, tag: String?) = Unit
+    override fun onDateSet(date: String, tag: String?) = Unit
 
-    override fun onTimePickerDialogTimeSet(time: String, tag: String?) = Unit
+    override fun onTimeSet(time: String, tag: String?) = Unit
 }

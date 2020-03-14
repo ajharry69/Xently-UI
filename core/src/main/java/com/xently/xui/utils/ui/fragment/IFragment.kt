@@ -61,8 +61,8 @@ interface IFragment : IView {
             ),
             icon = android.R.drawable.stat_sys_warning
         ).apply {
-            buttonClickListener = object : DialogFragment.DialogButtonClickListener {
-                override fun onDialogPositiveButtonClick(
+            buttonClickListener = object : DialogFragment.ButtonClickListener {
+                override fun onPositiveButtonClick(
                     dialog: DialogInterface,
                     index: Int,
                     tag: String?

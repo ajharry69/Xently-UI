@@ -15,8 +15,8 @@ import com.xently.xui.SearchableActivity
 import com.xently.xui.dialog.*
 
 @Suppress("UNUSED_PARAMETER")
-class MainActivity : SearchableActivity(), ChoiceDialog.OnChoiceDialogItemSelectedListener,
-    DialogFragment.DialogButtonClickListener {
+class MainActivity : SearchableActivity(), ChoiceDialog.ItemSelectedListener,
+    DialogFragment.ButtonClickListener {
 
     private lateinit var binding: MainActivityBinding
 
@@ -47,7 +47,7 @@ class MainActivity : SearchableActivity(), ChoiceDialog.OnChoiceDialogItemSelect
         }
     }
 
-    override fun onDialogPositiveButtonClick(
+    override fun onPositiveButtonClick(
         dialog: DialogInterface,
         index: Int,
         tag: String?
@@ -66,12 +66,11 @@ class MainActivity : SearchableActivity(), ChoiceDialog.OnChoiceDialogItemSelect
         dialog.dismiss()
     }
 
-    override fun onChoiceDialogItemSelected(
+    override fun onItemSelected(
         dialog: DialogInterface,
         index: Int,
         selectedItems: List<CharSequence>,
-        tag: String?,
-        choiceDialog: ChoiceDialog
+        tag: String?
     ) {
         val choiceAtIndex = choiceDialogData[index]
         when (tag) {
@@ -131,8 +130,8 @@ class MainActivity : SearchableActivity(), ChoiceDialog.OnChoiceDialogItemSelect
 
     fun showFullScreenDialog(view: View) {
         FullScreenDialog().apply {
-            buttonClickListener = object : DialogFragment.DialogButtonClickListener {
-                override fun onDialogPositiveButtonClick(
+            buttonClickListener = object : DialogFragment.ButtonClickListener {
+                override fun onPositiveButtonClick(
                     dialog: DialogInterface,
                     index: Int,
                     tag: String?
@@ -155,7 +154,7 @@ class MainActivity : SearchableActivity(), ChoiceDialog.OnChoiceDialogItemSelect
 //            type = ChoiceDialog.Type.MULTIPLE
 //            entries = choiceDialogData
 //            entriesFromResource = R.array.choice_dialog_entries
-            onChoiceDialogItemSelectedListener = this@MainActivity
+            itemSelectedListener = this@MainActivity
         }.show(supportFragmentManager, MULTIPLE_CHOICE_DIALOG_TAG)
     }
 
@@ -165,7 +164,7 @@ class MainActivity : SearchableActivity(), ChoiceDialog.OnChoiceDialogItemSelect
             ChoiceDialogParams("Title", ButtonText("Hello")),
             type = ChoiceDialog.Type.SINGLE
         ).apply {
-            onChoiceDialogItemSelectedListener = this@MainActivity
+            itemSelectedListener = this@MainActivity
         }.show(supportFragmentManager, SINGLE_CHOICE_DIALOG_TAG)
     }
 
@@ -173,7 +172,7 @@ class MainActivity : SearchableActivity(), ChoiceDialog.OnChoiceDialogItemSelect
         ChoiceDialog.getInstance(
             choiceDialogData.toList()
         ).apply {
-            onChoiceDialogItemSelectedListener = this@MainActivity
+            itemSelectedListener = this@MainActivity
         }.show(supportFragmentManager, LIST_CHOICE_DIALOG_TAG)
     }
 
@@ -185,9 +184,9 @@ class MainActivity : SearchableActivity(), ChoiceDialog.OnChoiceDialogItemSelect
                 ButtonText("Set1", "Cancel")
             ), initialTime = "   10:23 ", is24Hours = true
         ).apply {
-            onTimePickerDialogTimeSetListener = object :
-                TimePickerDialog.OnTimePickerDialogTimeSetListener {
-                override fun onTimePickerDialogTimeSet(time: String, tag: String?) {
+            timeSetListener = object :
+                TimePickerDialog.TimeSetListener {
+                override fun onTimeSet(time: String, tag: String?) {
                     // Do something with the returned time...
                     showSnackBar(time)
                 }
@@ -198,9 +197,9 @@ class MainActivity : SearchableActivity(), ChoiceDialog.OnChoiceDialogItemSelect
     fun showDatePickerDialog(view: View) {
         // Creates shows a date picker with date set to 2016-05-18
         DatePickerDialog.getInstance().apply {
-            onDatePickerDialogDateSetListener = object :
-                DatePickerDialog.OnDatePickerDialogDateSetListener {
-                override fun onDatePickerDialogDateSet(date: String, tag: String?) {
+            dateSetListener = object :
+                DatePickerDialog.DateSetListener {
+                override fun onDateSet(date: String, tag: String?) {
                     showSnackBar(date)
                 }
             }
