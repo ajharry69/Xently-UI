@@ -1,11 +1,33 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.ToolbarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        <!--        <item name="android:textViewStyle">@style/AppTheme.TextView.Toolbar</item>-->
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="AppTheme.ToolbarOverlay" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Dark" />
+
+    <style name="AppTheme.FullScreenDialog" parent="@style/AppTheme">
+<!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+<!--        <item name="colorAccent">@color/colorAccent</item>-->
+<!--        <item name="colorPrimary">@color/colorPrimary</item>-->
+        <item name="android:windowIsFloating">false</item>
+<!--        <item name="android:windowBackground">@android:color/white</item>-->
+<!--        <item name="actionMenuTextColor">@color/colorAccent</item>-->
+    </style>
+
+    <style name="AppTheme.Slide">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
 
 </resources>

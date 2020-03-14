@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="choice_dialog_entries">
+        <item>Create</item>
+        <item>Read</item>
+        <item>Update</item>
+        <item>Delete</item>
+    </string-array>
+</resources>
