@@ -12,7 +12,7 @@ ext {
     // Group ID of the SDK which will be added in implementation line of gradle
     artifact = 'dialog'
     // Artifact ID of the SDK which will be added in implementation line of gradle
-    libraryVersion = '1.0.2' // Version of the library you created in Bintray
+    libraryVersion = '1.0.3' // Version of the library you created in Bintray
 
     libraryName = 'Xently Dialog' // It is generally the module name
     libraryDescription = 'Android utility library to help create most types of (Alert)Dialog(s)'
@@ -45,7 +45,7 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 29
-        versionCode 3
+        versionCode 4
         versionName libraryVersion
 
         vectorDrawables.useSupportLibrary = true

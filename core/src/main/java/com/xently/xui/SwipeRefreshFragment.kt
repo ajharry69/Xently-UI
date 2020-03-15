@@ -8,6 +8,7 @@ import com.xently.xui.utils.ListLoadEvent
 import com.xently.xui.utils.ListLoadEvent.Status.*
 import com.xently.xui.utils.Log
 import com.xently.xui.utils.RefreshEvent
+import com.xently.xui.utils.RefreshEvent.State
 import com.xently.xui.utils.RefreshEvent.State.*
 import com.xently.xui.utils.ui.fragment.ISwipeRefreshFragment
 import org.greenrobot.eventbus.Subscribe
@@ -85,17 +86,17 @@ abstract class SwipeRefreshFragment<T> : Fragment(), ISwipeRefreshFragment {
     open fun onListLoadEvent(event: ListLoadEvent<T>) {
         when (event.status) {
             NULL -> {
-                showProgress()
+                updateSwipeRefreshProgress()
                 hideViewsCompletely(statusContainer)
                 showViews(swipeRefresh)
             }
             EMPTY -> {
-                showProgress(ENDED, false)
+                updateSwipeRefreshProgress(ENDED)
                 hideViewsCompletely(swipeRefresh)
                 showViews(statusContainer)
             }
             LOADED -> {
-                showProgress(ENDED, false)
+                updateSwipeRefreshProgress(ENDED)
                 hideViewsCompletely(statusContainer)
                 showViews(swipeRefresh)
             }
@@ -105,7 +106,7 @@ abstract class SwipeRefreshFragment<T> : Fragment(), ISwipeRefreshFragment {
     /**
      * Should be called in a list-returning observable e.g. LiveData
      */
-    open fun <L : List<T>> onObservableListChanged(list: L?) {
+    protected fun <L : List<T>> onObservableListChanged(list: L?) {
         val event = if (list.isNullOrEmpty()) {
             if (list == null) ListLoadEvent(NULL, list)
             else ListLoadEvent(EMPTY, list)
@@ -115,9 +116,16 @@ abstract class SwipeRefreshFragment<T> : Fragment(), ISwipeRefreshFragment {
         else onListLoadEvent(event)
     }
 
-    protected fun showProgress(refreshState: RefreshEvent.State = ACTIVE, show: Boolean = true) {
+    /**
+     * Can be called when a list refresh is ended with [state] = [State.ENDED] to hide the swipe
+     * refresh layout's progress indicator
+     */
+    protected fun updateSwipeRefreshProgress(
+        state: State = ACTIVE,
+        show: Boolean = state != ENDED
+    ) {
         if (eventBusRegistered) {
-            eventBus.post(RefreshEvent(refreshState))
+            eventBus.post(RefreshEvent(state))
         } else swipeRefresh.showProgress(show)
     }
 

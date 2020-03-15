@@ -8,10 +8,10 @@
     <string name="xui_delete_dialog_pos_btn">Delete</string>
     <string name="xui_delete_dialog_neg_btn">Cancel</string>
     <string name="xui_date_picker_dialog_positive_button">Set</string>
-    <string name="xui_menu_fragment_debt_list_search">Search</string>
-    <string name="xui_menu_fragment_debt_list_sort">Sort</string>
-    <string name="xui_menu_fragment_debt_list_filter">Filter</string>
-    <string name="xui_menu_fragment_home_refresh">Refresh</string>
+    <string name="xui_menu_list_search">Search</string>
+    <string name="xui_menu_list_sort">Sort</string>
+    <string name="xui_menu_list_filter">Filter</string>
+    <string name="xui_menu_list_refresh">Refresh</string>
 
     <!-- Data Table -->
     <string name="xui_data_table_shown_entries">%1$d to %2$d of %3$d entries</string>
