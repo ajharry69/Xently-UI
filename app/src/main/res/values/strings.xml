@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">xently-dialog</string>
+    <string name="app_name">Xently UI</string>
+    <string name="xui_search_hint">Search Xently UI</string>
     <string name="large_text">
 		"Material is the metaphor.\n\n"
 
@@ -108,4 +109,16 @@
     <string name="show_fullscreen_dialog">Show Fullscreen Dialog</string>
     <string name="okay">Okay</string>
     <string name="positive_button">Positive</string>
+    <string name="test_dialog_ui">Test Dialog UI</string>
+    <string name="test_core_ui">Test Core UI</string>
+    <string name="dt_col_id">ID</string>
+    <string name="dt_col_fname">First Name</string>
+    <string name="dt_col_lname">Last Name</string>
+    <string name="dt_col_age">Age</string>
+    <string name="dt_col_department">Department</string>
+    <string name="dt_col_salary">Salary</string>
+    <string name="content_desc_profile_image">Profile Image</string>
+    <string name="test_core_list_ui">Test List UI</string>
+    <string name="test_core_table_ui">Test Table UI</string>
+	<string name="custom_picker_positive_button">Set1</string>
 </resources>

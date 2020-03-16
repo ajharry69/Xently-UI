@@ -5,37 +5,39 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 ext {
-    bintrayRepo = 'XentlyUI' // Name of the Bintray repo you created
+    // Bintray Repo & Package
+    bintrayRepo = bintray_repo
     bintrayName = 'com.xently.xui.dialog' // Bintray package name
 
-    publishedGroupId = 'com.xently.xui'
-    // Group ID of the SDK which will be added in implementation line of gradle
+    // Forms 1st part(separated by colon(:)) of implementation line of gradle
+    publishedGroupId = published_group_id
+    // Forms 2nd part(separated by colon(:)) of implementation line of gradle
     artifact = 'dialog'
-    // Artifact ID of the SDK which will be added in implementation line of gradle
-    libraryVersion = '1.0.3' // Version of the library you created in Bintray
+    // Forms 3rd part(separated by colon(:)) of implementation line of gradle
+    libraryVersion = library_version
 
-    libraryName = 'Xently Dialog' // It is generally the module name
-    libraryDescription = 'Android utility library to help create most types of (Alert)Dialog(s)'
+    libraryName = 'Xently Dialog' // You could use the module name
     // Small description of the library
+    libraryDescription = 'Android utility library to help create most types of (Alert)Dialog(s)'
 
-    siteUrl = 'https://github.com/ajharry69/Xently-UI'
-    gitUrl = 'https://github.com/ajharry69/Xently-UI.git'
+    // Site & Version Control
+    siteUrl = library_site_url
+    gitUrl = library_git_url
 
-    developerId = 'mitchthealien'
-    developerName = 'Mitch'
-    developerEmail = 'mitchthealien90@gmail.com'
+    // Developer
+    developerId = library_developer_id
+    developerName = library_developer_name
+    developerEmail = library_developer_email
 
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    // License
+    licenseName = library_license_name
+    licenseUrl = library_license_url
     allLicenses = ["Apache-2.0"]
 
     //Bintray Credentials
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-    bintrayUsername = properties.getProperty('BINTRAY_USERNAME')
-    bintrayUserOrg = properties.getProperty('BINTRAY_ORG')
-    bintrayApiKey = properties.getProperty('BINTRAY_API_KEY')
+    bintrayUsername = bintray_username
+    bintrayUserOrg = bintray_user_org
+    bintrayApiKey = bintray_api_key
 }
 
 android {
@@ -45,7 +47,7 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 29
-        versionCode 4
+        versionCode library_version_code
         versionName libraryVersion
 
         vectorDrawables.useSupportLibrary = true

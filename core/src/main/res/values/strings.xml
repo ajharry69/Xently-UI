@@ -7,7 +7,7 @@
     <string name="xui_delete_dialog_body">Are you sure you want to delete record?</string>
     <string name="xui_delete_dialog_pos_btn">Delete</string>
     <string name="xui_delete_dialog_neg_btn">Cancel</string>
-    <string name="xui_date_picker_dialog_positive_button">Set</string>
+    <string name="xui_picker_dialog_positive_button">Set</string>
     <string name="xui_menu_list_search">Search</string>
     <string name="xui_menu_list_sort">Sort</string>
     <string name="xui_menu_list_filter">Filter</string>
@@ -24,4 +24,5 @@
     <string name="xui_content_desc_sort">Sort</string>
     <string name="xui_menu_delete">Delete</string>
     <string name="xui_menu_update">Update</string>
+    <string name="xui_search_hint">Search…</string>
 </resources>

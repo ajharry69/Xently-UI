@@ -20,5 +20,15 @@ abstract class LegacyListAdapter<M, VH : RecyclerView.ViewHolder> : RecyclerView
 
     override fun getItemCount(): Int = currentList.count()
 
-    override fun onBindViewHolder(holder: VH, position: Int) = Unit
+    override fun onBindViewHolder(holder: VH, position: Int) {
+        val item = getItem(position)
+        with(holder.itemView) {
+            setOnClickListener {
+                listItemClickListener?.onListItemClick(item, it)
+            }
+            setOnLongClickListener {
+                listItemClickListener?.onListItemLongClick(item, it) ?: false
+            }
+        }
+    }
 }

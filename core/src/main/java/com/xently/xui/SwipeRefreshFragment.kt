@@ -83,7 +83,7 @@ abstract class SwipeRefreshFragment<T> : Fragment(), ISwipeRefreshFragment {
      * @see onRefreshEvent
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    open fun onListLoadEvent(event: ListLoadEvent<T>) {
+    protected open fun onListLoadEvent(event: ListLoadEvent<T>) {
         when (event.status) {
             NULL -> {
                 updateSwipeRefreshProgress()
@@ -112,21 +112,17 @@ abstract class SwipeRefreshFragment<T> : Fragment(), ISwipeRefreshFragment {
             else ListLoadEvent(EMPTY, list)
         } else ListLoadEvent(LOADED, list)
 
-        if (eventBusRegistered) eventBus.post(event)
-        else onListLoadEvent(event)
+        if (eventBusRegistered) eventBus.post(event) else onListLoadEvent(event)
     }
 
     /**
      * Can be called when a list refresh is ended with [state] = [State.ENDED] to hide the swipe
      * refresh layout's progress indicator
      */
-    protected fun updateSwipeRefreshProgress(
-        state: State = ACTIVE,
-        show: Boolean = state != ENDED
-    ) {
+    protected fun updateSwipeRefreshProgress(state: State = ACTIVE) {
         if (eventBusRegistered) {
             eventBus.post(RefreshEvent(state))
-        } else swipeRefresh.showProgress(show)
+        } else swipeRefresh.showProgress(state != ENDED)
     }
 
     private fun logEventBusRegistrationStatus(sep: String) {

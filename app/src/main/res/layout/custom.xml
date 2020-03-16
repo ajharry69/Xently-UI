@@ -1,154 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <data>
+
+        <variable
+            name="clickHandler"
+            type="com.xently.ui.demo.handlers.ViewEventHandlers" />
+    </data>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="4dp">
+            android:padding="16dp">
 
-            <TextView
-                android:id="@+id/tv_date_picker_text"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="4dp">
+
+                <TextView
+                    android:id="@+id/tv_date_picker_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    tools:text="2019-07-07" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> clickHandler.showDatePickerDialog()}"
+                    android:text="@string/show_date_picker" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="4dp">
+
+                <TextView
+                    android:id="@+id/tv_time_picker_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    tools:text="01:45 AM" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> clickHandler.showTimePickerDialog()}"
+                    android:text="@string/show_time_picker" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="4dp">
+
+                <TextView
+                    android:id="@+id/tv_list_choice_item_selected_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    tools:text="2019-07-07" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> clickHandler.showListChoiceDialog()}"
+                    android:text="@string/show_list_choice_dialog" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="4dp">
+
+                <TextView
+                    android:id="@+id/tv_single_choice_item_selected_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    tools:text="2019-07-07" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{()->clickHandler.showSingleChoiceDialog()}"
+                    android:text="@string/show_single_choice_dialog" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="4dp">
+
+                <TextView
+                    android:id="@+id/tv_multi_choice_items_selected_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    tools:text="2019-07-07" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> clickHandler.showMultiChoiceDialog()}"
+                    android:text="@string/show_multi_choice_dialog" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="4dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:onClick="@{()->clickHandler.showMessageDialogOne()}"
+                    android:text="@string/show_message_dialog_one" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:onClick="@{()-> clickHandler.showMessageDialogTwo()}"
+                    android:text="@string/show_message_dialog_two" />
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_margin="8dp"
                 android:layout_weight="1"
-                tools:text="2019-07-07" />
+                android:onClick="@{() -> clickHandler.showCustomLayoutDialog()}"
+                android:text="@string/show_custom_layout_dialog" />
 
             <com.google.android.material.button.MaterialButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="showDatePickerDialog"
-                android:text="@string/show_date_picker" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="4dp">
-
-            <TextView
-                android:id="@+id/tv_time_picker_text"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_margin="8dp"
                 android:layout_weight="1"
-                tools:text="01:45 AM" />
-
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="showTimePickerDialog"
-                android:text="@string/show_time_picker" />
+                android:onClick="@{() -> clickHandler.showFullScreenDialog()}"
+                android:text="@string/show_fullscreen_dialog" />
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="4dp">
-
-            <TextView
-                android:id="@+id/tv_list_choice_item_selected_text"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                tools:text="2019-07-07" />
-
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="showListChoiceDialog"
-                android:text="@string/show_list_choice_dialog" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="4dp">
-
-            <TextView
-                android:id="@+id/tv_single_choice_item_selected_text"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                tools:text="2019-07-07" />
-
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="showSingleChoiceDialog"
-                android:text="@string/show_single_choice_dialog" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="4dp">
-
-            <TextView
-                android:id="@+id/tv_multi_choice_items_selected_text"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                tools:text="2019-07-07" />
-
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="showMultiChoiceDialog"
-                android:text="@string/show_multi_choice_dialog" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="4dp">
-
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:layout_weight="1"
-                android:onClick="showMessageDialogOne"
-                android:text="@string/show_message_dialog_one" />
-
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:layout_weight="1"
-                android:onClick="showMessageDialogTwo"
-                android:text="@string/show_message_dialog_two" />
-
-        </LinearLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="8dp"
-            android:layout_weight="1"
-            android:onClick="showCustomLayoutDialog"
-            android:text="@string/show_custom_layout_dialog" />
-
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="8dp"
-            android:layout_weight="1"
-            android:onClick="showFullScreenDialog"
-            android:text="@string/show_fullscreen_dialog" />
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+</layout>

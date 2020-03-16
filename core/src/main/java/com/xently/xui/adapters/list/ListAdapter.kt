@@ -8,6 +8,16 @@ abstract class ListAdapter<M, VH : RecyclerView.ViewHolder>(diffCallback: DiffUt
 
     var listItemClickListener: OnListItemClickListener<M>? = null
 
-    override fun onBindViewHolder(holder: VH, position: Int) = Unit
+    override fun onBindViewHolder(holder: VH, position: Int) {
+        val item = getItem(position)
+        with(holder.itemView) {
+            setOnClickListener {
+                listItemClickListener?.onListItemClick(item, it)
+            }
+            setOnLongClickListener {
+                listItemClickListener?.onListItemLongClick(item, it) ?: false
+            }
+        }
+    }
 }
 

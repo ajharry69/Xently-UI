@@ -8,5 +8,15 @@ abstract class PagedListAdapter<M, VH : RecyclerView.ViewHolder>(diffCallback: D
 
     var listItemClickListener: OnListItemClickListener<M>? = null
 
-    override fun onBindViewHolder(holder: VH, position: Int) = Unit
+    override fun onBindViewHolder(holder: VH, position: Int) {
+        val item = getItem(position) ?: return
+        with(holder.itemView) {
+            setOnClickListener {
+                listItemClickListener?.onListItemClick(item, it)
+            }
+            setOnLongClickListener {
+                listItemClickListener?.onListItemLongClick(item, it) ?: false
+            }
+        }
+    }
 }

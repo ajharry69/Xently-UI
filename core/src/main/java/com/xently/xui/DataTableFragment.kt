@@ -13,19 +13,20 @@ import androidx.annotation.ArrayRes
 import androidx.recyclerview.widget.RecyclerView
 import com.evrencoskun.tableview.listener.ITableViewListener
 import com.evrencoskun.tableview.pagination.Pagination
+import com.evrencoskun.tableview.pagination.Pagination.OnTableViewPageTurnedListener
 import com.evrencoskun.tableview.sort.SortState
 import com.xently.xui.adapters.table.ColumnHeaderViewHolder
 import com.xently.xui.adapters.table.DataTableAdapter
 import com.xently.xui.databinding.DataTableFragmentBinding
-import com.xently.xui.utils.Constants.getSharedPref
 import com.xently.xui.utils.ListLoadEvent
 import com.xently.xui.utils.ListLoadEvent.Status.LOADED
+import com.xently.xui.utils.getSharedPref
 import com.xently.xui.viewmodels.DataTableViewModel
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>) :
-    SwipeRefreshFragment<T>(), ITableViewListener, Pagination.OnTableViewPageTurnedListener {
+    SwipeRefreshFragment<T>(), ITableViewListener, OnTableViewPageTurnedListener {
 
     /**
      * A set of column positions whose values should be aligned to the **CENTER** of the cell.

@@ -29,9 +29,9 @@ class DataTableAdapter<T>(
 
     fun <L : List<T>> submitList(list: L) {
         setAllItems(
-            viewModel.columnHeaderData(),
-            viewModel.rowHeaderData(list),
-            viewModel.submitCellData(list)
+            viewModel.columnHeaderData(context),
+            viewModel.rowHeaderData(context, list),
+            viewModel.rowCellsData(context, list)
         )
     }
 

@@ -3,9 +3,12 @@ package com.xently.xui.utils
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
-import com.xently.xui.dialog.BuildConfig
+import android.view.View
+import androidx.annotation.RestrictTo
+import com.google.android.material.snackbar.Snackbar
 import com.xently.xui.utils.Log.Type.*
 
+@RestrictTo(RestrictTo.Scope.LIBRARY)
 object Log {
     enum class Type {
         ASSERT,
@@ -22,13 +25,14 @@ object Log {
      * @param message: Log message
      * @param throwable: Exception to accompany the log
      */
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
     fun show(
         tag: String,
         message: String?,
         throwable: Throwable? = null,
         type: Type = DEBUG
     ) {
-        if (BuildConfig.DEBUG && message != null) {
+        if (message != null) {
             when (type) {
                 DEBUG -> {
                     if (throwable == null) {
@@ -84,12 +88,36 @@ object Log {
     }
 }
 
-object Constants {
+/**
+ * Creates and or Returns a [SharedPreferences] by the name [name] in [Context.MODE_PRIVATE]
+ */
+@RestrictTo(RestrictTo.Scope.LIBRARY)
+fun getSharedPref(context: Context, name: String): SharedPreferences =
+    context.getSharedPreferences(name, Context.MODE_PRIVATE)
 
-    /**
-     * Creates and or Returns a [SharedPreferences] by the name [name] in [Context.MODE_PRIVATE]
-     */
-    fun getSharedPref(context: Context, name: String): SharedPreferences =
-        context.getSharedPreferences(name, Context.MODE_PRIVATE)
+/**
+ * Shows [Snackbar] for given [duration] with an optional action button labeled [actionButtonText]
+ * that does [actionButtonClick] when clicked
+ * @param actionButtonClick: Callback for responding to [Snackbar] action button click
+ * @param actionButtonText: Label text shown on [Snackbar]s action button
+ * @see Snackbar.make
+ */
+@RestrictTo(RestrictTo.Scope.LIBRARY)
+fun showSnackBar(
+    view: View,
+    message: String,
+    duration: Int = Snackbar.LENGTH_SHORT,
+    actionButtonText: String? = null,
+    actionButtonClick: ((snackBar: Snackbar) -> Unit)? = null
+): Snackbar {
+    val snackbar = Snackbar.make(view, message, duration)
+    with(snackbar) {
+//        setActionTextColor(ContextCompat.getColor(view.context, R.color.secondaryLightColor))
+        if (actionButtonText != null) setAction(actionButtonText) {
+            actionButtonClick?.invoke(this)
+        }
+        if (!this.isShownOrQueued) show()
+    }
 
+    return snackbar
 }

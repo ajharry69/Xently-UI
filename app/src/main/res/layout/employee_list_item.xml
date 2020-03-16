@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.xently.ui.demo.data.Employee" />
+
+        <variable
+            name="employee"
+            type="Employee" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:contentDescription="@string/content_desc_profile_image"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_person_avatar" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{employee.name}"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/department"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image"
+            app:layout_constraintTop_toTopOf="@id/image"
+            tools:text="John Doe" />
+
+        <TextView
+            android:id="@+id/department"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{employee.department.name()}"
+            app:layout_constraintBottom_toBottomOf="@id/image"
+            app:layout_constraintEnd_toEndOf="@id/name"
+            app:layout_constraintStart_toStartOf="@id/name"
+            app:layout_constraintTop_toBottomOf="@id/name"
+            tools:text="ACCOUNTING" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

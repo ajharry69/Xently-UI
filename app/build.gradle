@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
@@ -12,7 +14,7 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-
+        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -33,7 +35,7 @@ android {
         targetCompatibility = 1.8
         // Alternate this btwn double and string to fix jvm-target issued
     }
-    viewBinding {
+    dataBinding {
         enabled = true
     }
     useLibrary 'android.test.runner'
@@ -49,8 +51,16 @@ dependencies {
     implementation "androidx.core:core-ktx:$android_core_ktx"
     implementation "com.google.android.material:material:$material_version"
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
+
+    implementation 'com.evrencoskun.library:tableview:0.8.8'
     implementation project(path: ':dialog')
     implementation project(path: ':core')
+
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
 
     sharedGroup dependencies
 }

@@ -16,7 +16,7 @@ abstract class DateTimePickerFragment : Fragment(), DatePickerDialog.DateSetList
             this.initialDate = et.text
             this.dialogButtonText = ButtonText.fromStringResource(
                 this@DateTimePickerFragment.requireContext(),
-                R.string.xui_date_picker_dialog_positive_button
+                R.string.xui_picker_dialog_positive_button
             )
             this.dateSetListener = this@DateTimePickerFragment
         }.show(childFragmentManager, tag)
@@ -26,7 +26,7 @@ abstract class DateTimePickerFragment : Fragment(), DatePickerDialog.DateSetList
             this.initialTime = et.text
             this.dialogButtonText = ButtonText.fromStringResource(
                 this@DateTimePickerFragment.requireContext(),
-                R.string.xui_date_picker_dialog_positive_button
+                R.string.xui_picker_dialog_positive_button
             )
             this.timeSetListener = this@DateTimePickerFragment
         }.show(childFragmentManager, tag)
