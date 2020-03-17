@@ -11,7 +11,7 @@
 
  ```gradle
  // App level gradle file
- implementation 'com.xently.xui:core:1.0.5'
+ implementation 'com.xently.xui:core:1.0.6'
  ```
 
  ### Maven Setup
@@ -20,7 +20,7 @@
  <dependency>
    <groupId>com.xently.xui</groupId>
    <artifactId>core</artifactId>
-   <version>1.0.5</version>
+   <version>1.0.6</version>
    <type>pom</type>
  </dependency>
  ```

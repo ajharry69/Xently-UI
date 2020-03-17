@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.xently.xui.databinding.ContentListFragmentBinding
 import com.xently.xui.databinding.ListFragmentBinding
 import com.xently.xui.utils.ui.ISearchParamsChange
@@ -124,16 +125,10 @@ abstract class ListFragment<T> : SwipeRefreshFragment<T>(), IListFragment<T> {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRequiredViews()
+        onCreateRecyclerView(binding.list)
 
-        // A text view shown when list is empty
+        // Shown when list is empty
         binding.error.text = noDataText ?: getString(R.string.xui_text_empty_list)
-
-        // TODO: Could be repetitive! Initialization is also done at sub-class level to attach
-        //  adapters
-        binding.list.apply {
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(context)
-        }
 
         with(bindingRoot.fab) {
             val fabClickListener = onFabClickListener(requireContext())
@@ -169,6 +164,13 @@ abstract class ListFragment<T> : SwipeRefreshFragment<T>(), IListFragment<T> {
     }
 
     open fun onFabClickListener(context: Context): View.OnClickListener? = null
+
+    open fun onCreateRecyclerView(recyclerView: RecyclerView): RecyclerView {
+        return recyclerView.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(context)
+        }
+    }
 
     private fun initRequiredViews() {
         swipeRefresh = binding.swipeRefresh
