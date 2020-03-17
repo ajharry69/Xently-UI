@@ -4,9 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import androidx.annotation.CallSuper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.xently.xui.databinding.ContentListFragmentBinding
 import com.xently.xui.databinding.ListFragmentBinding
 import com.xently.xui.utils.ui.ISearchParamsChange
 import com.xently.xui.utils.ui.fragment.IListFragment
@@ -82,10 +82,7 @@ abstract class ListFragment<T> : SwipeRefreshFragment<T>(), IListFragment<T> {
     private var iSearchParamsChange: ISearchParamsChange? = null
 
     private var _binding: ListFragmentBinding? = null
-    protected val bindingRoot: ListFragmentBinding
-        get() = _binding!!
-    protected val binding: ContentListFragmentBinding
-        get() = bindingRoot.content
+    protected val binding: ListFragmentBinding by lazy { _binding!! }
 
     /**
      * used to identify the fragment(screen) from which search was initiated
@@ -112,7 +109,7 @@ abstract class ListFragment<T> : SwipeRefreshFragment<T>(), IListFragment<T> {
     ): View? {
         _binding = ListFragmentBinding.inflate(inflater, container, false)
         initRequiredViews()
-        return bindingRoot.root
+        return binding.root
     }
 
     override fun onDestroyView() {
@@ -122,6 +119,7 @@ abstract class ListFragment<T> : SwipeRefreshFragment<T>(), IListFragment<T> {
         super.onDestroyView()
     }
 
+    @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRequiredViews()
@@ -130,7 +128,7 @@ abstract class ListFragment<T> : SwipeRefreshFragment<T>(), IListFragment<T> {
         // Shown when list is empty
         binding.error.text = noDataText ?: getString(R.string.xui_text_empty_list)
 
-        with(bindingRoot.fab) {
+        with(binding.fab) {
             val fabClickListener = onFabClickListener(requireContext())
             if (fabClickListener == null) hideViewsCompletely(this)
             else showAndEnableViews(this)

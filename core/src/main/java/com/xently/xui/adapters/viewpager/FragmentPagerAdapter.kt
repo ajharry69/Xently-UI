@@ -7,16 +7,18 @@ import androidx.fragment.app.FragmentManager
  * Should be used when displaying less than 3 [Fragment]s in a view-pager otherwise use
  * [FragmentStatePagerAdapter]
  */
-class FragmentPagerAdapter(manager: FragmentManager) :
-    androidx.fragment.app.FragmentPagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class FragmentPagerAdapter(
+    private val fragmentList: Iterable<TitledFragment>,
+    manager: FragmentManager
+) : androidx.fragment.app.FragmentPagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
-    private var fragmentList: Iterable<TitledFragment> = emptyList()
+    /*private var fragmentList: Iterable<TitledFragment> = emptyList()
 
     fun setFragmentList(fragmentList: Iterable<TitledFragment>) {
         this.fragmentList = fragmentList
         this.tabCount = this.fragmentList.count()
         notifyDataSetChanged()
-    }
+    }*/
 
     private var tabCount = fragmentList.count()
 
