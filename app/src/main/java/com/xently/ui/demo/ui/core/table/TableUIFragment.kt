@@ -32,7 +32,7 @@ class TableUIFragment : DataTableFragment<Employee>(EmployeeTableViewModel()) {
     }
 
     override fun onRefreshRequested(forced: Boolean) {
-        viewModel.generateEmployeeList()
+        viewModel.getEmployeeList()
     }
 
     companion object {

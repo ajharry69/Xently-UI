@@ -52,4 +52,9 @@ class ListUIFragmentTest {
 
         assertThat(2, equalTo(1 + 1))
     }
+
+    @Test
+    fun clickAddFabToAddEmployee() {
+        onView(withId(R.id.fab)).perform(click())
+    }
 }

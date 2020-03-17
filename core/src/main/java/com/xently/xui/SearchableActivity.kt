@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.xently.xui.utils.ui.IModifyToolbar
 import com.xently.xui.utils.ui.ISearchParamsChange
 
-open class SearchableActivity : AppCompatActivity(), IModifyToolbar, ISearchParamsChange {
+abstract class SearchableActivity : AppCompatActivity(), IModifyToolbar, ISearchParamsChange {
     private var searchParams: Bundle? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +51,7 @@ open class SearchableActivity : AppCompatActivity(), IModifyToolbar, ISearchPara
      * @param query search query received
      * @param metadata additional information passed along with the [query]
      */
-    open fun onSearchIntentReceived(query: String, metadata: Bundle?) = Unit
+    abstract fun onSearchIntentReceived(query: String, metadata: Bundle?)
 
     private fun handleIntent(intent: Intent) {
         // Verify the action and get the query

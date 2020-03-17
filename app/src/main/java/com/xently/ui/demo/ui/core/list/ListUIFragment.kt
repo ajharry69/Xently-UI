@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.xently.ui.demo.ui.core.EmployeeListFragment
 
@@ -18,11 +17,7 @@ class ListUIFragment : EmployeeListFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.getObservableEmployeeList(args.searchQuery).observe(viewLifecycleOwner, Observer {
-            onObservableListChanged(it)
-
-            listAdapter.submitList(it)
-        })
+        observeEmployeeList(args.searchQuery)
     }
 
     companion object {

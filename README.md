@@ -8,10 +8,15 @@ help in creating **ListFragment** or **DataTableFragment** both with swipe refre
 2. [Xently Dialog](dialog/README.md): Android utility library to help create most types of (Alert)
 Dialog(s).
 
+## Demo
+Sample usage for the two libraries can be found in [app](app) directory
+
 ## License
 
-Xently UI is distributed under the terms of the Apache License (Version 2.0). See [license](LICENSE) for details.
+Xently UI is distributed under the terms of the Apache License (Version 2.0). See [license](LICENSE)
+for details.
 
 ## Contributing
 
-Please be sure to review Xently UI's [contributing guidelines](CONTRIBUTING.md) to learn how to help the project.
+Please be sure to review Xently UI's [contributing guidelines](CONTRIBUTING.md) to learn how to help
+the project.

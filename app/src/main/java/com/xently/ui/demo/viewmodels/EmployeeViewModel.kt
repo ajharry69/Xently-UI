@@ -37,9 +37,20 @@ abstract class EmployeeViewModel : ViewModel() {
         } else false
     }
 
-    fun generateEmployeeList(searchQuery: String? = null): List<Employee> {
+    fun employEmployee(employee: Employee): Boolean {
+        val newEmployees = _observableEmployeeList.value?.toMutableList()?.apply {
+            add(employee.copy(id = size + 1))
+        }?.toList()
+
+        return if (newEmployees != null) {
+            setEmployeeList(newEmployees)
+            newEmployees.contains(employee)
+        } else false
+    }
+
+    fun getEmployeeList(searchQuery: String? = null): List<Employee> {
         val employeeList = arrayListOf<Employee>()
-        for (i in 0 until Random(100).nextInt(500)) {
+        for (i in 0 until Random(5).nextInt(5, 10)) {
             val id = i + 1
             val departments = Employee.Department.values()
             val firstNameID = Random(999).nextInt(1000)

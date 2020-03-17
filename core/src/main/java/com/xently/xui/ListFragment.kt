@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.xently.xui.databinding.ContentListFragmentBinding
 import com.xently.xui.databinding.ListFragmentBinding
 import com.xently.xui.utils.ui.ISearchParamsChange
 import com.xently.xui.utils.ui.fragment.IListFragment
@@ -80,8 +81,10 @@ abstract class ListFragment<T> : SwipeRefreshFragment<T>(), IListFragment<T> {
     private var iSearchParamsChange: ISearchParamsChange? = null
 
     private var _binding: ListFragmentBinding? = null
-    protected val binding: ListFragmentBinding
+    protected val bindingRoot: ListFragmentBinding
         get() = _binding!!
+    protected val binding: ContentListFragmentBinding
+        get() = bindingRoot.content
 
     /**
      * used to identify the fragment(screen) from which search was initiated
@@ -108,7 +111,7 @@ abstract class ListFragment<T> : SwipeRefreshFragment<T>(), IListFragment<T> {
     ): View? {
         _binding = ListFragmentBinding.inflate(inflater, container, false)
         initRequiredViews()
-        return binding.root
+        return bindingRoot.root
     }
 
     override fun onDestroyView() {
@@ -130,6 +133,13 @@ abstract class ListFragment<T> : SwipeRefreshFragment<T>(), IListFragment<T> {
         binding.list.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
+        }
+
+        with(bindingRoot.fab) {
+            val fabClickListener = onFabClickListener(requireContext())
+            if (fabClickListener == null) hideViewsCompletely(this)
+            else showAndEnableViews(this)
+            setOnClickListener(fabClickListener)
         }
     }
 
@@ -157,6 +167,8 @@ abstract class ListFragment<T> : SwipeRefreshFragment<T>(), IListFragment<T> {
         R.id.menu_list_search -> activity?.onSearchRequested() ?: false
         else -> super.onOptionsItemSelected(item)
     }
+
+    open fun onFabClickListener(context: Context): View.OnClickListener? = null
 
     private fun initRequiredViews() {
         swipeRefresh = binding.swipeRefresh

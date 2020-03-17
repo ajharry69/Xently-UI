@@ -33,9 +33,7 @@ class MainActivity : SearchableActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment?
 
-        if (navHostFragment == null) {
-            Log.show(LOG_TAG, "Nav Host Fragment is null")
-        } else {
+        if (navHostFragment == null) Log.show(LOG_TAG, "Nav Host Fragment is null") else {
             controller = navHostFragment.navController
             configuration = AppBarConfiguration(setOf(R.id.dest_home))
             setupActionBarWithNavController(controller, configuration)
@@ -51,7 +49,7 @@ class MainActivity : SearchableActivity() {
     override fun onSearchIntentReceived(query: String, metadata: Bundle?) {
         Log.show(LOG_TAG, "Search Query: $query")
 
-        if (metadata == null) return super.onSearchIntentReceived(query, metadata)
+        if (metadata == null) return
 
         if (metadata.getString(ListFragment.SEARCH_IDENTIFIER) == ListUIFragment::class.java.name || metadata.getString(
                 ListFragment.SEARCH_IDENTIFIER

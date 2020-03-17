@@ -62,14 +62,16 @@ android {
         }
     }
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+        // To inline the bytecode built with JVM target 1.8 into
+        // bytecode that is being built with JVM target 1.6. (e.g. navArgs)
         kotlinOptions {
             jvmTarget = "1.8"
             freeCompilerArgs += ["-Xuse-experimental=kotlin.Experimental"]
         }
     }
     compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
         // Alternate this btwn double and string to fix jvm-target issued
     }
     viewBinding {
