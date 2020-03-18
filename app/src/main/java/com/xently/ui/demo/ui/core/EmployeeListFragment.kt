@@ -4,7 +4,9 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.xently.ui.demo.R
 import com.xently.ui.demo.adapters.EmployeeListAdapter
 import com.xently.ui.demo.data.Employee
 import com.xently.ui.demo.data.Employee.Department.ACCOUNTING
@@ -24,7 +26,7 @@ abstract class EmployeeListFragment : ListFragment<Employee>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.list.adapter = listAdapter
+        binding.fab.setImageResource(R.drawable.ic_action_add_employee)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -34,6 +36,12 @@ abstract class EmployeeListFragment : ListFragment<Employee>() {
             if (it == null) return@Observer
             updateSwipeRefreshProgress(it.state)
         })
+    }
+
+    override fun onCreateRecyclerView(recyclerView: RecyclerView): RecyclerView {
+        return super.onCreateRecyclerView(recyclerView).apply {
+            adapter = listAdapter
+        }
     }
 
     override fun onFabClickListener(context: Context): View.OnClickListener? {

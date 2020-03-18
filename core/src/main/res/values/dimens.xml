@@ -3,12 +3,15 @@
     <dimen name="refresh_button_size">40dp</dimen>
     <dimen name="refresh_icon_dimen">24dp</dimen>
 
-    <dimen name="xui_data_table_column_header_height">20dp</dimen>
-    <dimen name="xui_data_table_row_header_width">20dp</dimen>
-    <dimen name="xui_data_table_cell_height">28dp</dimen>
-    <dimen name="table_view_row_header_width">30dp</dimen>
+    <dimen name="xui_data_table_cell_padding">4dp</dimen>
+    <dimen name="xui_data_table_corner_view_dimen">30dp</dimen>
+    <dimen name="xui_data_table_divider_thickness">1dp</dimen>
     <dimen name="xui_data_table_default_text_size">14sp</dimen>
+    <!-- Only applied to top left corner cell -->
+    <dimen name="xui_table_divider_thickness">0.001dp</dimen>
+    <dimen name="xui_data_table_sort_button_width">15dp</dimen>
 
     <dimen name="xui_menu_icon_width">24dp</dimen>
     <dimen name="xui_fab_margin">16dp</dimen>
+    <dimen name="xui_data_table_sort_button_start_margin">8dp</dimen>
 </resources>

@@ -1,19 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/table_view_row_header_width"
-    android:layout_height="@dimen/xui_data_table_cell_height"
-    android:background="@color/unselected_header_background_color">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/xui_data_table_corner_view_dimen"
+    android:layout_height="@dimen/xui_data_table_corner_view_dimen">
 
+    <!-- Start(Left) divider -->
     <View
-        android:layout_width="1px"
-        android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:background="@color/separator_color" />
+        android:layout_width="@dimen/xui_table_divider_thickness"
+        android:layout_height="0dp"
+        android:background="?attr/colorOnSurface"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- End(Right) divider -->
     <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_alignParentBottom="true"
-        android:background="@color/separator_color" />
-</RelativeLayout>
+        android:layout_width="@dimen/xui_table_divider_thickness"
+        android:layout_height="0dp"
+        android:background="?attr/colorOnSurface"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Top divider -->
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/xui_table_divider_thickness"
+        android:background="?attr/colorOnSurface"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Bottom divider -->
+    <View
+        android:layout_width="0dp"
+        android:layout_height="@dimen/xui_table_divider_thickness"
+        android:background="?attr/colorOnSurface"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

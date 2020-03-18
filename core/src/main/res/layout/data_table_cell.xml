@@ -3,9 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="wrap_content"
-    android:layout_height="@dimen/xui_data_table_cell_height"
-    android:background="@color/unselected_background_color"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:background="?attr/colorSurface"
+    android:orientation="vertical"
+    android:padding="@dimen/xui_data_table_cell_padding">
 
     <TextView
         android:id="@+id/cell"
@@ -18,7 +19,7 @@
         android:gravity="center"
         android:linksClickable="true"
         android:maxLines="1"
-        android:textColor="@color/unselected_text_color"
+        android:textColor="?attr/colorOnSurface"
         android:textSize="@dimen/xui_data_table_default_text_size"
         tools:text="Cell Data" />
 

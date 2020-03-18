@@ -3,6 +3,7 @@
     android:height="@dimen/xui_menu_icon_width"
     android:tint="@color/xui_icon_color"
     android:viewportWidth="24"
+    android:alpha="@integer/icon_alpha"
     android:viewportHeight="24">
     <path
         android:fillColor="#FF000000"

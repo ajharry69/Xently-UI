@@ -1,6 +1,7 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="@dimen/xui_menu_icon_width"
     android:height="@dimen/xui_menu_icon_width"
+    android:alpha="@integer/icon_alpha"
     android:tint="@color/iconColorOnSurface"
     android:viewportWidth="24"
     android:viewportHeight="24">

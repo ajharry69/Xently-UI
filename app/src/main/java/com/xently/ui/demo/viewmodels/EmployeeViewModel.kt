@@ -16,14 +16,14 @@ abstract class EmployeeViewModel : ViewModel() {
     private val _observableEmployeeListRefreshEvent: MutableLiveData<RefreshEvent> =
         MutableLiveData()
 
+    val observableEmployeeListRefreshEvent: LiveData<RefreshEvent>
+        get() = _observableEmployeeListRefreshEvent
+
     fun getObservableEmployeeList(searchQuery: String?): LiveData<List<Employee>> {
         return Transformations.map(_observableEmployeeList) {
             it.filterList(searchQuery)
         }
     }
-
-    val observableEmployeeListRefreshEvent: LiveData<RefreshEvent>
-        get() = _observableEmployeeListRefreshEvent
 
     /**
      * @return true if [employee] as successfully fired(removed) else false

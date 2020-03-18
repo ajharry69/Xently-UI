@@ -40,6 +40,8 @@ class CellViewHolder(
     override fun setSelected(selectionState: SelectionState?) {
         super.setSelected(selectionState)
         if (selectionState == null) return
+        val cell = binding.cell
+        val context = cell.context
 
         val color = when (selectionState) {
             SELECTED -> R.color.selected_text_color
@@ -47,6 +49,6 @@ class CellViewHolder(
             SHADOWED -> R.color.unselected_text_color
         }
 
-        binding.cell.setTextColor(ContextCompat.getColor(binding.cell.context, color))
+        cell.setTextColor(ContextCompat.getColor(context, color))
     }
 }

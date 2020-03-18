@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="xui_list_item_count">100</integer>
+    <item name="icon_alpha" format="float" type="integer">0.6</item>
 </resources>

@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="@dimen/table_view_row_header_width"
-    android:layout_height="@dimen/xui_data_table_cell_height"
-    android:background="@color/unselected_header_background_color">
+    android:layout_width="@dimen/xui_data_table_corner_view_dimen"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorPrimarySurface">
 
     <LinearLayout
         android:id="@+id/container"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="@dimen/xui_data_table_cell_padding"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/data"
@@ -20,16 +26,18 @@
             android:gravity="center"
             android:maxLines="1"
             android:textAlignment="gravity"
-            android:textColor="@color/unselected_text_color"
+            android:textColor="?attr/colorOnSurface"
             android:textSize="@dimen/xui_data_table_default_text_size"
             tools:text="Row Data" />
 
     </LinearLayout>
 
     <View
-        android:layout_width="1px"
-        android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:background="@color/separator_color" />
-</RelativeLayout>
+        android:layout_width="@dimen/xui_data_table_divider_thickness"
+        android:layout_height="0dp"
+        android:background="?attr/colorOnSurface"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
