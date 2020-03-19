@@ -25,7 +25,7 @@ class DataTableAdapter<T>(
     private val viewModel: DataTableViewModel<T>,
     private val alignValuesCenter: Set<Int> = emptySet(),
     private val alignValuesRight: Set<Int> = emptySet()
-) : AbstractTableAdapter<ColumnHeader, RowHeader, Cell>(context) {
+) : AbstractTableAdapter<ColumnHeader, RowHeader, Cell>() {
 
     fun <L : List<T>> submitList(list: L) {
         setAllItems(
@@ -47,12 +47,12 @@ class DataTableAdapter<T>(
     )
 
     override fun onBindColumnHeaderViewHolder(
-        holder: AbstractViewHolder?,
-        columnHeaderItemModel: Any?,
+        holder: AbstractViewHolder,
+        columnHeaderItemModel: ColumnHeader?,
         columnPosition: Int
     ) {
         (holder as ColumnHeaderViewHolder?)?.apply {
-            (columnHeaderItemModel as ColumnHeader?)?.let { setData(it) }
+            columnHeaderItemModel?.let { setData(it) }
             onSortRequested()
         }
     }
@@ -67,12 +67,12 @@ class DataTableAdapter<T>(
         )
 
     override fun onBindRowHeaderViewHolder(
-        holder: AbstractViewHolder?,
-        rowHeaderItemModel: Any?,
+        holder: AbstractViewHolder,
+        rowHeaderItemModel: RowHeader?,
         rowPosition: Int
     ) {
         val rh: RowHeaderViewHolder = holder as RowHeaderViewHolder? ?: return
-        val model: RowHeader = rowHeaderItemModel as RowHeader? ?: return
+        val model: RowHeader = rowHeaderItemModel ?: return
 
         rh.setTextViewData(model)
     }
@@ -88,19 +88,19 @@ class DataTableAdapter<T>(
         )
 
     override fun onBindCellViewHolder(
-        holder: AbstractViewHolder?,
-        cellItemModel: Any?,
+        holder: AbstractViewHolder,
+        cellItemModel: Cell?,
         columnPosition: Int,
         rowPosition: Int
     ) {
         val ch: CellViewHolder = holder as CellViewHolder? ?: return
-        val model: Cell = cellItemModel as Cell? ?: return
+        val model: Cell = cellItemModel ?: return
 
         ch.setTextViewData(model, columnPosition)
     }
 
     @SuppressLint("InflateParams")
-    override fun onCreateCornerView(): View = LayoutInflater.from(context)
+    override fun onCreateCornerView(parent: ViewGroup): View = LayoutInflater.from(context)
         .inflate(R.layout.data_table_corner, null, false)
 
     override fun getCellItemViewType(position: Int): Int = 0

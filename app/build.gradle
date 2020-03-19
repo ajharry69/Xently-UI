@@ -54,7 +54,7 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
 
-    implementation 'com.evrencoskun.library:tableview:0.8.8'
+    implementation 'com.evrencoskun.library:tableview:0.8.9'
     implementation project(path: ':dialog')
     implementation project(path: ':core')
 

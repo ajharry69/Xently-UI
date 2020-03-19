@@ -13,7 +13,6 @@ import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.LargeTest
 import androidx.test.filters.MediumTest
 import com.xently.ui.demo.R
 import com.xently.ui.demo.checkSnackBarDisplayedByMessage
@@ -48,7 +47,7 @@ class DialogUIFragmentTest {
     }
 
     @Test
-    fun clickButtons() {
+    fun clickButtonsToShowDialogs() {
         showMessageDialogOne()
 
         showMessageDialogTwo()

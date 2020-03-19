@@ -7,9 +7,11 @@ import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.annotation.ArrayRes
+import androidx.annotation.VisibleForTesting
 import androidx.recyclerview.widget.RecyclerView
 import com.evrencoskun.tableview.listener.ITableViewListener
 import com.evrencoskun.tableview.pagination.Pagination
@@ -72,7 +74,9 @@ abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>
             return pref
         }
 
-    private var pagination: Pagination<T>? = null
+    var pagination: Pagination? = null
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE) set
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE) get
     private lateinit var prefColumnSortState: SharedPreferences
     private var totalEntries: Int = 0
     private var paginateFrom: Int = 1
@@ -148,6 +152,14 @@ abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>
         }
         tableBinding.next.setOnClickListener {
             pagination?.nextPage()
+        }
+        tableBinding.page.setOnEditorActionListener { _, actionId, _ ->
+            return@setOnEditorActionListener when (actionId) {
+                EditorInfo.IME_ACTION_GO -> {
+                    tableBinding.submitPage.callOnClick()
+                }
+                else -> false
+            }
         }
         tableBinding.submitPage.setOnClickListener {
             pagination?.setOnTableViewPageTurnedListener(this@DataTableFragment)

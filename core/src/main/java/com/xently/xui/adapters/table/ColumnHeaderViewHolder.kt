@@ -52,24 +52,16 @@ class ColumnHeaderViewHolder(
     fun getViewHolderAtPosition(position: Int): ColumnHeaderViewHolder? =
         iTableView.columnHeaderRecyclerView.findViewHolderForAdapterPosition(position) as ColumnHeaderViewHolder?
 
-    override fun setSelected(selectionState: SelectionState?) {
+    override fun setSelected(selectionState: SelectionState) {
         super.setSelected(selectionState)
-        if (selectionState == null) return
 
         val data = binding.data
         val context = data.context
 
-        /*val color = when (selectionState) {
-            SELECTED -> R.color.selected_text_color
-            UNSELECTED -> R.color.unselected_text_color
-            SHADOWED -> R.color.unselected_text_color
-        }
-
-        data.setTextColor(ContextCompat.getColor(context, color))*/
         data.setTextColor(getThemedColor(context, android.R.attr.textColorPrimary))
     }
 
-    override fun onSortingStatusChanged(pSortState: SortState?) {
+    override fun onSortingStatusChanged(pSortState: SortState) {
         super.onSortingStatusChanged(pSortState)
 
         // It is necessary to remeasure itself.

@@ -40,7 +40,7 @@ class CoreUIFragmentTest {
     }
 
     @Test
-    fun buttonClicks() {
+    fun clickButtonsToNavigate() {
         navigateToListUIFragmentOnListUIButtonClick()
 
         navigateToTableUIFragmentOnTableUIButtonClick()

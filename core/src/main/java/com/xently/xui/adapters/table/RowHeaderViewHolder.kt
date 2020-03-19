@@ -16,17 +16,8 @@ class RowHeaderViewHolder(private val binding: DataTableRowHeaderBinding) :
         binding.data.text = model.data
     }
 
-    override fun setSelected(selectionState: SelectionState?) {
+    override fun setSelected(selectionState: SelectionState) {
         super.setSelected(selectionState)
-        if (selectionState == null) return
-
-        /*val color = when (selectionState) {
-            SELECTED -> R.color.selected_text_color
-            UNSELECTED -> R.color.unselected_text_color
-            SHADOWED -> R.color.unselected_text_color
-        }
-
-        binding.data.setTextColor(ContextCompat.getColor(binding.data.context, color))*/
 
         val data = binding.data
         data.setTextColor(getThemedColor(data.context, android.R.attr.textColorPrimary))

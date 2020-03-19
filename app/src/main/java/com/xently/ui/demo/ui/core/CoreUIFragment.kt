@@ -41,12 +41,12 @@ class CoreUIFragment : Fragment() {
         super.onDestroyView()
     }
 
-    companion object{
+    companion object {
         fun newInstance(): CoreUIFragment = CoreUIFragment()
     }
 }
 
-class CoreUIFragmentFactory: FragmentFactory(){
+class CoreUIFragmentFactory : FragmentFactory() {
     override fun instantiate(
         classLoader: ClassLoader,
         className: String

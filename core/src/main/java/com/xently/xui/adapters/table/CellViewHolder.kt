@@ -35,9 +35,8 @@ class CellViewHolder(
         binding.cell.requestLayout()
     }
 
-    override fun setSelected(selectionState: SelectionState?) {
+    override fun setSelected(selectionState: SelectionState) {
         super.setSelected(selectionState)
-        if (selectionState == null) return
         val cell = binding.cell
         val context = cell.context
 

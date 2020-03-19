@@ -50,7 +50,7 @@ abstract class EmployeeViewModel : ViewModel() {
 
     fun getEmployeeList(searchQuery: String? = null): List<Employee> {
         val employeeList = arrayListOf<Employee>()
-        for (i in 0 until Random(5).nextInt(5, 10)) {
+        for (i in 0 until Random(50).nextInt(100, 200)) {
             val id = i + 1
             val departments = Employee.Department.values()
             val firstNameID = Random(999).nextInt(1000)

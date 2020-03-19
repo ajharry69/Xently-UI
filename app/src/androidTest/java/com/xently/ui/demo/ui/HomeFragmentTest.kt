@@ -40,7 +40,7 @@ class HomeFragmentTest {
     }
 
     @Test
-    fun buttonClicks() {
+    fun clickButtonsToNavigate() {
         navigateToCoreUIFragmentOnCoreUIButtonClick()
 
         navigateToDialogUIFragmentOnDialogUIButtonClick()
