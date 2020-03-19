@@ -1,9 +1,9 @@
 package com.xently.xui.viewmodels
 
 import android.content.Context
-import com.xently.xui.utils.ui.view.table.Cell
-import com.xently.xui.utils.ui.view.table.ColumnHeader
-import com.xently.xui.utils.ui.view.table.RowHeader
+import com.xently.xui.models.Cell
+import com.xently.xui.models.ColumnHeader
+import com.xently.xui.models.RowHeader
 
 abstract class DataTableViewModel<T> {
     /**

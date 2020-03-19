@@ -6,7 +6,7 @@ import com.evrencoskun.tableview.TableView
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder
 import com.xently.xui.databinding.DataTableCellBinding
 import com.xently.xui.utils.getThemedColor
-import com.xently.xui.utils.ui.view.table.Cell
+import com.xently.xui.models.Cell
 
 /**
  * Used to populate [TableView]

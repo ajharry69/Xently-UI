@@ -12,7 +12,7 @@ import com.evrencoskun.tableview.sort.SortState.DESCENDING
 import com.xently.xui.R
 import com.xently.xui.databinding.DataTableColumnHeaderBinding
 import com.xently.xui.utils.getThemedColor
-import com.xently.xui.utils.ui.view.table.ColumnHeader
+import com.xently.xui.models.ColumnHeader
 import java.util.*
 
 /**

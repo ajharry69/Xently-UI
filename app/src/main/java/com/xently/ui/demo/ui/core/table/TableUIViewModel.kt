@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.xently.ui.demo.R
 import com.xently.ui.demo.data.Employee
 import com.xently.ui.demo.viewmodels.EmployeeViewModel
-import com.xently.xui.utils.ui.view.table.Cell
-import com.xently.xui.utils.ui.view.table.ColumnHeader
+import com.xently.xui.models.Cell
+import com.xently.xui.models.ColumnHeader
 import com.xently.xui.viewmodels.DataTableViewModel
 
 class EmployeeTableViewModel : DataTableViewModel<Employee>() {

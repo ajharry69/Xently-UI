@@ -2,7 +2,7 @@
 
 A project composed of two(2) android libraries:
 
-1. [Xently UI(Core)](xui/README.md): An android library containing helper functions and methods to
+1. [Xently UI(Core)](core/README.md): An android library containing helper functions and methods to
 help in creating **ListFragment** or **DataTableFragment** both with swipe refresh layout embedded.
 
 2. [Xently Dialog](dialog/README.md): Android utility library to help create most types of (Alert)

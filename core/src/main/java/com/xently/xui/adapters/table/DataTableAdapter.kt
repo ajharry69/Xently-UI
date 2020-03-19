@@ -12,9 +12,9 @@ import com.xently.xui.R
 import com.xently.xui.databinding.DataTableCellBinding
 import com.xently.xui.databinding.DataTableColumnHeaderBinding
 import com.xently.xui.databinding.DataTableRowHeaderBinding
-import com.xently.xui.utils.ui.view.table.Cell
-import com.xently.xui.utils.ui.view.table.ColumnHeader
-import com.xently.xui.utils.ui.view.table.RowHeader
+import com.xently.xui.models.Cell
+import com.xently.xui.models.ColumnHeader
+import com.xently.xui.models.RowHeader
 import com.xently.xui.viewmodels.DataTableViewModel
 
 /**
