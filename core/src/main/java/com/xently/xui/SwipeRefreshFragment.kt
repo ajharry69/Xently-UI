@@ -26,9 +26,8 @@ abstract class SwipeRefreshFragment<T> : Fragment(), ISwipeRefreshFragment {
         super.onViewCreated(view, savedInstanceState)
 
         onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
-            if (eventBusRegistered) {
-                eventBus.post(RefreshEvent(STARTED, true))
-            } else onRefreshRequested(true)
+            val event = RefreshEvent(STARTED, true)
+            if (eventBusRegistered) eventBus.post(event) else onRefreshEvent(event)
         }
         swipeRefresh.setOnRefreshListener(onRefreshListener)
     }
@@ -67,7 +66,7 @@ abstract class SwipeRefreshFragment<T> : Fragment(), ISwipeRefreshFragment {
         else -> super.onOptionsItemSelected(item)
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
     open fun onRefreshEvent(event: RefreshEvent) {
         when (event.state) {
             STARTED -> {
@@ -112,7 +111,8 @@ abstract class SwipeRefreshFragment<T> : Fragment(), ISwipeRefreshFragment {
             else ListLoadEvent(EMPTY, list)
         } else ListLoadEvent(LOADED, list)
 
-        if (eventBusRegistered) eventBus.post(event) else onListLoadEvent(event)
+//        if (eventBusRegistered) eventBus.post(event) else onListLoadEvent(event)
+        onListLoadEvent(event)
     }
 
     /**

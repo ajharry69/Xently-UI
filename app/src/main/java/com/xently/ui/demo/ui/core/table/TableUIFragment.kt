@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.xently.ui.demo.data.Employee
 import com.xently.xui.DataTableFragment
+import kotlin.random.Random
 
 class TableUIFragment : DataTableFragment<Employee>(EmployeeTableViewModel()) {
 
@@ -32,7 +33,7 @@ class TableUIFragment : DataTableFragment<Employee>(EmployeeTableViewModel()) {
     }
 
     override fun onRefreshRequested(forced: Boolean) {
-        viewModel.getEmployeeList()
+        viewModel.getEmployeeList(limit = Random(50).nextInt(100, 200))
     }
 
     companion object {
