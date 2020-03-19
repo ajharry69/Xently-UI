@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="xui_list_item_count">100</integer>
-    <item name="icon_alpha" format="float" type="integer">0.6</item>
+    <integer name="xui_data_table_column_max_lines">1</integer>
+    <item name="icon_alpha" format="float" type="integer">1</item>
 </resources>

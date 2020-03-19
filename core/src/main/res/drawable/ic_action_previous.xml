@@ -2,7 +2,7 @@
     android:width="@dimen/xui_menu_icon_width"
     android:height="@dimen/xui_menu_icon_width"
     android:alpha="@integer/icon_alpha"
-    android:tint="@color/iconColorOnSurface"
+    android:tint="?attr/colorControlNormal"
     android:viewportWidth="24"
     android:viewportHeight="24">
     <path

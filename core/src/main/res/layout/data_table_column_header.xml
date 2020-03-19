@@ -23,7 +23,7 @@
             android:layout_gravity="center"
             android:layout_weight="4"
             android:gravity="center"
-            android:textColor="?attr/colorOnSurface"
+            android:maxLines="@integer/xui_data_table_column_max_lines"
             android:textSize="@dimen/xui_data_table_default_text_size"
             android:textStyle="bold"
             tools:text="Header Data" />

@@ -17,7 +17,7 @@
     <string name="xui_data_table_shown_entries">%1$d to %2$d of %3$d entries</string>
     <string name="xui_data_table_button_previous">Previous</string>
     <string name="xui_data_table_button_next">Next</string>
-    <string name="xui_data_table_goto_page">Goto Page</string>
+    <string name="xui_data_table_goto_page">Go to Page</string>
     <string name="xui_data_table_entries">entries</string>
     <string name="xui_data_table_show">Show</string>
     <string name="xui_zero">0</string>

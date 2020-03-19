@@ -23,15 +23,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:gravity="center"
+            android:gravity="center_vertical|end"
             android:maxLines="1"
             android:textAlignment="gravity"
-            android:textColor="?attr/colorOnSurface"
             android:textSize="@dimen/xui_data_table_default_text_size"
+            android:textStyle="bold"
             tools:text="Row Data" />
 
     </LinearLayout>
 
+    <!-- Start(Left) divider -->
+    <View
+        android:layout_width="@dimen/xui_table_divider_thickness"
+        android:layout_height="0dp"
+        android:background="?attr/colorOnSurface"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- End(Right) divider -->
     <View
         android:layout_width="@dimen/xui_data_table_divider_thickness"
         android:layout_height="0dp"

@@ -304,7 +304,7 @@ abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>
             // Position is for previous sort column. Hide it's sort icon button
             if (viewHolder is ColumnHeaderViewHolder) viewHolder.getViewHolderAtPosition(
                 savedSortColumnPosition
-            )?.hideSort()
+            )?.hideSortIcon()
         }
 
         // Table is sorted using column at position (column). Save as sort column position

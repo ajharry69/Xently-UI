@@ -15,7 +15,7 @@
 
     <!-- End(Right) divider -->
     <View
-        android:layout_width="@dimen/xui_table_divider_thickness"
+        android:layout_width="@dimen/xui_data_table_divider_thickness"
         android:layout_height="0dp"
         android:background="?attr/colorOnSurface"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -34,7 +34,7 @@
     <!-- Bottom divider -->
     <View
         android:layout_width="0dp"
-        android:layout_height="@dimen/xui_table_divider_thickness"
+        android:layout_height="@dimen/xui_data_table_divider_thickness"
         android:background="?attr/colorOnSurface"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -2,9 +2,16 @@ package com.xently.xui.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Configuration
+import android.graphics.drawable.Drawable
+import android.os.Build
 import android.util.Log
 import android.view.View
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
+import androidx.annotation.RequiresApi
 import androidx.annotation.RestrictTo
+import androidx.core.graphics.drawable.DrawableCompat
 import com.google.android.material.snackbar.Snackbar
 import com.xently.xui.utils.Log.Type.*
 
@@ -121,3 +128,23 @@ fun showSnackBar(
 
     return snackbar
 }
+
+@ColorInt
+fun getThemedColor(context: Context, @AttrRes themeResId: Int): Int {
+    val a = context.obtainStyledAttributes(null, intArrayOf(themeResId))
+    try {
+        return a.getColor(0, 9)
+    } finally {
+        a.recycle()
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+fun tintDrawable(drawable: Drawable, @ColorInt tint: Int): Drawable {
+    return DrawableCompat.wrap(drawable).mutate().apply {
+        setTint(tint)
+    }
+}
+
+fun isDarkTheme(context: Context): Boolean = context.resources.configuration.uiMode and
+        Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES

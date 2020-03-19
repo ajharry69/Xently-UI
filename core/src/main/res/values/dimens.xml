@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="refresh_button_size">40dp</dimen>
-    <dimen name="refresh_icon_dimen">24dp</dimen>
+    <dimen name="refresh_icon_dimen">@dimen/xui_menu_icon_width</dimen>
 
-    <dimen name="xui_data_table_cell_padding">4dp</dimen>
-    <dimen name="xui_data_table_corner_view_dimen">30dp</dimen>
+    <dimen name="xui_data_table_cell_padding">8dp</dimen>
+    <dimen name="xui_data_table_column_header_height">35dp</dimen>
+    <!-- Should be slightly higher than {xui_data_table_column_header_height}(above) to avoid unexpected stretches -->
+    <dimen name="xui_data_table_corner_view_dimen">40dp</dimen>
+    <!-- Should be same as {xui_data_table_corner_view_dimen}(above) to ensure tandem behaviour on view rendering -->
+    <dimen name="xui_data_table_row_header_width">@dimen/xui_data_table_corner_view_dimen</dimen>
     <dimen name="xui_data_table_divider_thickness">1dp</dimen>
-    <dimen name="xui_data_table_default_text_size">14sp</dimen>
+    <!-- Increasing this could require an adjustment on {xui_data_table_corner_view_dimen} and {xui_data_table_column_header_height} -->
+    <dimen name="xui_data_table_default_text_size">16sp</dimen>
     <!-- Only applied to top left corner cell -->
     <dimen name="xui_table_divider_thickness">0.001dp</dimen>
     <dimen name="xui_data_table_sort_button_width">15dp</dimen>
+    <dimen name="xui_data_table_sort_button_start_margin">8dp</dimen>
 
     <dimen name="xui_menu_icon_width">24dp</dimen>
     <dimen name="xui_fab_margin">16dp</dimen>
-    <dimen name="xui_data_table_sort_button_start_margin">8dp</dimen>
+    <dimen name="xui_data_table_goto_page_text_size">13sp</dimen>
+    <dimen name="xui_data_table_header_footer_icons_height">30dp</dimen>
+    <dimen name="xui_data_table_header_footer_text_size">16sp</dimen>
 </resources>

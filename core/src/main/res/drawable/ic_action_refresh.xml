@@ -1,9 +1,9 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="@dimen/xui_menu_icon_width"
     android:height="@dimen/xui_menu_icon_width"
-    android:tint="@color/xui_icon_color"
-    android:viewportWidth="24"
     android:alpha="@integer/icon_alpha"
+    android:tint="?attr/colorControlNormal"
+    android:viewportWidth="24"
     android:viewportHeight="24">
     <path
         android:fillColor="#FF000000"

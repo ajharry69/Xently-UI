@@ -53,7 +53,7 @@ class DataTableAdapter<T>(
     ) {
         (holder as ColumnHeaderViewHolder?)?.apply {
             (columnHeaderItemModel as ColumnHeader?)?.let { setData(it) }
-            onSortClick()
+            onSortRequested()
         }
     }
 

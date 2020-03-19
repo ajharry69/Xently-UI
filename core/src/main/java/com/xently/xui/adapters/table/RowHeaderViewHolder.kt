@@ -1,11 +1,9 @@
 package com.xently.xui.adapters.table
 
-import androidx.core.content.ContextCompat
 import com.evrencoskun.tableview.TableView
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder
-import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder.SelectionState.*
-import com.xently.xui.R
 import com.xently.xui.databinding.DataTableRowHeaderBinding
+import com.xently.xui.utils.getThemedColor
 import com.xently.xui.utils.ui.view.table.RowHeader
 
 /**
@@ -22,12 +20,15 @@ class RowHeaderViewHolder(private val binding: DataTableRowHeaderBinding) :
         super.setSelected(selectionState)
         if (selectionState == null) return
 
-        val color = when (selectionState) {
+        /*val color = when (selectionState) {
             SELECTED -> R.color.selected_text_color
             UNSELECTED -> R.color.unselected_text_color
             SHADOWED -> R.color.unselected_text_color
         }
 
-        binding.data.setTextColor(ContextCompat.getColor(binding.data.context, color))
+        binding.data.setTextColor(ContextCompat.getColor(binding.data.context, color))*/
+
+        val data = binding.data
+        data.setTextColor(getThemedColor(data.context, android.R.attr.textColorPrimary))
     }
 }

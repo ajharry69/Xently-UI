@@ -2,12 +2,10 @@ package com.xently.xui.adapters.table
 
 import android.view.Gravity
 import android.widget.LinearLayout
-import androidx.core.content.ContextCompat
 import com.evrencoskun.tableview.TableView
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder
-import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder.SelectionState.*
-import com.xently.xui.R
 import com.xently.xui.databinding.DataTableCellBinding
+import com.xently.xui.utils.getThemedColor
 import com.xently.xui.utils.ui.view.table.Cell
 
 /**
@@ -21,15 +19,15 @@ class CellViewHolder(
 
     fun setTextViewData(model: Cell, columnPosition: Int) {
         val data = model.data
+        val dataStr = data.toString()
+        /*val dataIsNumber =
+            (dataStr.toIntOrNull() ?: dataStr.toFloatOrNull() ?: dataStr.toFloatOrNull()) != null*/
         with(binding.cell) {
-            text = data.toString()
+            text = dataStr
             gravity = if (data is Number || alignValuesRight.contains(columnPosition)) {
                 Gravity.END or Gravity.CENTER_VERTICAL
-            } else if (alignValuesCenter.contains(columnPosition)) {
-                Gravity.CENTER
-            } else {
-                Gravity.START or Gravity.CENTER_VERTICAL
-            }
+            } else if (alignValuesCenter.contains(columnPosition)) Gravity.CENTER
+            else Gravity.START or Gravity.CENTER_VERTICAL
         }
 
         // It is REQUIRED to remeasure itself
@@ -43,12 +41,19 @@ class CellViewHolder(
         val cell = binding.cell
         val context = cell.context
 
-        val color = when (selectionState) {
-            SELECTED -> R.color.selected_text_color
-            UNSELECTED -> R.color.unselected_text_color
-            SHADOWED -> R.color.unselected_text_color
-        }
-
-        cell.setTextColor(ContextCompat.getColor(context, color))
+        cell.setTextColor(getThemedColor(context, android.R.attr.textColorPrimary))
     }
 }
+
+/*
+fun TextView.changeTextColorOnSelectionStateChange(state: SelectionState) {
+    cell.setTextColor(
+        ContextCompat.getColor(
+            context, when (state) {
+                SELECTED -> R.color.selected_text_color
+                UNSELECTED -> R.color.unselected_text_color
+                SHADOWED -> R.color.unselected_text_color
+            }
+        )
+    )
+}*/

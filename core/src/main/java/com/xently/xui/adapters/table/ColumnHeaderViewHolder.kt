@@ -3,16 +3,15 @@ package com.xently.xui.adapters.table
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
-import androidx.core.content.ContextCompat
 import com.evrencoskun.tableview.ITableView
 import com.evrencoskun.tableview.TableView
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractSorterViewHolder
-import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder.SelectionState.*
 import com.evrencoskun.tableview.sort.SortState
 import com.evrencoskun.tableview.sort.SortState.ASCENDING
 import com.evrencoskun.tableview.sort.SortState.DESCENDING
 import com.xently.xui.R
 import com.xently.xui.databinding.DataTableColumnHeaderBinding
+import com.xently.xui.utils.getThemedColor
 import com.xently.xui.utils.ui.view.table.ColumnHeader
 import java.util.*
 
@@ -33,11 +32,10 @@ class ColumnHeaderViewHolder(
         }
 
         // It is REQUIRED to remeasure itself
-        binding.container.layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT
-        binding.data.requestLayout()
+        resetColumnDimensions()
     }
 
-    fun onSortClick() {
+    fun onSortRequested() {
         binding.sort.setOnClickListener {
             when (sortState) {
                 ASCENDING -> iTableView.sortColumn(adapterPosition, ASCENDING)
@@ -47,7 +45,7 @@ class ColumnHeaderViewHolder(
         }
     }
 
-    fun hideSort() {
+    fun hideSortIcon() {
         binding.sort.visibility = View.GONE
     }
 
@@ -58,26 +56,28 @@ class ColumnHeaderViewHolder(
         super.setSelected(selectionState)
         if (selectionState == null) return
 
-        val color = when (selectionState) {
+        val data = binding.data
+        val context = data.context
+
+        /*val color = when (selectionState) {
             SELECTED -> R.color.selected_text_color
             UNSELECTED -> R.color.unselected_text_color
             SHADOWED -> R.color.unselected_text_color
         }
 
-        binding.data.setTextColor(ContextCompat.getColor(binding.data.context, color))
+        data.setTextColor(ContextCompat.getColor(context, color))*/
+        data.setTextColor(getThemedColor(context, android.R.attr.textColorPrimary))
     }
 
     override fun onSortingStatusChanged(pSortState: SortState?) {
         super.onSortingStatusChanged(pSortState)
 
         // It is necessary to remeasure itself.
-        binding.container.layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT
+        resetColumnDimensions()
 
         controlSortState(pSortState)
 
-        binding.data.requestLayout()
         binding.sort.requestLayout()
-        binding.container.requestLayout()
         itemView.requestLayout()
     }
 
@@ -97,5 +97,11 @@ class ColumnHeaderViewHolder(
             }
             else -> binding.sort.visibility = View.GONE
         }
+    }
+
+    private fun resetColumnDimensions() {
+        binding.container.layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT
+        binding.container.requestLayout()
+        binding.data.requestLayout()
     }
 }

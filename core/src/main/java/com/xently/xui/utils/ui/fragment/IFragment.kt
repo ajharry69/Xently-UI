@@ -33,7 +33,7 @@ interface IFragment : IView {
 
     /**
      * Option to hide/show [Toolbar]'s **Up-Icon/Arrow** for back-navigation. Default behaviour is
-     * [true] (show)
+     * **true** (show)
      * @see IModifyToolbar
      */
     val showToolbarUpIcon: Boolean get() = true
@@ -83,7 +83,7 @@ interface IFragment : IView {
      * @param permission permission requested for. Input should be from Manifest permission constants
      * **`Manifest.permission.CAMERA`** or **`Manifest.permission_group.STORAGE`**
      * @param requestCode it helps in properly responding to specific permissions as dictated by
-     * [onRequestPermissionsResult]
+     * [Fragment.onRequestPermissionsResult]
      * @param onPermissionGranted (Execute on Permission [permission] Granted/Available) - what to
      * do when the [permission] is granted by the user
      * @param onRationaleNeeded what to do when the [permission] request justification is needed for
