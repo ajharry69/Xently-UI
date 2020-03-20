@@ -1,7 +1,6 @@
 package com.xently.xui
 
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
@@ -9,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.annotation.ArrayRes
 import androidx.annotation.VisibleForTesting
 import androidx.recyclerview.widget.RecyclerView
@@ -121,7 +119,7 @@ abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>
         val tableBinding = binding.dataTable
 
         @ArrayRes
-        val entriesResource: Int = R.array.data_table_entries
+        val entriesResource: Int = R.array.xui_data_table_page_size_entries
         val dataTableEntries = requireContext().resources.getStringArray(entriesResource)
 
         val prefDataTablePageCount =

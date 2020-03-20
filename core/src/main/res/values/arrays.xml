@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="data_table_entries">
+    <string-array name="xui_data_table_page_size_entries">
         <item>10</item>
         <item>20</item>
         <item>30</item>
