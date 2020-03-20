@@ -26,7 +26,7 @@ abstract class EmployeeListFragment : ListFragment<Employee>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.fab.setImageResource(R.drawable.ic_action_add_employee)
+        fab.setImageResource(R.drawable.ic_action_add_employee)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

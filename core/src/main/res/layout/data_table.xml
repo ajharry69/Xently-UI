@@ -46,7 +46,7 @@
                 android:id="@+id/page_size"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:entries="@array/data_table_entries"
+                android:entries="@array/xui_data_table_page_size_entries"
                 app:layout_constraintBottom_toBottomOf="@id/page_size_prefix"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/page_size_prefix"

@@ -74,9 +74,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
         // Alternate this btwn double and string to fix jvm-target issued
     }
-    viewBinding {
-        enabled = true
-    }
     useLibrary 'android.test.runner'
     useLibrary 'android.test.base'
     useLibrary 'android.test.mock'

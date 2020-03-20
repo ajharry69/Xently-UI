@@ -9,9 +9,6 @@ import com.evrencoskun.tableview.TableView
 import com.evrencoskun.tableview.adapter.AbstractTableAdapter
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder
 import com.xently.xui.R
-import com.xently.xui.databinding.DataTableCellBinding
-import com.xently.xui.databinding.DataTableColumnHeaderBinding
-import com.xently.xui.databinding.DataTableRowHeaderBinding
 import com.xently.xui.models.Cell
 import com.xently.xui.models.ColumnHeader
 import com.xently.xui.models.RowHeader
@@ -39,8 +36,8 @@ class DataTableAdapter<T>(
         parent: ViewGroup,
         viewType: Int
     ): AbstractViewHolder = ColumnHeaderViewHolder(
-        DataTableColumnHeaderBinding.inflate(
-            LayoutInflater.from(parent.context),
+        LayoutInflater.from(parent.context).inflate(
+            R.layout.data_table_column_header,
             parent,
             false
         ), tableView
@@ -59,8 +56,8 @@ class DataTableAdapter<T>(
 
     override fun onCreateRowHeaderViewHolder(parent: ViewGroup, viewType: Int): AbstractViewHolder =
         RowHeaderViewHolder(
-            DataTableRowHeaderBinding.inflate(
-                LayoutInflater.from(parent.context),
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.data_table_row_header,
                 parent,
                 false
             )
@@ -79,8 +76,8 @@ class DataTableAdapter<T>(
 
     override fun onCreateCellViewHolder(parent: ViewGroup, viewType: Int): AbstractViewHolder =
         CellViewHolder(
-            DataTableCellBinding.inflate(
-                LayoutInflater.from(parent.context),
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.data_table_cell,
                 parent,
                 false
             ),

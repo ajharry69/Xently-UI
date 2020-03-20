@@ -8,18 +8,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
+import android.widget.*
 import androidx.annotation.ArrayRes
 import androidx.annotation.VisibleForTesting
 import androidx.recyclerview.widget.RecyclerView
+import com.evrencoskun.tableview.TableView
 import com.evrencoskun.tableview.listener.ITableViewListener
 import com.evrencoskun.tableview.pagination.Pagination
 import com.evrencoskun.tableview.pagination.Pagination.OnTableViewPageTurnedListener
 import com.evrencoskun.tableview.sort.SortState
 import com.xently.xui.adapters.table.ColumnHeaderViewHolder
 import com.xently.xui.adapters.table.DataTableAdapter
-import com.xently.xui.databinding.DataTableFragmentBinding
 import com.xently.xui.utils.ListLoadEvent
 import com.xently.xui.utils.ListLoadEvent.Status.LOADED
 import com.xently.xui.utils.getSharedPref
@@ -27,6 +26,7 @@ import com.xently.xui.viewmodels.DataTableViewModel
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
+@Suppress("MemberVisibilityCanBePrivate")
 abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>) :
     SwipeRefreshFragment<T>(), ITableViewListener, OnTableViewPageTurnedListener {
 
@@ -85,13 +85,44 @@ abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>
     private var clickedDataTableColumnPosition: Int? = null
     private var columnHeaderViewHolder: ColumnHeaderViewHolder? = null
 
+    /**
+     * Data(Table) layout
+     */
+    protected lateinit var dataTable: TableView
+
+    /**
+     * Input page to go to
+     */
+    protected lateinit var page: EditText
+
+    /**
+     * Navigate to **previous** page
+     */
+    protected lateinit var previous: ImageButton
+
+    /**
+     * Navigate/paginate to **next** page
+     */
+    protected lateinit var next: ImageButton
+
+    /**
+     * Submit text input in [page] to go to
+     */
+    protected lateinit var submitPage: ImageButton
+
+    /**
+     * Select [dataTable] data-set size per page
+     */
+    protected lateinit var pageSize: Spinner
+
+    /**
+     * Show number of entries shown per [dataTable] page
+     */
+    protected lateinit var footer: TextView
+
     protected val tableAdapter: DataTableAdapter<T> by lazy {
         DataTableAdapter(requireContext(), viewModel, alignValuesCenter, alignValuesRight)
     }
-
-    private var _binding: DataTableFragmentBinding? = null
-    protected val binding: DataTableFragmentBinding
-        get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,24 +135,17 @@ abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = DataTableFragmentBinding.inflate(inflater, container, false)
-        initRequiredViews()
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
+        val view: View = inflater.inflate(R.layout.data_table_fragment, container, false)
+        view.initRequiredViews()
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRequiredViews()
-
-        val tableBinding = binding.dataTable
+        view.initRequiredViews()
 
         @ArrayRes
-        val entriesResource: Int = R.array.data_table_entries
+        val entriesResource: Int = R.array.xui_data_table_page_size_entries
         val dataTableEntries = requireContext().resources.getStringArray(entriesResource)
 
         val prefDataTablePageCount =
@@ -131,7 +155,7 @@ abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>
             dataTableEntries[2].toInt()
         )
 
-        with(tableBinding.table) {
+        with(dataTable) {
             adapter = tableAdapter
             tableViewListener = this@DataTableFragment
             if (hideColumnAtPosition != null) hideColumn(hideColumnAtPosition!!)
@@ -142,34 +166,30 @@ abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>
             }
         }
 
-        binding.swipeRefresh.apply {
+        swipeRefresh.apply {
             setOnRefreshListener(onRefreshListener)
         }
 
-        pagination = Pagination(tableBinding.table, dataTablePageCount, this)
-        tableBinding.previous.setOnClickListener {
+        pagination = Pagination(dataTable, dataTablePageCount, this)
+        previous.setOnClickListener {
             pagination?.previousPage()
         }
-        tableBinding.next.setOnClickListener {
+        next.setOnClickListener {
             pagination?.nextPage()
         }
-        tableBinding.page.setOnEditorActionListener { _, actionId, _ ->
+        page.setOnEditorActionListener { _, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_GO -> {
-                    tableBinding.submitPage.callOnClick()
+                    submitPage.callOnClick()
                 }
                 else -> false
             }
         }
-        tableBinding.submitPage.setOnClickListener {
+        submitPage.setOnClickListener {
             pagination?.setOnTableViewPageTurnedListener(this@DataTableFragment)
-            val page: String? = tableBinding.page.text.toString()
+            val p = page.text.toString().toIntOrNull() ?: return@setOnClickListener
 
-            if (page.isNullOrBlank()) return@setOnClickListener
-
-            val p = page.toIntOrNull() ?: return@setOnClickListener
-
-            with(tableBinding.page) {
+            with(page) {
                 clearFocus()
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     showSoftInputOnFocus = false
@@ -182,7 +202,7 @@ abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>
             }
         }
 
-        with(tableBinding.pageSize) {
+        with(pageSize) {
             // Create an ArrayAdapter using the string array and a default spinner layout
             ArrayAdapter.createFromResource(
                 requireContext(),
@@ -240,14 +260,13 @@ abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>
     override fun onPageTurned(numItems: Int, itemsStart: Int, itemsEnd: Int) {
         paginateFrom = itemsStart + 1
         paginateTo = itemsEnd + 1
-        binding.dataTable.footer.text = getString(
+        footer.text = getString(
             R.string.xui_data_table_shown_entries,
             paginateFrom,
             paginateTo,
             totalEntries
         )
-        binding.dataTable.page.text =
-            Editable.Factory.getInstance().newEditable("${pagination?.currentPage}")
+        page.text = Editable.Factory.getInstance().newEditable("${pagination?.currentPage}")
     }
 
     override fun onCellLongPressed(p0: RecyclerView.ViewHolder, p1: Int, p2: Int) = Unit
@@ -287,7 +306,7 @@ abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>
             SortState.DESCENDING
         }
 
-        with(binding.dataTable.table) {
+        with(dataTable) {
             sortColumn(p1, sortState)
             // Recalculate of the width values of the columns
             remeasureColumnWidth(p1)
@@ -298,9 +317,17 @@ abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>
 
     override fun onRowHeaderLongPressed(p0: RecyclerView.ViewHolder, p1: Int) = Unit
 
-    private fun initRequiredViews() {
-        swipeRefresh = binding.swipeRefresh
-        statusContainer = binding.errorContainer
+    private fun View.initRequiredViews(): View {
+        swipeRefresh = findViewById(R.id.swipe_refresh)
+        statusContainer = findViewById(R.id.error_container)
+        dataTable = findViewById(R.id.table)
+        page = findViewById(R.id.page)
+        previous = findViewById(R.id.previous)
+        next = findViewById(R.id.next)
+        submitPage = findViewById(R.id.submit_page)
+        pageSize = findViewById(R.id.page_size)
+        footer = findViewById(R.id.footer)
+        return this
     }
 
     /**
