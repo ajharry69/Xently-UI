@@ -47,6 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:entries="@array/xui_data_table_page_size_entries"
+                app:backgroundTint="?attr/colorControlNormal"
                 app:layout_constraintBottom_toBottomOf="@id/page_size_prefix"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/page_size_prefix"
@@ -98,7 +99,7 @@
                 app:layout_constraintStart_toEndOf="@id/page_prefix"
                 app:layout_constraintTop_toTopOf="@id/page_prefix" />
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/submit_page"
                 android:layout_width="@dimen/xui_data_table_header_footer_icons_height"
                 android:layout_height="wrap_content"
@@ -106,12 +107,12 @@
                 android:background="@color/colorTransparent"
                 android:contentDescription="@string/xui_data_table_goto_page"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_action_forward"
                 app:layout_constraintBottom_toBottomOf="@id/page"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/page"
                 app:layout_constraintTop_toTopOf="@id/page"
-                app:srcCompat="@drawable/ic_action_forward" />
+                app:srcCompat="@drawable/ic_action_forward"
+                app:tint="?attr/colorControlNormal" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -125,22 +126,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/header_container"
         app:row_header_width="@dimen/xui_data_table_row_header_width"
-        app:selected_color="?attr/colorControlHighlight"
+        app:selected_color="?attr/colorControlNormal"
         app:separator_color="?attr/colorOnSurface"
-        app:shadow_color="?attr/colorControlHighlight"
+        app:shadow_color="?attr/colorControlNormal"
         app:unselected_color="?attr/colorSurface" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/footer_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:padding="@dimen/footer_views_container_padding"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/table">
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/previous"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/xui_data_table_header_footer_icons_height"
@@ -148,12 +149,12 @@
             android:background="@color/colorTransparent"
             android:contentDescription="@string/xui_data_table_button_previous"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_action_previous"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/footer"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_action_previous" />
+            app:srcCompat="@drawable/ic_action_previous"
+            app:tint="?attr/colorControlNormal" />
 
         <TextView
             android:id="@+id/footer"
@@ -170,7 +171,7 @@
             app:layout_constraintTop_toTopOf="@id/previous"
             tools:text="1 to 10 of 80 entries" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/next"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/xui_data_table_header_footer_icons_height"
@@ -178,13 +179,13 @@
             android:background="@color/colorTransparent"
             android:contentDescription="@string/xui_data_table_button_next"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_action_next"
             android:text="@string/xui_data_table_button_next"
             app:layout_constraintBottom_toBottomOf="@id/footer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/footer"
             app:layout_constraintTop_toTopOf="@id/footer"
-            app:srcCompat="@drawable/ic_action_next" />
+            app:srcCompat="@drawable/ic_action_next"
+            app:tint="?attr/colorControlNormal" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

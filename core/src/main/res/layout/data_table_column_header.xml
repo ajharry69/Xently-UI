@@ -28,7 +28,7 @@
             android:textStyle="bold"
             tools:text="Header Data" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/sort"
             android:layout_width="@dimen/xui_data_table_sort_button_width"
             android:layout_height="match_parent"

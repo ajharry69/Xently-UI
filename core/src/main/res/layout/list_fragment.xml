@@ -49,7 +49,7 @@
                     android:textAlignment="center"
                     android:textSize="@dimen/xui_no_data_text_size" />
 
-                <ImageButton
+                <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/retry"
                     android:layout_width="@dimen/refresh_button_size"
                     android:layout_height="@dimen/refresh_button_size"

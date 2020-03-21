@@ -1,6 +1,8 @@
 package com.xently.xui
 
 import android.content.SharedPreferences
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -23,6 +25,7 @@ import com.xently.xui.databinding.DataTableFragmentBinding
 import com.xently.xui.utils.ListLoadEvent
 import com.xently.xui.utils.ListLoadEvent.Status.LOADED
 import com.xently.xui.utils.getSharedPref
+import com.xently.xui.utils.getThemedColor
 import com.xently.xui.viewmodels.DataTableViewModel
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -183,16 +186,21 @@ abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>
         }
 
         with(tableBinding.pageSize) {
+            background.colorFilter = PorterDuffColorFilter(
+                getThemedColor(context, R.attr.colorControlNormal),
+                PorterDuff.Mode.SRC_ATOP
+            )
             // Create an ArrayAdapter using the string array and a default spinner layout
             ArrayAdapter.createFromResource(
                 requireContext(),
                 entriesResource,
                 android.R.layout.simple_spinner_item
-            ).also { adp ->
-                // Specify the layout to use when the list of choices appears
-                adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            ).also {
                 // Apply the adapter to the spinner
-                adapter = adp
+                adapter = it.apply {
+                    // Specify the layout to use when the list of choices appears
+                    setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                }
             }
             setSelection(dataTableEntries.indexOf(dataTablePageCount.toString()))
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
