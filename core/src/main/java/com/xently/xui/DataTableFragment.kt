@@ -1,6 +1,7 @@
 package com.xently.xui
 
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.annotation.ArrayRes
 import androidx.annotation.VisibleForTesting
 import androidx.recyclerview.widget.RecyclerView
