@@ -64,4 +64,14 @@ class HomeFragmentTest {
         }
     }
 
+    /*companion object {
+        @BeforeClass
+        @JvmStatic
+        fun enableAccessibilityChecks() {
+            AccessibilityChecks.enable().apply {
+                setRunChecksFromRootView(true)
+                setThrowExceptionForErrors(false)
+            }
+        }
+    }*/
 }
