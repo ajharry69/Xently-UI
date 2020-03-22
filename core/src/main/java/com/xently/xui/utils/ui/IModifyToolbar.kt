@@ -14,13 +14,12 @@ interface IModifyToolbar {
 
     /**
      * @param title use as [Toolbar] title
-     * @param hide if **true** [Toolbar] is hided
-     * @param hideUpIcon if **true**, **Up-Icon/Arrow** is NOT shown otherwise it's shown
+     * @param show if **true** [Toolbar] is shown
      */
     fun onModifyToolbar(
         title: String?,
-        hide: Boolean,
-        hideUpIcon: Boolean = hide,
-        @DrawableRes upIcon: Int? = null
+        subTitle: String?,
+        @DrawableRes upIcon: Int? = null,
+        show: Boolean = true
     )
 }

@@ -33,7 +33,11 @@ class MainActivity : SearchableActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment?
 
-        if (navHostFragment == null) Log.show(LOG_TAG, "Nav Host Fragment is null") else {
+        if (navHostFragment == null) Log.show(
+            LOG_TAG,
+            "Nav Host Fragment is null",
+            type = Log.Type.ERROR
+        ) else {
             controller = navHostFragment.navController
             configuration = AppBarConfiguration(setOf(R.id.dest_home))
             setupActionBarWithNavController(controller, configuration)

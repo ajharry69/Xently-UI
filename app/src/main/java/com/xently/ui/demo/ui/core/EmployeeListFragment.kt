@@ -12,7 +12,6 @@ import com.xently.ui.demo.data.Employee
 import com.xently.ui.demo.data.Employee.Department.ACCOUNTING
 import com.xently.ui.demo.viewmodels.EmployeeViewModel
 import com.xently.xui.ListFragment
-import com.xently.xui.utils.showSnackBar
 
 abstract class EmployeeListFragment : ListFragment<Employee>() {
 
@@ -55,7 +54,7 @@ abstract class EmployeeListFragment : ListFragment<Employee>() {
     }
 
     override fun onListItemClick(model: Employee, view: View) {
-        showSnackBar(requireView(), model.toString(), Snackbar.LENGTH_LONG, "Delete") {
+        showSnackBar(model.toString(), Snackbar.LENGTH_LONG, "Delete") {
             viewModel.fireEmployee(model)
         }
     }

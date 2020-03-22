@@ -7,10 +7,7 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.Log
 import android.view.View
-import androidx.annotation.AttrRes
-import androidx.annotation.ColorInt
-import androidx.annotation.RequiresApi
-import androidx.annotation.RestrictTo
+import androidx.annotation.*
 import androidx.core.graphics.drawable.DrawableCompat
 import com.google.android.material.snackbar.Snackbar
 import com.xently.xui.utils.Log.Type.*
@@ -109,7 +106,6 @@ fun getSharedPref(context: Context, name: String): SharedPreferences =
  * @param actionButtonText: Label text shown on [Snackbar]s action button
  * @see Snackbar.make
  */
-@RestrictTo(RestrictTo.Scope.LIBRARY)
 fun showSnackBar(
     view: View,
     message: String,
@@ -119,11 +115,33 @@ fun showSnackBar(
 ): Snackbar {
     val snackbar = Snackbar.make(view, message, duration)
     with(snackbar) {
-//        setActionTextColor(ContextCompat.getColor(view.context, R.color.secondaryLightColor))
+//        setActionTextColor(ContextCompat.getColor(context, R.color.secondaryLightColor))
         if (actionButtonText != null) setAction(actionButtonText) {
             actionButtonClick?.invoke(this)
         }
-        if (!this.isShownOrQueued) show()
+        if (!isShownOrQueued) show()
+    }
+
+    return snackbar
+}
+
+/**
+ * @see showSnackBar
+ */
+fun showSnackBar(
+    view: View,
+    @StringRes message: Int,
+    duration: Int = Snackbar.LENGTH_SHORT,
+    actionButtonText: String? = null,
+    actionButtonClick: ((snackBar: Snackbar) -> Unit)? = null
+): Snackbar {
+    val snackbar = Snackbar.make(view, message, duration)
+    with(snackbar) {
+//        setActionTextColor(ContextCompat.getColor(context, R.color.secondaryLightColor))
+        if (actionButtonText != null) setAction(actionButtonText) {
+            actionButtonClick?.invoke(this)
+        }
+        if (!isShownOrQueued) show()
     }
 
     return snackbar

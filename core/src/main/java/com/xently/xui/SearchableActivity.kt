@@ -29,17 +29,19 @@ abstract class SearchableActivity : AppCompatActivity(), IModifyToolbar, ISearch
 
     override fun onModifyToolbar(
         title: String?,
-        hide: Boolean,
-        hideUpIcon: Boolean,
-        @DrawableRes upIcon: Int?
+        subTitle: String?,
+        @DrawableRes upIcon: Int?,
+        show: Boolean
     ) {
         val toolbar = supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(hideUpIcon)
-            upIcon?.let { setHomeAsUpIndicator(it) }
-            if (hide) hide() else show()
+            if (show) {
+                upIcon?.let { setHomeAsUpIndicator(it) }
+                show()
+            } else hide()
         } ?: return
 
         if (!title.isNullOrBlank()) toolbar.title = title
+        if (!subTitle.isNullOrBlank()) toolbar.subtitle = subTitle
     }
 
     override fun onSearchParamsChange(params: Bundle?) {

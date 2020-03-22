@@ -15,7 +15,6 @@ import com.xently.xui.dialog.ChoiceDialog.ItemSelectedListener
 import com.xently.xui.dialog.DatePickerDialog.DateSetListener
 import com.xently.xui.dialog.DialogFragment.ButtonClickListener
 import com.xently.xui.dialog.TimePickerDialog.TimeSetListener
-import com.xently.xui.utils.showSnackBar
 
 class DialogUIFragment : Fragment(), ItemSelectedListener, ButtonClickListener, DateSetListener,
     TimeSetListener {
@@ -96,20 +95,6 @@ class DialogUIFragment : Fragment(), ItemSelectedListener, ButtonClickListener, 
             }
         }
     }
-
-    /**
-     * Shows [Snackbar] for given `duration`
-     * @param duration: @see Snackbar.getDuration
-     * @param message: [Snackbar] message
-     * @param actionButtonClick: Callback for responding to [Snackbar] action button click
-     * @param actionButtonText: Label text shown on [Snackbar]s action button
-     */
-    private fun showSnackBar(
-        message: String,
-        duration: Int = Snackbar.LENGTH_SHORT, actionButtonText: String? = null,
-        actionButtonClick: ((snackBar: Snackbar) -> Unit)? = null
-    ): Snackbar =
-        showSnackBar(requireView(), message, duration, actionButtonText, actionButtonClick)
 
     override fun onDateSet(date: String, tag: String?) {
         if (tag == DATE_PICKER_DIALOG_TAG) showSnackBar(date)

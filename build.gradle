@@ -28,8 +28,8 @@ buildscript {
         // Forms 1st part(separated by colon(:)) of implementation line of gradle
         published_group_id = 'com.xently.xui'
         // Forms 3rd part(separated by colon(:)) of implementation line of gradle
-        library_version = '1.0.9'
-        library_version_code = 10
+        library_version = '1.1.0'
+        library_version_code = 11
         library_site_url = 'https://github.com/ajharry69/Xently-UI'
         library_git_url = 'https://github.com/ajharry69/Xently-UI.git'
         library_developer_id = 'mitchthealien'

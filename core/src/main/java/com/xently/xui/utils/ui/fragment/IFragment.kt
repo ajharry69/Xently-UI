@@ -8,12 +8,14 @@ import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import com.xently.dialog.ButtonText
 import com.xently.dialog.DialogParams
 import com.xently.xui.R
 import com.xently.xui.dialog.DialogFragment
 import com.xently.xui.dialog.MessageDialog
 import com.xently.xui.utils.Log
+import com.xently.xui.utils.showSnackBar
 import com.xently.xui.utils.ui.IModifyToolbar
 import com.xently.xui.utils.ui.view.IView
 
@@ -26,6 +28,12 @@ interface IFragment : IView {
     val toolbarTitle: String? get() = null
 
     /**
+     * What to set as title of [Toolbar]
+     * @see IModifyToolbar
+     */
+    val toolbarSubTitle: String? get() = null
+
+    /**
      * Option to hide/show [Toolbar]. Default behaviour is **true** (show)
      * @see IModifyToolbar
      */
@@ -36,7 +44,13 @@ interface IFragment : IView {
      * **true** (show)
      * @see IModifyToolbar
      */
-    val showToolbarUpIcon: Boolean get() = true
+    @Deprecated(
+        """No longer supported! If your are using androidX's navigation component, 
+        |you can achieve the same behaviour by providing a set of topLevelDestinationIds from which
+        |toolbar up icon won't be shown""", replaceWith = ReplaceWith("")
+    )
+    val showToolbarUpIcon: Boolean
+        get() = true
 
     val toolbarUpIcon: Int?
         @DrawableRes get() = null
@@ -76,6 +90,20 @@ interface IFragment : IView {
 
     fun Fragment.onCreateDeletionDialog(@StringRes message: Int): MessageDialog =
         onCreateDeletionDialog(getString(message))
+
+    fun Fragment.showSnackBar(
+        message: String,
+        duration: Int = Snackbar.LENGTH_SHORT, actionButtonText: String? = null,
+        actionButtonClick: ((snackBar: Snackbar) -> Unit)? = null
+    ): Snackbar =
+        showSnackBar(requireView(), message, duration, actionButtonText, actionButtonClick)
+
+    fun Fragment.showSnackBar(
+        @StringRes   message: Int,
+        duration: Int = Snackbar.LENGTH_SHORT, actionButtonText: String? = null,
+        actionButtonClick: ((snackBar: Snackbar) -> Unit)? = null
+    ): Snackbar =
+        showSnackBar(requireView(), message, duration, actionButtonText, actionButtonClick)
 
     fun onDeletionDialogDeleteClick() = Unit
 

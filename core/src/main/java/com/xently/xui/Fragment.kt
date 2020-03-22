@@ -36,17 +36,17 @@ open class Fragment : androidx.fragment.app.Fragment(), IFragment {
     }
 
     override fun onDetach() {
-        super.onDetach()
         iModifyToolbar = null
+        super.onDetach()
     }
 
     override fun onResume() {
         super.onResume()
         iModifyToolbar?.onModifyToolbar(
             toolbarTitle,
-            !showToolbar,
-            showToolbarUpIcon,
-            toolbarUpIcon
+            toolbarSubTitle,
+            toolbarUpIcon,
+            showToolbar
         )
     }
 
