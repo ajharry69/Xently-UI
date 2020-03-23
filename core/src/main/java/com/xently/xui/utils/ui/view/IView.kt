@@ -1,8 +1,9 @@
 package com.xently.xui.utils.ui.view
 
 import android.app.Activity
-import android.content.Context
+import android.os.Build
 import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -159,8 +160,8 @@ interface IView {
     /**
      * @see setErrorText
      */
-    fun TextInputLayout?.setErrorText(context: Context, @StringRes error: Int) {
-        this.setErrorText(context.getString(error))
+    fun TextInputLayout?.setErrorText(@StringRes error: Int) {
+        this?.setErrorText(context.getString(error))
     }
 
     /**
@@ -178,7 +179,9 @@ interface IView {
             this?.apply {
                 editText?.apply {
                     if (isFocusable) isFocusable = false
-                    if (isCursorVisible) isCursorVisible = false
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        if (isCursorVisible) isCursorVisible = false
+                    }
                 }
             }
         }
@@ -188,7 +191,9 @@ interface IView {
             this?.apply {
                 editText?.apply {
                     if (!isFocusable) isFocusable = true
-                    if (!isCursorVisible) isCursorVisible = true
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        if (!isCursorVisible) isCursorVisible = true
+                    }
                 }
             }
         }
@@ -196,8 +201,27 @@ interface IView {
     /**
      * @see setErrorTextAndFocus
      */
-    fun TextInputLayout?.setErrorTextAndFocus(context: Context, @StringRes error: Int) {
+    fun TextInputLayout?.setErrorTextAndFocus(@StringRes error: Int) {
         this?.setErrorTextAndFocus(context.getString(error))
+    }
+
+    fun TextInputLayout.removeErrorOnTextChange() {
+        editText?.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                this@removeErrorOnTextChange.apply {
+                    if (error != null) {
+                        isErrorEnabled = false
+                        error = null
+                        isErrorEnabled = true
+                    }
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) =
+                Unit
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
+        })
     }
 
     fun EditText?.setErrorText(error: CharSequence?) {
@@ -205,8 +229,8 @@ interface IView {
         et.error = error
     }
 
-    fun EditText?.setErrorText(context: Context, @StringRes error: Int) =
-        this.setErrorText(context.getString(error))
+    fun EditText?.setErrorText(@StringRes error: Int) =
+        this?.setErrorText(context.getString(error))
 
     /**
      * @see setErrorText
@@ -218,8 +242,8 @@ interface IView {
         }
     }
 
-    fun EditText?.setErrorTextAndFocus(context: Context, @StringRes error: Int) =
-        this.setErrorTextAndFocus(context.getString(error))
+    fun EditText?.setErrorTextAndFocus(@StringRes error: Int) =
+        this?.setErrorTextAndFocus(context.getString(error))
 
     fun TextView.useText(text: CharSequence?) {
         text?.let {
@@ -231,7 +255,7 @@ interface IView {
         } ?: clearText()
     }
 
-    fun TextView.useText(context: Context, @StringRes text: Int, vararg args: Any) =
+    fun TextView.useText(@StringRes text: Int, vararg args: Any) =
         useText(context.getString(text, *args))
 
     fun TextView.switchTextOnVisibilityChange(
@@ -240,7 +264,6 @@ interface IView {
     ) = if (isVisible) useText(textOnVisible) else useText(textOnInvisible)
 
     fun TextView.switchTextOnVisibilityChange(
-        context: Context,
         @StringRes textOnVisible: Int,
         @StringRes textOnInvisible: Int
     ) = switchTextOnVisibilityChange(
@@ -262,7 +285,6 @@ interface IView {
     }
 
     fun TextView.switchText(
-        context: Context,
         @StringRes textOnFirstClick: Int,
         @StringRes textOnSecondClick: Int
     ) {
@@ -270,7 +292,6 @@ interface IView {
     }
 
     fun TextView.switchTextOnClick(
-        context: Context,
         @StringRes textOnFirstClick: Int,
         @StringRes textOnSecondClick: Int
     ) = switchTextOnClick(context.getString(textOnFirstClick), context.getString(textOnSecondClick))
@@ -290,7 +311,6 @@ interface IView {
     }
 
     fun TextView.switchTextAndAlternateViewVisibilityOnClick(
-        context: Context,
         @StringRes textOnFirstClick: Int,
         @StringRes textOnSecondClick: Int,
         view: View
@@ -316,10 +336,12 @@ interface IView {
     /**
      * Hides software keyboard
      */
-    fun hideKeyboard(context: Context, view: View?): Boolean {
-        val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager?
-            ?: return false
-        return imm.hideSoftInputFromWindow(view?.windowToken, 0)
+    fun hideKeyboard(view: View?): Boolean {
+        if (view == null) return false
+        val imm =
+            view.context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager?
+                ?: return false
+        return imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     /**
@@ -327,7 +349,7 @@ interface IView {
      */
     fun View.setOnClickListenerWithKeyboardHidden(onClick: (view: View) -> Unit) {
         this.setOnClickListener {
-            hideKeyboard(it.context, it)
+            hideKeyboard(it)
             onClick.invoke(it)
         }
     }

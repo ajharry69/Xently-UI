@@ -62,7 +62,7 @@ interface IFragment : IView {
         Log.show("BaseFragment", "onBackPressed: ${this::class.java.name}")
     }
 
-    fun Fragment.hideKeyboard() = hideKeyboard(requireContext(), view)
+    fun Fragment.hideKeyboard() = hideKeyboard(view)
 
     fun Fragment.onCreateDeletionDialog(message: String): MessageDialog {
         return MessageDialog.getInstance(
