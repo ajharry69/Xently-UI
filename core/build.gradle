@@ -99,7 +99,6 @@ dependencies {
     implementation "androidx.paging:paging-runtime-ktx:2.1.2"
 
     implementation 'com.evrencoskun.library:tableview:0.8.9'
-    implementation 'org.greenrobot:eventbus:3.2.0'
     implementation project(path: ':dialog')
 
     sharedGroup dependencies

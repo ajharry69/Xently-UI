@@ -6,17 +6,12 @@ import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.xently.xui.utils.ListLoadEvent
 import com.xently.xui.utils.ListLoadEvent.Status.*
-import com.xently.xui.utils.Log
 import com.xently.xui.utils.RefreshEvent
-import com.xently.xui.utils.RefreshEvent.State
 import com.xently.xui.utils.RefreshEvent.State.*
 import com.xently.xui.utils.ui.fragment.ISwipeRefreshFragment
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 
 abstract class SwipeRefreshFragment<T> : Fragment(), ISwipeRefreshFragment {
     private val subClassName = this::class.java.name
-    private var eventBusRegistered: Boolean = false
     protected var onRefreshListener: SwipeRefreshLayout.OnRefreshListener? = null
 
     protected lateinit var swipeRefresh: SwipeRefreshLayout
@@ -26,35 +21,13 @@ abstract class SwipeRefreshFragment<T> : Fragment(), ISwipeRefreshFragment {
         super.onViewCreated(view, savedInstanceState)
 
         onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
-            val event = RefreshEvent(STARTED, true)
-            if (eventBusRegistered) eventBus.post(event) else onRefreshEvent(event)
+            onRefreshEvent(RefreshEvent(STARTED, true))
         }
         swipeRefresh.setOnRefreshListener(onRefreshListener)
     }
 
-    override fun onResume() {
-        super.onResume()
-        /*
-        EventBus post mechanism is also used to start network request(s) hence the registration must
-        must be done here to PREVENT unnecessary kick off off a network request when a page is not
-        visible e.g. in TAB or ViewPager fragment situations
-         */
-        eventBusRegistered = eventBus.isRegistered(this)
-        if (!eventBusRegistered) {
-            eventBus.register(this)
-            eventBusRegistered = eventBus.isRegistered(this)
-        }
-        logEventBusRegistrationStatus("onResume")
-    }
-
     override fun onPause() {
-        swipeRefresh.showProgress(false)
-        eventBusRegistered = eventBus.isRegistered(this)
-        if (eventBusRegistered) {
-            eventBus.unregister(this)
-            eventBusRegistered = eventBus.isRegistered(this)
-        }
-        logEventBusRegistrationStatus("onPause")
+        onRefreshEvent()
         super.onPause()
     }
 
@@ -66,8 +39,7 @@ abstract class SwipeRefreshFragment<T> : Fragment(), ISwipeRefreshFragment {
         else -> super.onOptionsItemSelected(item)
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
-    open fun onRefreshEvent(event: RefreshEvent) {
+    open fun onRefreshEvent(event: RefreshEvent = RefreshEvent(ENDED)) {
         when (event.state) {
             STARTED -> {
                 swipeRefresh.showProgress()
@@ -81,21 +53,20 @@ abstract class SwipeRefreshFragment<T> : Fragment(), ISwipeRefreshFragment {
     /**
      * @see onRefreshEvent
      */
-    @Subscribe(threadMode = ThreadMode.MAIN)
     protected open fun onListLoadEvent(event: ListLoadEvent<T>) {
         when (event.status) {
             NULL -> {
-                updateSwipeRefreshProgress()
+                onRefreshEvent(RefreshEvent(STARTED))
                 hideViewsCompletely(statusContainer)
                 showViews(swipeRefresh)
             }
             EMPTY -> {
-                updateSwipeRefreshProgress(ENDED)
+                onRefreshEvent()
                 hideViewsCompletely(swipeRefresh)
                 showViews(statusContainer)
             }
             LOADED -> {
-                updateSwipeRefreshProgress(ENDED)
+                onRefreshEvent()
                 hideViewsCompletely(statusContainer)
                 showViews(swipeRefresh)
             }
@@ -111,25 +82,6 @@ abstract class SwipeRefreshFragment<T> : Fragment(), ISwipeRefreshFragment {
             else ListLoadEvent(EMPTY, list)
         } else ListLoadEvent(LOADED, list)
 
-//        if (eventBusRegistered) eventBus.post(event) else onListLoadEvent(event)
         onListLoadEvent(event)
-    }
-
-    /**
-     * Can be called when a list refresh is ended with [state] = [State.ENDED] to hide the swipe
-     * refresh layout's progress indicator
-     */
-    protected fun updateSwipeRefreshProgress(state: State = ACTIVE) {
-        if (eventBusRegistered) {
-            eventBus.post(RefreshEvent(state))
-        } else swipeRefresh.showProgress(state != ENDED)
-    }
-
-    private fun logEventBusRegistrationStatus(sep: String) {
-        Log.show(LOG_TAG, "<<${subClassName}>> $sep EventBus Registered: $eventBusRegistered")
-    }
-
-    companion object {
-        private val LOG_TAG = SwipeRefreshFragment::class.java.simpleName
     }
 }

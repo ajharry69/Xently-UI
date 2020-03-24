@@ -27,8 +27,6 @@ import com.xently.xui.utils.ListLoadEvent.Status.LOADED
 import com.xently.xui.utils.getSharedPref
 import com.xently.xui.utils.getThemedColor
 import com.xently.xui.viewmodels.DataTableViewModel
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 
 abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>) :
     SwipeRefreshFragment<T>(), ITableViewListener, OnTableViewPageTurnedListener {
@@ -156,12 +154,15 @@ abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>
         tableBinding.next.setOnClickListener {
             pagination?.nextPage()
         }
-        tableBinding.page.setOnEditorActionListener { _, actionId, _ ->
-            return@setOnEditorActionListener when (actionId) {
-                EditorInfo.IME_ACTION_GO -> {
-                    tableBinding.submitPage.callOnClick()
+        tableBinding.page.apply {
+            text = Editable.Factory.getInstance().newEditable("")
+            setOnEditorActionListener { _, actionId, _ ->
+                return@setOnEditorActionListener when (actionId) {
+                    EditorInfo.IME_ACTION_GO -> {
+                        tableBinding.submitPage.callOnClick()
+                    }
+                    else -> false
                 }
-                else -> false
             }
         }
         tableBinding.submitPage.setOnClickListener {
@@ -232,7 +233,6 @@ abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
     override fun onListLoadEvent(event: ListLoadEvent<T>) {
         when (event.status) {
             LOADED -> {

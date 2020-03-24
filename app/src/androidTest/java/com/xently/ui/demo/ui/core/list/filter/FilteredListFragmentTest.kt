@@ -32,7 +32,7 @@ class FilteredListFragmentTest {
     fun setUp() {
         navController = Mockito.mock(NavController::class.java)
         scenario = launchFragmentInContainer<FilteredListFragment>(
-            fragmentArgs = FilteredListFragmentArgs("444").toBundle(),
+            fragmentArgs = FilteredListFragmentArgs("Harrison").toBundle(),
             themeResId = R.style.AppTheme,
             factory = FilteredListFragmentFactory()
         )

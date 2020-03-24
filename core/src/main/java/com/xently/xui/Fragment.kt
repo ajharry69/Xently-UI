@@ -9,10 +9,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import com.xently.xui.utils.ui.IModifyToolbar
 import com.xently.xui.utils.ui.fragment.IFragment
-import org.greenrobot.eventbus.EventBus
 
 open class Fragment : androidx.fragment.app.Fragment(), IFragment {
-    protected val eventBus: EventBus by lazy { EventBus.getDefault() }
 
     private val backPressDispatcher by lazy { requireActivity().onBackPressedDispatcher }
 

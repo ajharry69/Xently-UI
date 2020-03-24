@@ -40,7 +40,10 @@ class FragmentStatePagerAdapter(
     override fun getPageTitle(position: Int): CharSequence? =
         fragmentList.elementAt(position).title ?: super.getPageTitle(position)
 
-    override fun getItem(position: Int): Fragment = fragmentList.elementAt(position).fragment
+    override fun getItem(position: Int): Fragment {
+
+        return fragmentList.elementAt(position).fragment
+    }
 
     override fun getCount(): Int = tabCount
 }

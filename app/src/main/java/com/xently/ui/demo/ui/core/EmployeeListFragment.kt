@@ -4,14 +4,16 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.xently.ui.demo.R
 import com.xently.ui.demo.adapters.EmployeeListAdapter
 import com.xently.ui.demo.data.Employee
-import com.xently.ui.demo.data.Employee.Department.ACCOUNTING
 import com.xently.ui.demo.viewmodels.EmployeeViewModel
 import com.xently.xui.ListFragment
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 abstract class EmployeeListFragment : ListFragment<Employee>() {
 
@@ -33,7 +35,7 @@ abstract class EmployeeListFragment : ListFragment<Employee>() {
         onRefreshRequested(false)
         viewModel.observableEmployeeListRefreshEvent.observe(viewLifecycleOwner, Observer {
             if (it == null) return@Observer
-            updateSwipeRefreshProgress(it.state)
+            onRefreshEvent(it)
         })
     }
 
@@ -45,12 +47,16 @@ abstract class EmployeeListFragment : ListFragment<Employee>() {
 
     override fun onFabClickListener(context: Context): View.OnClickListener? {
         return View.OnClickListener {
-            viewModel.employEmployee(Employee(1, "Orinda", "Harrison", 54, ACCOUNTING, 98900f))
+            viewModel.viewModelScope.launch(Dispatchers.Default) {
+                viewModel.employEmployee()
+            }
         }
     }
 
     override fun onRefreshRequested(forced: Boolean) {
-        viewModel.getEmployeeList()
+        viewModel.viewModelScope.launch(Dispatchers.Default) {
+            viewModel.getEmployeeList()
+        }
     }
 
     override fun onListItemClick(model: Employee, view: View) {

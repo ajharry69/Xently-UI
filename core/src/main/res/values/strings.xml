@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name" translatable="false" />
     <string name="xui_content_desc_refresh">Refresh</string>
     <string name="xui_text_empty_list">No records</string>
 

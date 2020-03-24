@@ -1,13 +1,15 @@
 package com.xently.ui.demo.ui.core.table
 
 import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.viewModelScope
 import com.xently.ui.demo.data.Employee
 import com.xently.xui.DataTableFragment
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class TableUIFragment : DataTableFragment<Employee>(EmployeeTableViewModel()) {
@@ -16,8 +18,9 @@ class TableUIFragment : DataTableFragment<Employee>(EmployeeTableViewModel()) {
         TableUIViewModelFactory()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
         onRefreshRequested(false)
         with(viewModel) {
             getObservableEmployeeList(null).observe(viewLifecycleOwner, Observer {
@@ -27,13 +30,16 @@ class TableUIFragment : DataTableFragment<Employee>(EmployeeTableViewModel()) {
             })
             observableEmployeeListRefreshEvent.observe(viewLifecycleOwner, Observer {
                 if (it == null) return@Observer
-                updateSwipeRefreshProgress(it.state)
+                onRefreshEvent(it)
             })
         }
     }
 
     override fun onRefreshRequested(forced: Boolean) {
-        viewModel.getEmployeeList(limit = Random(50).nextInt(100, 200))
+        viewModel.viewModelScope.launch(Dispatchers.Default) {
+            val limit = Random.nextInt(100, 500)
+            viewModel.getEmployeeList(limit = limit)
+        }
     }
 
     companion object {
