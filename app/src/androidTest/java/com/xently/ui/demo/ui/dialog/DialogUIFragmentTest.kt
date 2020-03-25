@@ -15,7 +15,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.xently.ui.demo.R
-import com.xently.ui.demo.checkSnackBarDisplayedByMessage
+import com.xently.ui.demo.checkSnackBarDisplayedWithMessage
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.allOf
@@ -112,7 +112,7 @@ class DialogUIFragmentTest {
                 .inRoot(isDialog())
                 .check(matches(isDisplayed())).perform(click())
 
-            checkSnackBarDisplayedByMessage("Selected: $selectable")
+            checkSnackBarDisplayedWithMessage("Selected: $selectable")
         }
     }
 

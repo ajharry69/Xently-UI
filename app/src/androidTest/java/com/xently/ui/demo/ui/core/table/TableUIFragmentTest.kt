@@ -21,7 +21,6 @@ import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 
-
 @RunWith(AndroidJUnit4::class)
 @MediumTest
 class TableUIFragmentTest {
@@ -80,7 +79,8 @@ class TableUIFragmentTest {
             it.pagination = pagination
         }
         val page = 2
-        onView(withId(R.id.page)).perform(typeText(page.toString()), pressImeActionButton())
+        onView(withId(R.id.page)).perform(typeText("$page"), pressImeActionButton())
+            .check(matches(withText("$page")))
 
         scenario.onFragment {
             verify(pagination, Mockito.atLeastOnce()).goToPage(page)
@@ -104,7 +104,7 @@ class TableUIFragmentTest {
 
     @Test
     fun selectSpinnerItemToChangePageSizeEntries() {
-        val pageCount = "100"
+        val pageCount = "20"
         with(onView(withId(R.id.page_size))) {
             perform(click())
             onData(allOf(`is`(instanceOf(String::class.java)), `is`(pageCount)))

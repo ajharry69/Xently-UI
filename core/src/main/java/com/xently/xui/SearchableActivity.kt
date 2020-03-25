@@ -49,7 +49,15 @@ abstract class SearchableActivity : AppCompatActivity(), IModifyToolbar, ISearch
     }
 
     /**
-     * Called when as [Intent.ACTION_SEARCH] action is received
+     * Called when as [Intent.ACTION_SEARCH] action is received. If you are showing your list data
+     * using [ListFragment], your could get the fragment/screen's identifier(class name) provided by
+     * `{fragment-class-name}::class.java.name` e.g `EmployeeListFragment::class.java.name`
+     * from which the search was initiated using:
+     *
+     * ```kotlin
+     * // metadata: second parameter in the method
+     * val searchInitiatorFragmentID = metadata.getString(ListFragment.SEARCH_IDENTIFIER)
+     * ```
      * @param query search query received
      * @param metadata additional information passed along with the [query]
      */

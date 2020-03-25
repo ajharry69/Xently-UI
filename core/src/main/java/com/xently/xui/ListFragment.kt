@@ -16,15 +16,6 @@ import com.xently.xui.utils.ui.fragment.IListFragment
  * common to list-displaying screen e.g. refreshing, showing loading progress, filtering, sorting
  * and showing "**NO DATA**" message when list is empty.
  *
- * **To modify the default options menu appearance but with some functions e.g. Search and Refresh
- * still borrowed(handled/implemented by this class), you should inflate an menu with views
- * duplicated to ID's similar to ones listed below**
- *
- * Some of menu items supported included by default that could be least-significant(not implemented
- * by default by this class) in your case are:
- *  1. **Sort**: ID = menu_list_sort
- *  2. **Filter**: ID = menu_list_filter
- *
  * ## THIS IS THE DEFAULT OPTIONS MENU LAYOUT INFLATED BY THIS CLASS
  *
  * ```xml
@@ -38,20 +29,6 @@ import com.xently.xui.utils.ui.fragment.IListFragment
  * android:orderInCategory="1"
  * android:title="@string/xui_menu_list_search"
  * app:showAsAction="ifRoom" />
- *
- * <item
- * android:id="@+id/menu_list_sort"
- * android:icon="@drawable/ic_action_sort"
- * android:orderInCategory="10"
- * android:title="@string/xui_menu_list_sort"
- * app:showAsAction="ifRoom|withText" />
- *
- * <item
- * android:id="@+id/menu_list_filter"
- * android:icon="@drawable/ic_action_filter"
- * android:orderInCategory="11"
- * android:title="@string/xui_menu_list_filter"
- * app:showAsAction="ifRoom|withText" />
  *
  * <item
  * android:id="@+id/menu_list_refresh"
@@ -153,6 +130,19 @@ abstract class ListFragment<T> : SwipeRefreshFragment<T>(), IListFragment<T> {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.xui_menu_fragment_list, menu)
+        /*if (!isSearchViewDialog) {
+            val searchManager =
+                requireContext().getSystemService(Context.SEARCH_SERVICE) as SearchManager
+            menu.findItem(R.id.menu_list_search).apply {
+                if (actionView !is SearchView) actionView = SearchView(requireContext())
+                (actionView as SearchView).apply {
+                    setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
+//                    setIconifiedByDefault(false) // Do not iconify the widget; expand it by default
+//                    isSubmitButtonEnabled = true
+                    isQueryRefinementEnabled = true
+                }
+            }
+        }*/
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {

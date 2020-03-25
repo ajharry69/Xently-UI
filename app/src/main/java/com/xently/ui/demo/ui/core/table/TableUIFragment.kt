@@ -37,7 +37,7 @@ class TableUIFragment : DataTableFragment<Employee>(EmployeeTableViewModel()) {
 
     override fun onRefreshRequested(forced: Boolean) {
         viewModel.viewModelScope.launch(Dispatchers.Default) {
-            val limit = Random.nextInt(100, 500)
+            val limit = Random.nextInt(50, 100)
             viewModel.getEmployeeList(limit = limit)
         }
     }

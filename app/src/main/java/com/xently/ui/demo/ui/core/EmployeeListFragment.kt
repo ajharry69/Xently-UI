@@ -1,6 +1,7 @@
 package com.xently.ui.demo.ui.core
 
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -12,6 +13,7 @@ import com.xently.ui.demo.adapters.EmployeeListAdapter
 import com.xently.ui.demo.data.Employee
 import com.xently.ui.demo.viewmodels.EmployeeViewModel
 import com.xently.xui.ListFragment
+import com.xently.xui.dialog.DialogFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -48,7 +50,7 @@ abstract class EmployeeListFragment : ListFragment<Employee>() {
     override fun onFabClickListener(context: Context): View.OnClickListener? {
         return View.OnClickListener {
             viewModel.viewModelScope.launch(Dispatchers.Default) {
-                viewModel.employEmployee()
+                viewModel.hireEmployee()
             }
         }
     }
@@ -60,8 +62,26 @@ abstract class EmployeeListFragment : ListFragment<Employee>() {
     }
 
     override fun onListItemClick(model: Employee, view: View) {
-        showSnackBar(model.toString(), Snackbar.LENGTH_LONG, "Delete") {
-            viewModel.fireEmployee(model)
+        showSnackBar(model.toString(), Snackbar.LENGTH_LONG, getString(R.string.fire)) {
+            onCreateDeletionDialog(R.string.confirm_delete, model.name).apply {
+                buttonClickListener = object : DialogFragment.ButtonClickListener {
+                    override fun onPositiveButtonClick(
+                        dialog: DialogInterface,
+                        index: Int,
+                        tag: String?
+                    ) {
+                        viewModel.fireEmployee(model)?.apply {
+                            message?.let { it ->
+                                this@EmployeeListFragment.showSnackBar(
+                                    it,
+                                    Snackbar.LENGTH_LONG
+                                )
+                            }
+                        }
+                        super.onPositiveButtonClick(dialog, index, tag)
+                    }
+                }
+            }.show(childFragmentManager, "DialogTag_DeleteEmployee")
         }
     }
 

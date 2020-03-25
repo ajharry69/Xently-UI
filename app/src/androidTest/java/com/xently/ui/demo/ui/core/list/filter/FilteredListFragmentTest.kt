@@ -13,6 +13,7 @@ import androidx.test.filters.MediumTest
 import com.xently.ui.demo.R
 import com.xently.ui.demo.adapters.EmployeeListAdapter.EmployeeViewHolder
 import com.xently.ui.demo.data.Employee
+import com.xently.ui.demo.viewmodels.FOUNDER_FIRST_NAME
 import com.xently.xui.adapters.list.OnListItemClickListener
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers
@@ -32,7 +33,7 @@ class FilteredListFragmentTest {
     fun setUp() {
         navController = Mockito.mock(NavController::class.java)
         scenario = launchFragmentInContainer<FilteredListFragment>(
-            fragmentArgs = FilteredListFragmentArgs("Harrison").toBundle(),
+            fragmentArgs = FilteredListFragmentArgs(FOUNDER_FIRST_NAME).toBundle(),
             themeResId = R.style.AppTheme,
             factory = FilteredListFragmentFactory()
         )

@@ -1,34 +1,43 @@
 package com.xently.xui
 
-import android.widget.EditText
+import android.widget.TextView
 import com.xently.dialog.ButtonText
 import com.xently.xui.dialog.DatePickerDialog
+import com.xently.xui.dialog.DatePickerDialog.DateSetListener
 import com.xently.xui.dialog.TimePickerDialog
+import com.xently.xui.dialog.TimePickerDialog.TimeSetListener
 
 /**
  * Contains helper methods to help show [DatePickerDialog] and [TimePickerDialog]
  */
-abstract class DateTimePickerFragment : Fragment(), DatePickerDialog.DateSetListener,
-    TimePickerDialog.TimeSetListener {
+abstract class DateTimePickerFragment : Fragment(), DateSetListener, TimeSetListener {
 
-    protected fun <T : EditText> showDatePicker(et: T, tag: String) =
+    /**
+     * Shows a date picker dialog and initialized by default to the presumed date shown on [et] or
+     * default current date(if it is not a date in expected format)
+     */
+    protected fun <T : TextView> showDatePicker(et: T, tag: String) =
         DatePickerDialog.getInstance(null, et.text).apply {
-            this.initialDate = et.text
-            this.dialogButtonText = ButtonText.fromStringResource(
+            initialDate = et.text
+            dialogButtonText = ButtonText.fromStringResource(
                 this@DateTimePickerFragment.requireContext(),
                 R.string.xui_picker_dialog_positive_button
             )
-            this.dateSetListener = this@DateTimePickerFragment
+            dateSetListener = this@DateTimePickerFragment
         }.show(childFragmentManager, tag)
 
-    protected fun <T : EditText> showTimePicker(et: T, tag: String) =
+    /**
+     * Shows a time picker dialog and initialized by default to the presumed time shown on [et] or
+     * default current time(if it is not a time in expected format)
+     */
+    protected fun <T : TextView> showTimePicker(et: T, tag: String) =
         TimePickerDialog.getInstance(null, initialTime = et.text).apply {
-            this.initialTime = et.text
-            this.dialogButtonText = ButtonText.fromStringResource(
+            initialTime = et.text
+            dialogButtonText = ButtonText.fromStringResource(
                 this@DateTimePickerFragment.requireContext(),
                 R.string.xui_picker_dialog_positive_button
             )
-            this.timeSetListener = this@DateTimePickerFragment
+            timeSetListener = this@DateTimePickerFragment
         }.show(childFragmentManager, tag)
 
     override fun onDateSet(date: String, tag: String?) = Unit

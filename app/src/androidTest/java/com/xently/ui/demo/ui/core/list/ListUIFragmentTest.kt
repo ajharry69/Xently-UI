@@ -6,16 +6,15 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.xently.ui.demo.R
+import com.xently.ui.demo.RecyclerViewItemCount
 import com.xently.ui.demo.adapters.EmployeeListAdapter.EmployeeViewHolder
-import com.xently.ui.demo.data.Employee
-import com.xently.xui.adapters.list.OnListItemClickListener
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.equalTo
+import com.xently.ui.demo.clickDialogButton
+import com.xently.ui.demo.clickSnackbarActionButton
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,7 +24,6 @@ import org.mockito.Mockito.mock
 @MediumTest
 class ListUIFragmentTest {
 
-    private lateinit var listItemClickListener: OnListItemClickListener<Employee>
     private lateinit var navController: NavController
     private lateinit var scenario: FragmentScenario<ListUIFragment>
 
@@ -39,7 +37,6 @@ class ListUIFragmentTest {
         )
         with(scenario) {
             onFragment {
-                listItemClickListener = it
                 Navigation.setViewNavController(it.requireView(), navController)
             }
         }
@@ -47,14 +44,21 @@ class ListUIFragmentTest {
 
     @Test
     fun clickListItemInvokesListItemClickListener() {
-        onView(withId(R.id.list))
-            .perform(RecyclerViewActions.actionOnItemAtPosition<EmployeeViewHolder>(0, click()))
+        onView(withId(R.id.list)).run {
+            perform(actionOnItemAtPosition<EmployeeViewHolder>(0, click()))
 
-        assertThat(2, equalTo(1 + 1))
+//        checkSnackBarDisplayedWithMessage("FName") // Cannot check specific name
+            clickSnackbarActionButton(R.string.fire) // Shows Dialog
+            clickDialogButton(R.string.delete) // Fire's employee...
+
+            check(RecyclerViewItemCount.decrementedBy(1))
+        }
     }
 
     @Test
     fun clickAddFabToAddEmployee() {
         onView(withId(R.id.fab)).perform(click())
+
+        onView(withId(R.id.list)).check(RecyclerViewItemCount.incrementedBy(1))
     }
 }
