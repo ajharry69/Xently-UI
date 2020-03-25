@@ -11,7 +11,7 @@ Add the library to your Android project, either through **gradle** or **maven** 
 
 ```gradle
  // App level gradle file
- implementation 'com.xently.xui:core:1.1.0'
+ implementation 'com.xently.xui:core:1.1.1'
 ```
 
 ### Maven Setup
@@ -20,7 +20,12 @@ Add the library to your Android project, either through **gradle** or **maven** 
  <dependency>
    <groupId>com.xently.xui</groupId>
    <artifactId>core</artifactId>
-   <version>1.1.0</version>
+   <version>1.1.1</version>
    <type>pom</type>
  </dependency>
 ```
+
+## Usage
+
+To use the `DataTableFragment`, you will need to add (TableView)[https://github.com/evrencoskun/TableView#advanced-usage]
+library in your app level `build.gradle`
