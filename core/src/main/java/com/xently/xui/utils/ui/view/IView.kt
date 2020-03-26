@@ -126,7 +126,7 @@ interface IView {
     }
 
     /**
-     * Clears all [EditText]s provided as parameter
+     * Clears all [ets]s provided as parameter
      * @param ets: Array of [EditText]s
      */
     fun clearText(vararg ets: TextView?) = ets.forEach {
@@ -142,13 +142,17 @@ interface IView {
      */
     fun removeErrors(vararg textFields: TextInputLayout?) = textFields.forEach {
         it?.apply {
-            error = null
-            isErrorEnabled = false
+            if (error != null) {
+                isErrorEnabled = false
+                error = null
+                isErrorEnabled = true
+            }
         }
     }
 
     /**
-     * Set [error] as error message on a [TextInputLayout]
+     * Sets [error] as error message on [this@setErrorText] after calling [removeErrors]
+     * @see removeErrors
      */
     fun TextInputLayout?.setErrorText(error: CharSequence?) {
         this?.apply {
@@ -160,8 +164,8 @@ interface IView {
     /**
      * @see setErrorText
      */
-    fun TextInputLayout?.setErrorText(@StringRes error: Int) {
-        this?.setErrorText(context.getString(error))
+    fun TextInputLayout?.setErrorText(@StringRes error: Int, vararg args: Any) {
+        this?.setErrorText(context.getString(error, *args))
     }
 
     /**
@@ -201,8 +205,8 @@ interface IView {
     /**
      * @see setErrorTextAndFocus
      */
-    fun TextInputLayout?.setErrorTextAndFocus(@StringRes error: Int) {
-        this?.setErrorTextAndFocus(context.getString(error))
+    fun TextInputLayout?.setErrorTextAndFocus(@StringRes error: Int, vararg args: Any) {
+        this?.setErrorTextAndFocus(context.getString(error, *args))
     }
 
     fun TextInputLayout.removeErrorOnTextChange() {
@@ -229,8 +233,8 @@ interface IView {
         et.error = error
     }
 
-    fun EditText?.setErrorText(@StringRes error: Int) =
-        this?.setErrorText(context.getString(error))
+    fun EditText?.setErrorText(@StringRes error: Int, vararg args: Any) =
+        this?.setErrorText(context.getString(error, args))
 
     /**
      * @see setErrorText
@@ -242,8 +246,8 @@ interface IView {
         }
     }
 
-    fun EditText?.setErrorTextAndFocus(@StringRes error: Int) =
-        this?.setErrorTextAndFocus(context.getString(error))
+    fun EditText?.setErrorTextAndFocus(@StringRes error: Int, vararg args: Any) =
+        this?.setErrorTextAndFocus(context.getString(error, *args))
 
     fun TextView.useText(text: CharSequence?) {
         text?.let {
@@ -274,10 +278,8 @@ interface IView {
     fun TextView.switchTextOnClick(
         textOnFirstClick: CharSequence?,
         textOnSecondClick: CharSequence?
-    ) {
-        setOnClickListener {
-            switchText(textOnFirstClick, textOnSecondClick)
-        }
+    ) = setOnClickListener {
+        switchText(textOnFirstClick, textOnSecondClick)
     }
 
     fun TextView.switchText(textOnFirstClick: CharSequence?, textOnSecondClick: CharSequence?) {
@@ -287,15 +289,16 @@ interface IView {
     fun TextView.switchText(
         @StringRes textOnFirstClick: Int,
         @StringRes textOnSecondClick: Int
-    ) {
-        switchText(context.getString(textOnFirstClick), context.getString(textOnSecondClick))
-    }
+    ) = switchText(context.getString(textOnFirstClick), context.getString(textOnSecondClick))
 
     fun TextView.switchTextOnClick(
         @StringRes textOnFirstClick: Int,
         @StringRes textOnSecondClick: Int
     ) = switchTextOnClick(context.getString(textOnFirstClick), context.getString(textOnSecondClick))
 
+    /**
+     * Hides or shows [view] when [this@alternateViewVisibilityOnClick] is clicked
+     */
     fun View.alternateViewVisibilityOnClick(view: View) {
         setOnClickListener {
             view.alternateVisibility()
@@ -303,11 +306,7 @@ interface IView {
     }
 
     fun View.alternateVisibility() {
-        if (isVisible) {
-            hideViewsCompletely(this)
-        } else {
-            showViews(this)
-        }
+        if (isVisible) hideViewsCompletely(this) else showViews(this)
     }
 
     fun TextView.switchTextAndAlternateViewVisibilityOnClick(
@@ -345,21 +344,27 @@ interface IView {
     }
 
     /**
-     * Calls view's [View.OnClickListener] after hiding keyboard
+     * Set's a click listener to [this@setOnClickListenerWithKeyboardHidden] that hides keyboard
+     * then calls [onClick]
+     * @see View.OnClickListener
+     * @see hideKeyboard
      */
     fun View.setOnClickListenerWithKeyboardHidden(onClick: (view: View) -> Unit) {
-        this.setOnClickListener {
+        setOnClickListener {
             hideKeyboard(it)
             onClick.invoke(it)
         }
     }
 
-    fun TabLayout.selectTabWithName(name: String) {
-        val tabIndices: IntRange = 0 until this.tabCount
+    /**
+     * Selects tab labeled with [text] from [this@selectTabWithText]
+     */
+    fun TabLayout.selectTabWithText(text: String, ignoreCase: Boolean = true) {
+        val tabIndices: IntRange = 0 until tabCount
         for (tabIndex in tabIndices) {
-            val tab = this.getTabAt(tabIndex) ?: continue
-            if (tab.text.toString().equals(name, true)) {
-                this.selectTab(tab)
+            val tab: TabLayout.Tab = getTabAt(tabIndex) ?: continue
+            if (tab.text.toString().equals(text, ignoreCase)) {
+                selectTab(tab)
                 break
             }
         }

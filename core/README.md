@@ -27,5 +27,5 @@ Add the library to your Android project, either through **gradle** or **maven** 
 
 ## Usage
 
-To use the `DataTableFragment`, you will need to add (TableView)[https://github.com/evrencoskun/TableView#advanced-usage]
+To use the `DataTableFragment`, you will need to add [TableView](https://github.com/evrencoskun/TableView#advanced-usage)
 library in your app level `build.gradle`
