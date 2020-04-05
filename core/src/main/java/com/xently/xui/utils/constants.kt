@@ -87,6 +87,7 @@ object Log {
     /**
      * @see show
      */
+    @RestrictTo(RestrictTo.Scope.LIBRARY)
     fun show(tag: String, message: Any?, throwable: Throwable? = null, type: Type = DEBUG) {
         show(tag, "$message", throwable, type)
     }

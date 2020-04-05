@@ -209,23 +209,40 @@ interface IView {
         this?.setErrorTextAndFocus(context.getString(error, *args))
     }
 
-    fun TextInputLayout.removeErrorOnTextChange() {
+    /**
+     * Add's text change listener to [this@addTextChangeListener]'s [EditText] and invokes [before]
+     * just before a text change, [on] immediately when text change and [after] just after a text
+     * change
+     * @param removeErrors if set to **true** errors are removed from [this@addTextChangeListener]
+     * just after a text change is detected(in [after])
+     */
+    fun TextInputLayout.addTextChangeListener(
+        removeErrors: Boolean = true,
+        before: ((s: CharSequence?, start: Int, count: Int, after: Int) -> Unit)? = null,
+        on: ((s: CharSequence?, start: Int, before: Int, count: Int) -> Unit)? = null,
+        after: ((s: Editable?) -> Unit)? = null
+    ) {
         editText?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                this@removeErrorOnTextChange.apply {
-                    if (error != null) {
-                        isErrorEnabled = false
-                        error = null
-                        isErrorEnabled = true
-                    }
-                }
+                if (removeErrors) removeErrors(this@addTextChangeListener)
+                after?.invoke(s)
             }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) =
-                Unit
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                before?.invoke(s, start, count, after)
+            }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                on?.invoke(s, start, before, count)
+            }
         })
+    }
+
+    /**
+     * Add's text change listener to [this@addTextChangeListener]'s [EditText]
+     */
+    fun TextInputLayout.addTextChangeListener(watcher: TextWatcher) {
+        editText?.addTextChangedListener(watcher)
     }
 
     fun EditText?.setErrorText(error: CharSequence?) {
@@ -349,9 +366,9 @@ interface IView {
      * @see View.OnClickListener
      * @see hideKeyboard
      */
-    fun View.setOnClickListenerWithKeyboardHidden(onClick: (view: View) -> Unit) {
+    fun View.setClickListener(keyBoardHidden: Boolean = true, onClick: (view: View) -> Unit) {
         setOnClickListener {
-            hideKeyboard(it)
+            if (keyBoardHidden) hideKeyboard(it)
             onClick.invoke(it)
         }
     }

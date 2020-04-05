@@ -2,6 +2,7 @@ package com.xently.xui
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
 import android.view.MenuItem
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.CallSuper
@@ -14,6 +15,8 @@ import com.xently.xui.utils.ui.IModifyToolbar
 import com.xently.xui.utils.ui.fragment.IFragment
 
 open class Fragment : androidx.fragment.app.Fragment(), IFragment {
+
+    protected val editable: Editable.Factory by lazy { Editable.Factory.getInstance() }
 
     private val backPressDispatcher by lazy { requireActivity().onBackPressedDispatcher }
 

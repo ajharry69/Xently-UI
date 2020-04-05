@@ -23,7 +23,7 @@ Add the library to your Android project, then check out the example use case bel
 
 ```gradle
 // App level gradle file
-implementation 'com.xently.xui:dialog:1.1.1'
+implementation 'com.xently.xui:dialog:1.1.2'
 ```
 
 ### Maven Setup
@@ -32,7 +32,7 @@ implementation 'com.xently.xui:dialog:1.1.1'
 <dependency>
   <groupId>com.xently.xui</groupId>
   <artifactId>dialog</artifactId>
-  <version>1.1.1</version>
+  <version>1.1.2</version>
   <type>pom</type>
 </dependency>
 ```

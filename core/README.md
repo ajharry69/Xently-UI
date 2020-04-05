@@ -11,7 +11,7 @@ Add the library to your Android project, either through **gradle** or **maven** 
 
 ```gradle
  // App level gradle file
- implementation 'com.xently.xui:core:1.1.1'
+ implementation 'com.xently.xui:core:1.1.2'
 ```
 
 ### Maven Setup
@@ -20,7 +20,7 @@ Add the library to your Android project, either through **gradle** or **maven** 
  <dependency>
    <groupId>com.xently.xui</groupId>
    <artifactId>core</artifactId>
-   <version>1.1.1</version>
+   <version>1.1.2</version>
    <type>pom</type>
  </dependency>
 ```
