@@ -1,3 +1,6 @@
+[ ![Core Download](https://api.bintray.com/packages/ajharry69/XentlyUI/com.xently.xui/images/download.svg) ](https://bintray.com/ajharry69/XentlyUI/com.xently.xui/_latestVersion)
+[ ![Dialog Download](https://api.bintray.com/packages/ajharry69/XentlyUI/com.xently.xui.dialog/images/download.svg) ](https://bintray.com/ajharry69/XentlyUI/com.xently.xui.dialog/_latestVersion)
+
 # Xently UI
 
 A project composed of two(2) android libraries:
