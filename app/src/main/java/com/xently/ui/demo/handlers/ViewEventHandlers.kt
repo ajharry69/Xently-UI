@@ -6,8 +6,6 @@ import com.xently.dialog.ButtonText
 import com.xently.dialog.ChoiceDialogParams
 import com.xently.dialog.DateTimePickerParams
 import com.xently.dialog.DialogParams
-import com.xently.ui.demo.ui.dialog.custom.CustomDialog
-import com.xently.ui.demo.ui.dialog.custom.FullScreenDialog
 import com.xently.ui.demo.R
 import com.xently.ui.demo.ui.dialog.DialogUIFragment.Companion.ANOTHER_MESSAGE_DIALOG_TAG
 import com.xently.ui.demo.ui.dialog.DialogUIFragment.Companion.CUSTOM_DIALOG_TAG
@@ -19,6 +17,8 @@ import com.xently.ui.demo.ui.dialog.DialogUIFragment.Companion.MULTIPLE_CHOICE_D
 import com.xently.ui.demo.ui.dialog.DialogUIFragment.Companion.SINGLE_CHOICE_DIALOG_TAG
 import com.xently.ui.demo.ui.dialog.DialogUIFragment.Companion.TIME_PICKER_DIALOG_TAG
 import com.xently.ui.demo.ui.dialog.DialogUIFragment.Companion.choiceDialogData
+import com.xently.ui.demo.ui.dialog.custom.CustomDialog
+import com.xently.ui.demo.ui.dialog.custom.FullScreenDialog
 import com.xently.xui.dialog.*
 import com.xently.xui.dialog.ChoiceDialog.ItemSelectedListener
 import com.xently.xui.dialog.DatePickerDialog.DateSetListener

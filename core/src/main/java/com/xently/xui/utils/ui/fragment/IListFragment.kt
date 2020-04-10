@@ -9,6 +9,4 @@ interface IListFragment<T> : OnListItemClickListener<T> {
      */
     val noDataText: CharSequence?
         get() = null
-
-    /*override fun onListItemClick(model: T, view: View) = Unit*/
 }

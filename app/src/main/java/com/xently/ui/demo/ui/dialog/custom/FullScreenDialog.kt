@@ -59,7 +59,7 @@ class FullScreenDialog : DialogFragment() {
         }
     }
 
-    companion object{
+    companion object {
         private val TAG = FullScreenDialog::class.java.simpleName
     }
 }

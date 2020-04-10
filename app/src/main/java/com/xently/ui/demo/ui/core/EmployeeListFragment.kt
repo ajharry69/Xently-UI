@@ -14,6 +14,8 @@ import com.xently.ui.demo.data.Employee
 import com.xently.ui.demo.viewmodels.EmployeeViewModel
 import com.xently.xui.ListFragment
 import com.xently.xui.dialog.DialogFragment
+import com.xently.xui.utils.ui.fragment.onCreateDeletionDialog
+import com.xently.xui.utils.ui.fragment.showSnackBar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

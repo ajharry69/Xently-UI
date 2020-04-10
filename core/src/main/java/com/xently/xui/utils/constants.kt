@@ -6,10 +6,11 @@ import android.content.res.Configuration
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.Log
-import android.view.View
-import androidx.annotation.*
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
+import androidx.annotation.RequiresApi
+import androidx.annotation.RestrictTo
 import androidx.core.graphics.drawable.DrawableCompat
-import com.google.android.material.snackbar.Snackbar
 import com.xently.xui.utils.Log.Type.*
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
@@ -99,54 +100,6 @@ object Log {
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 fun getSharedPref(context: Context, name: String): SharedPreferences =
     context.getSharedPreferences(name, Context.MODE_PRIVATE)
-
-/**
- * Shows [Snackbar] for given [duration] with an optional action button labeled [actionButtonText]
- * that does [actionButtonClick] when clicked
- * @param actionButtonClick: Callback for responding to [Snackbar] action button click
- * @param actionButtonText: Label text shown on [Snackbar]s action button
- * @see Snackbar.make
- */
-fun showSnackBar(
-    view: View,
-    message: String,
-    duration: Int = Snackbar.LENGTH_SHORT,
-    actionButtonText: String? = null,
-    actionButtonClick: ((snackBar: Snackbar) -> Unit)? = null
-): Snackbar {
-    val snackbar = Snackbar.make(view, message, duration)
-    with(snackbar) {
-//        setActionTextColor(ContextCompat.getColor(context, R.color.secondaryLightColor))
-        if (actionButtonText != null) setAction(actionButtonText) {
-            actionButtonClick?.invoke(this)
-        }
-        if (!isShownOrQueued) show()
-    }
-
-    return snackbar
-}
-
-/**
- * @see showSnackBar
- */
-fun showSnackBar(
-    view: View,
-    @StringRes message: Int,
-    duration: Int = Snackbar.LENGTH_SHORT,
-    actionButtonText: String? = null,
-    actionButtonClick: ((snackBar: Snackbar) -> Unit)? = null
-): Snackbar {
-    val snackbar = Snackbar.make(view, message, duration)
-    with(snackbar) {
-//        setActionTextColor(ContextCompat.getColor(context, R.color.secondaryLightColor))
-        if (actionButtonText != null) setAction(actionButtonText) {
-            actionButtonClick?.invoke(this)
-        }
-        if (!isShownOrQueued) show()
-    }
-
-    return snackbar
-}
 
 @ColorInt
 fun getThemedColor(context: Context, @AttrRes themeResId: Int): Int {

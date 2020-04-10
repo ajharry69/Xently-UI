@@ -15,6 +15,7 @@ import com.xently.xui.dialog.ChoiceDialog.ItemSelectedListener
 import com.xently.xui.dialog.DatePickerDialog.DateSetListener
 import com.xently.xui.dialog.DialogFragment.ButtonClickListener
 import com.xently.xui.dialog.TimePickerDialog.TimeSetListener
+import com.xently.xui.utils.ui.fragment.showSnackBar
 
 class DialogUIFragment : Fragment(), ItemSelectedListener, ButtonClickListener, DateSetListener,
     TimeSetListener {

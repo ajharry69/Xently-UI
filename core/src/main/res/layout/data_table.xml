@@ -116,6 +116,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!-- TODO: Replace {app:unselected_color} with background color -->
     <com.evrencoskun.tableview.TableView
         android:id="@+id/table"
         android:layout_width="0dp"
@@ -127,9 +128,9 @@
         app:layout_constraintTop_toBottomOf="@id/header_container"
         app:row_header_width="@dimen/xui_data_table_row_header_width"
         app:selected_color="?attr/colorControlNormal"
-        app:separator_color="?attr/colorOnSurface"
+        app:separator_color="?attr/colorOnBackground"
         app:shadow_color="?attr/colorControlNormal"
-        app:unselected_color="?attr/colorSurface" />
+        app:unselected_color="?android:attr/colorBackground" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/footer_container"

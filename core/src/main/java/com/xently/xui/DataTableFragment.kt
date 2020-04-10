@@ -26,6 +26,7 @@ import com.xently.xui.utils.ListLoadEvent
 import com.xently.xui.utils.ListLoadEvent.Status.LOADED
 import com.xently.xui.utils.getSharedPref
 import com.xently.xui.utils.getThemedColor
+import com.xently.xui.utils.ui.fragment.hideKeyboard
 import com.xently.xui.viewmodels.DataTableViewModel
 
 abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>) :

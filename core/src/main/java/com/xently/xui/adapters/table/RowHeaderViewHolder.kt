@@ -3,8 +3,8 @@ package com.xently.xui.adapters.table
 import com.evrencoskun.tableview.TableView
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder
 import com.xently.xui.databinding.DataTableRowHeaderBinding
-import com.xently.xui.utils.getThemedColor
 import com.xently.xui.models.RowHeader
+import com.xently.xui.utils.getThemedColor
 
 /**
  * Used to populate [TableView]

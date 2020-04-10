@@ -9,6 +9,9 @@ import com.xently.xui.utils.ListLoadEvent.Status.*
 import com.xently.xui.utils.RefreshEvent
 import com.xently.xui.utils.RefreshEvent.State.*
 import com.xently.xui.utils.ui.fragment.ISwipeRefreshFragment
+import com.xently.xui.utils.ui.view.hideViewsCompletely
+import com.xently.xui.utils.ui.view.showProgress
+import com.xently.xui.utils.ui.view.showViews
 
 abstract class SwipeRefreshFragment<T> : Fragment(), ISwipeRefreshFragment {
     private val subClassName = this::class.java.name

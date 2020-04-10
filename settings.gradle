@@ -1,4 +1,4 @@
-rootProject.name='Xently UI'
+rootProject.name = 'Xently UI'
 include ':app'
 include ':core'
 include ':dialog'

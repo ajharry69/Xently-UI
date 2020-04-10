@@ -12,9 +12,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import com.xently.xui.utils.Log
 import com.xently.xui.utils.ui.IModifyToolbar
-import com.xently.xui.utils.ui.fragment.IFragment
 
-open class Fragment : androidx.fragment.app.Fragment(), IFragment {
+open class Fragment : androidx.fragment.app.Fragment() {
 
     protected val editable: Editable.Factory by lazy { Editable.Factory.getInstance() }
 
@@ -28,21 +27,21 @@ open class Fragment : androidx.fragment.app.Fragment(), IFragment {
      * What to set as title of [Toolbar]
      * @see IModifyToolbar
      */
-    open val toolbarTitle: String? get() = null
+    protected open val toolbarTitle: String? get() = null
 
     /**
      * What to set as title of [Toolbar]
      * @see IModifyToolbar
      */
-    open val toolbarSubTitle: String? get() = null
+    protected open val toolbarSubTitle: String? get() = null
 
     /**
      * Option to hide/show [Toolbar]. Default behaviour is **true** (show)
      * @see IModifyToolbar
      */
-    open val showToolbar: Boolean get() = true
+    protected open val showToolbar: Boolean get() = true
 
-    open val toolbarUpIcon: Int?
+    protected open val toolbarUpIcon: Int?
         @DrawableRes get() = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,7 +81,7 @@ open class Fragment : androidx.fragment.app.Fragment(), IFragment {
     /**
      * What to do when system/phone's **_back-button_** is pressed
      */
-    open fun onBackPressed() {
+    protected open fun onBackPressed() {
         Log.show("BaseFragment", "onBackPressed: ${this::class.java.name}")
         backPressCallback?.isEnabled = false
         backPressDispatcher.onBackPressed()

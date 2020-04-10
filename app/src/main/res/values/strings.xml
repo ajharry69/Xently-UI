@@ -120,9 +120,9 @@
     <string name="content_desc_profile_image">Profile Image</string>
     <string name="test_core_list_ui">Test List UI</string>
     <string name="test_core_table_ui">Test Table UI</string>
-	<string name="custom_picker_positive_button">Set1</string>
+    <string name="custom_picker_positive_button">Set1</string>
     <string name="delete">Delete</string>
-	<string name="confirm_delete">Confirm deletion of %1$s as employee!</string>
-	<string name="error_deleting_employee">Error deleting employee! Could be a founder</string>
+    <string name="confirm_delete">Confirm deletion of %1$s as employee!</string>
+    <string name="error_deleting_employee">Error deleting employee! Could be a founder</string>
     <string name="fire">Fire</string>
 </resources>

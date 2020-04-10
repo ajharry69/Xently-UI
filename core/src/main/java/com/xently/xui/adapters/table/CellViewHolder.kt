@@ -5,8 +5,8 @@ import android.widget.LinearLayout
 import com.evrencoskun.tableview.TableView
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder
 import com.xently.xui.databinding.DataTableCellBinding
-import com.xently.xui.utils.getThemedColor
 import com.xently.xui.models.Cell
+import com.xently.xui.utils.getThemedColor
 
 /**
  * Used to populate [TableView]

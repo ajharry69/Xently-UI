@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.xently.xui.databinding.ListFragmentBinding
 import com.xently.xui.utils.ui.ISearchParamsChange
 import com.xently.xui.utils.ui.fragment.IListFragment
+import com.xently.xui.utils.ui.view.hideViewsCompletely
+import com.xently.xui.utils.ui.view.showAndEnableViews
 
 /**
  * Updates UI with [List] of [T] objects. It also controls and responds to UI/[View] interactions
@@ -151,9 +153,9 @@ abstract class ListFragment<T> : SwipeRefreshFragment<T>(), IListFragment<T> {
         else -> super.onOptionsItemSelected(item)
     }
 
-    open fun onFabClickListener(context: Context): View.OnClickListener? = null
+    protected open fun onFabClickListener(context: Context): View.OnClickListener? = null
 
-    open fun onCreateRecyclerView(recyclerView: RecyclerView): RecyclerView {
+    protected open fun onCreateRecyclerView(recyclerView: RecyclerView): RecyclerView {
         return recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
