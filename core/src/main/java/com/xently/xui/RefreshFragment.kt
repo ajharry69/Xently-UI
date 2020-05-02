@@ -4,29 +4,30 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import com.xently.xui.utils.IRefresh
 import com.xently.xui.utils.ListLoadEvent
 import com.xently.xui.utils.ListLoadEvent.Status.*
 import com.xently.xui.utils.RefreshEvent
 import com.xently.xui.utils.RefreshEvent.State.*
-import com.xently.xui.utils.ui.fragment.ISwipeRefreshFragment
 import com.xently.xui.utils.ui.view.hideViews
 import com.xently.xui.utils.ui.view.showProgress
 import com.xently.xui.utils.ui.view.showViews
 
-abstract class SwipeRefreshFragment<T> : Fragment(), ISwipeRefreshFragment {
+abstract class RefreshFragment<T> : Fragment(), IRefresh {
     private val subClassName = this::class.java.name
-    protected var onRefreshListener: SwipeRefreshLayout.OnRefreshListener? = null
+    protected var onRefreshListener: OnRefreshListener? = null
 
-    protected lateinit var swipeRefresh: SwipeRefreshLayout
+    protected var swipeRefresh: SwipeRefreshLayout? = null
     protected lateinit var statusContainer: View
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
+        onRefreshListener = OnRefreshListener {
             onRefreshEvent(RefreshEvent(STARTED, true))
         }
-        swipeRefresh.setOnRefreshListener(onRefreshListener)
+        swipeRefresh?.setOnRefreshListener(onRefreshListener)
     }
 
     override fun onPause() {
@@ -45,11 +46,11 @@ abstract class SwipeRefreshFragment<T> : Fragment(), ISwipeRefreshFragment {
     open fun onRefreshEvent(event: RefreshEvent = RefreshEvent(ENDED)) {
         when (event.state) {
             STARTED -> {
-                swipeRefresh.showProgress()
+                swipeRefresh?.showProgress()
                 onRefreshRequested(event.forced)
             }
-            ACTIVE -> swipeRefresh.showProgress()
-            ENDED -> swipeRefresh.showProgress(false)
+            ACTIVE -> swipeRefresh?.showProgress()
+            ENDED -> swipeRefresh?.showProgress(false)
         }
     }
 
@@ -79,10 +80,12 @@ abstract class SwipeRefreshFragment<T> : Fragment(), ISwipeRefreshFragment {
     /**
      * Should be called in a list-returning observable e.g. LiveData
      */
-    protected fun <L : List<T>> onObservableListChanged(list: L?) {
+    protected fun <L : List<T>> onObservableListChanged(list: L?, forceShow: Boolean = false) {
         val event = if (list.isNullOrEmpty()) {
-            if (list == null) ListLoadEvent(NULL, list)
-            else ListLoadEvent(EMPTY, list)
+            if (forceShow) ListLoadEvent(LOADED, list) else {
+                if (list == null) ListLoadEvent(NULL, list)
+                else ListLoadEvent(EMPTY, list)
+            }
         } else ListLoadEvent(LOADED, list)
 
         onListLoadEvent(event)

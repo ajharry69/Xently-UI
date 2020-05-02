@@ -7,8 +7,8 @@ import android.os.Bundle
 import android.widget.TimePicker
 import androidx.annotation.DrawableRes
 import androidx.annotation.StyleRes
-import com.xently.dialog.ButtonText
-import com.xently.dialog.DateTimePickerParams
+import com.xently.xui.dialog.utils.ButtonText
+import com.xently.xui.dialog.utils.DateTimePickerParams
 import com.xently.xui.dialog.utils.DateFormat
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
@@ -74,7 +74,7 @@ class TimePickerDialog : DialogFragment(), android.app.TimePickerDialog.OnTimeSe
     override fun setDialogButtonText(context: Context): ButtonText? =
         ButtonText.fromStringResource(
             context,
-            R.string.xui_dialog_picker_dialog_positive_button_text
+            R.string.xui_set
         )
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

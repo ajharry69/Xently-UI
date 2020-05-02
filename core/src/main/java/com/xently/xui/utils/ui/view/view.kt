@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.View.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
@@ -18,33 +19,32 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
-
 /**
- * Shows [views] by applying [View.VISIBLE] to every [View] in [views]
- * @param views Array of [View]s whose visibility is to be changed to [View.VISIBLE]
+ * Shows [views] by applying [VISIBLE] to every [View] in [views]
+ * @param views Array of [View]s whose visibility is to be changed to [VISIBLE]
  * (Shown)
  */
 fun showViews(vararg views: View?) = views.forEach {
-    if (it != null && !it.isVisible) it.visibility = View.VISIBLE
+    if (it != null && !it.isVisible) it.visibility = VISIBLE
 }
 
 /**
- * Hides [views] by applying [View.INVISIBLE] to each of them
+ * Hides [views] by applying [INVISIBLE] to each of them
  * @param views Array of [View]s to be hidden
  */
-fun hideViews(vararg views: View?) = views.forEach { view ->
+fun hideViewsPartially(vararg views: View?) = views.forEach { view ->
     view?.let {
-        if (it.isVisible) it.visibility = View.INVISIBLE
+        if (it.isVisible) it.visibility = INVISIBLE
     }
 }
 
 /**
- * Hides [views] by applying [View.GONE] to each of them
+ * Hides [views] by applying [GONE] to each of them
  * @param views Array of [View]s to be hidden
  */
-fun hideViewsCompletely(vararg views: View?) = views.forEach { view ->
+fun hideViews(vararg views: View?) = views.forEach { view ->
     view?.let {
-        if (it.isVisible) it.visibility = View.GONE
+        if (it.isVisible) it.visibility = GONE
     }
 }
 
@@ -91,21 +91,9 @@ fun showAndEnableViews(vararg views: View?) {
 }
 
 /**
- * Hides [this@hideCompletelyAndEnableViews] (applies [View.GONE]) and enable all [views]
- * @receiver this@hideCompletelyAndEnableViews: [View] to be hidden completely
+ * Hides [this@hideThenEnableViews] (applies [GONE]) and enable all [views]
+ * @receiver this@hideThenEnableViews: [View] to be hidden completely
  * @param views: Array of [View]s
- * @see hideViewsCompletely
- * @see enableViews
- */
-fun View?.hideCompletelyThenEnableViews(vararg views: View?) {
-    hideViewsCompletely(this)
-    enableViews(*views)
-}
-
-/**
- * Hides [this@hideAndEnableViews] (applies [View.INVISIBLE]) and enable all [views]
- * @receiver this@hideAndEnableViews: View to hide
- * @param views: Array of [View]s to be enabled
  * @see hideViews
  * @see enableViews
  */
@@ -114,16 +102,28 @@ fun View?.hideThenEnableViews(vararg views: View?) {
     enableViews(*views)
 }
 
-fun hideAndDisableViews(vararg views: View?) {
+/**
+ * Hides [this@hideAndEnableViews] (applies [INVISIBLE]) and enable all [views]
+ * @receiver this@hideAndEnableViews: View to hide
+ * @param views: Array of [View]s to be enabled
+ * @see hideViewsPartially
+ * @see enableViews
+ */
+fun View?.hidePartiallyThenEnableViews(vararg views: View?) {
+    hideViewsPartially(this)
+    enableViews(*views)
+}
+
+fun hidePartiallyAndDisableViews(vararg views: View?) {
     views.forEach {
-        hideViews(it)
+        hideViewsPartially(it)
         disableViews(it)
     }
 }
 
-fun hideAndEnableViews(vararg views: View?) {
+fun hidePartiallyAndEnableViews(vararg views: View?) {
     views.forEach {
-        hideViews(it)
+        hideViewsPartially(it)
         enableViews(it)
     }
 }
@@ -325,7 +325,7 @@ fun View.alternateViewVisibilityOnClick(view: View) {
 }
 
 fun View.alternateVisibility() {
-    if (isVisible) hideViewsCompletely(this) else showViews(this)
+    if (isVisible) hideViews(this) else showViews(this)
 }
 
 fun TextView.switchTextAndAlternateViewVisibilityOnClick(
@@ -363,8 +363,7 @@ fun hideKeyboard(view: View?): Boolean {
 }
 
 /**
- * Set's a click listener to [this@setOnClickListenerWithKeyboardHidden] that hides keyboard
- * then calls [onClick]
+ * Set's a click listener to [this@setClickListener] that hides keyboard then calls [onClick]
  * @see View.OnClickListener
  * @see hideKeyboard
  */

@@ -1,5 +1,9 @@
 package com.xently.xui.utils
 
+import androidx.recyclerview.widget.RecyclerView
+import com.xently.xui.utils.ListLoadEvent.Status
+import com.xently.xui.utils.RefreshEvent.State
+
 /**
  * Monitors and responds to list refresh/fetch(to some extend) based on [state] value
  * @param state refresh state can either be [State.STARTED], [State.ACTIVE] or [State.ENDED]
@@ -48,5 +52,31 @@ data class ListLoadEvent<T>(val status: Status, val data: List<T>? = null) {
          * initialized when status was reported
          */
         LOADED
+    }
+}
+
+data class RecyclerViewScrollEvent(val direction: Direction? = null, val state: State = State.IDLE) {
+
+    enum class Direction {
+        DOWN,
+        UP
+    }
+
+    enum class State {
+
+        /**
+         * @see RecyclerView.SCROLL_STATE_IDLE
+         */
+        IDLE,
+
+        /**
+         * @see RecyclerView.SCROLL_STATE_DRAGGING
+         */
+        DRAGGING,
+
+        /**
+         * @see RecyclerView.SCROLL_STATE_SETTLING
+         */
+        SETTLING
     }
 }

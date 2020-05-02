@@ -38,12 +38,12 @@
         android:id="@+id/dest_core_table_ui"
         android:name="com.xently.ui.demo.ui.core.table.TableUIFragment"
         android:label="Employees Table"
-        tools:layout="@layout/data_table_fragment" />
+        tools:layout="@layout/xui_data_table_fragment" />
     <fragment
         android:id="@+id/dest_core_list_ui"
         android:name="com.xently.ui.demo.ui.core.list.ListUIFragment"
         android:label="Employees"
-        tools:layout="@layout/list_fragment">
+        tools:layout="@layout/xui_list_fragment">
         <argument
             android:name="searchQuery"
             android:defaultValue="@null"
@@ -54,7 +54,7 @@
         android:id="@+id/dest_filtered_employee_list"
         android:name="com.xently.ui.demo.ui.core.list.filter.FilteredListFragment"
         android:label="Results"
-        tools:layout="@layout/list_fragment">
+        tools:layout="@layout/xui_list_fragment">
         <argument
             android:name="searchQuery"
             android:defaultValue="@null"

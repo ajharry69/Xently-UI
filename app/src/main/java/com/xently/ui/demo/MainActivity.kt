@@ -1,6 +1,7 @@
 package com.xently.ui.demo
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
@@ -15,7 +16,6 @@ import com.xently.ui.demo.ui.core.list.filter.FilteredListFragment
 import com.xently.ui.demo.ui.core.list.filter.FilteredListFragmentArgs
 import com.xently.xui.ListFragment
 import com.xently.xui.SearchableActivity
-import com.xently.xui.utils.Log
 
 class MainActivity : SearchableActivity() {
 
@@ -33,11 +33,7 @@ class MainActivity : SearchableActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment?
 
-        if (navHostFragment == null) Log.show(
-            LOG_TAG,
-            "Nav Host Fragment is null",
-            type = Log.Type.ERROR
-        ) else {
+        if (navHostFragment == null) Log.e(LOG_TAG, "Nav Host Fragment is null") else {
             controller = navHostFragment.navController
             configuration = AppBarConfiguration(setOf(R.id.dest_home))
             setupActionBarWithNavController(controller, configuration)
@@ -51,7 +47,7 @@ class MainActivity : SearchableActivity() {
         controller.navigateUp(configuration) || super.onSupportNavigateUp()
 
     override fun onSearchIntentReceived(query: String, metadata: Bundle?) {
-        Log.show(LOG_TAG, "Search Query: $query")
+        Log.d(LOG_TAG, "Search Query: $query")
 
         if (metadata == null) return
 

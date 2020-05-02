@@ -4,7 +4,7 @@
     <!-- Used to show search dialog -->
     <item
         android:id="@+id/menu_list_search"
-        android:icon="@drawable/ic_action_search"
+        android:icon="@drawable/xui_ic_action_search"
         android:orderInCategory="1"
         android:title="@string/xui_menu_list_search"
         app:showAsAction="ifRoom" />
@@ -20,7 +20,7 @@
 
     <item
         android:id="@+id/menu_list_refresh"
-        android:icon="@drawable/ic_action_refresh"
+        android:icon="@drawable/xui_ic_action_refresh"
         android:orderInCategory="15"
         android:title="@string/xui_menu_list_refresh"
         app:showAsAction="never" />

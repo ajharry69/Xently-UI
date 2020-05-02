@@ -4,7 +4,7 @@ import android.view.Gravity
 import android.widget.LinearLayout
 import com.evrencoskun.tableview.TableView
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder
-import com.xently.xui.databinding.DataTableCellBinding
+import com.xently.xui.databinding.XuiDataTableCellBinding
 import com.xently.xui.models.Cell
 import com.xently.xui.utils.getThemedColor
 
@@ -12,9 +12,10 @@ import com.xently.xui.utils.getThemedColor
  * Used to populate [TableView]
  */
 class CellViewHolder(
-    private val binding: DataTableCellBinding,
+    private val binding: XuiDataTableCellBinding,
     private val alignValuesCenter: Set<Int>,
-    private val alignValuesRight: Set<Int>
+    private val alignValuesRight: Set<Int>,
+    private val readOnly: Boolean = false
 ) : AbstractViewHolder(binding.root) {
 
     fun setTextViewData(model: Cell, columnPosition: Int) {
@@ -36,11 +37,12 @@ class CellViewHolder(
     }
 
     override fun setSelected(selectionState: SelectionState) {
+        if (readOnly) return
         super.setSelected(selectionState)
-        val cell = binding.cell
-        val context = cell.context
 
-        cell.setTextColor(getThemedColor(context, android.R.attr.textColorPrimary))
+        with(binding.cell) {
+            setTextColor(context.getThemedColor(android.R.attr.textColorPrimary))
+        }
     }
 }
 

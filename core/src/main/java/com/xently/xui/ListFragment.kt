@@ -7,10 +7,15 @@ import android.view.*
 import androidx.annotation.CallSuper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.xently.xui.databinding.ListFragmentBinding
+import androidx.recyclerview.widget.RecyclerView.*
+import com.xently.xui.databinding.XuiListFragmentBinding
+import com.xently.xui.utils.RecyclerViewScrollEvent
+import com.xently.xui.utils.RecyclerViewScrollEvent.Direction.DOWN
+import com.xently.xui.utils.RecyclerViewScrollEvent.Direction.UP
+import com.xently.xui.utils.RecyclerViewScrollEvent.State.*
 import com.xently.xui.utils.ui.ISearchParamsChange
 import com.xently.xui.utils.ui.fragment.IListFragment
-import com.xently.xui.utils.ui.view.hideViewsCompletely
+import com.xently.xui.utils.ui.view.hideViews
 import com.xently.xui.utils.ui.view.showAndEnableViews
 
 /**
@@ -18,33 +23,11 @@ import com.xently.xui.utils.ui.view.showAndEnableViews
  * common to list-displaying screen e.g. refreshing, showing loading progress, filtering, sorting
  * and showing "**NO DATA**" message when list is empty.
  *
- * ## THIS IS THE DEFAULT OPTIONS MENU LAYOUT INFLATED BY THIS CLASS
- *
- * ```xml
- * <?xml version="1.0" encoding="utf-8"?>
- * <menu xmlns:android="http://schemas.android.com/apk/res/android"
- * xmlns:app="http://schemas.android.com/apk/res-auto">
- * <!-- Used to show search dialog -->
- * <item
- * android:id="@+id/menu_list_search"
- * android:icon="@drawable/ic_action_search"
- * android:orderInCategory="1"
- * android:title="@string/xui_menu_list_search"
- * app:showAsAction="ifRoom" />
- *
- * <item
- * android:id="@+id/menu_list_refresh"
- * android:icon="@drawable/ic_action_refresh"
- * android:orderInCategory="12"
- * android:title="@string/xui_menu_list_refresh"
- * app:showAsAction="ifRoom|withText" />
- * </menu>
- * ```
- *
  * **N/B:** By default clicking a **Search** menu item launches a `Search Dialog` if you'd like to
- * instead launch a `SearchView` consider implementing a solution like in your [onCreateOptionsMenu]
+ * launch a `SearchView` instead, consider implementing a solution like below in your [onCreateOptionsMenu]
  * as described in [Developers Guide](https://developer.android.com/guide/topics/search/search-dialog#UsingSearchWidget):
  *
+ * 1. In [onCreateOptionsMenu]
  * ```kotlin
  * val searchManager = requireContext().getSystemService(Context.SEARCH_SERVICE) as SearchManager
  * (menu.findItem(R.id.menu_list_search).actionView as SearchView).apply {
@@ -54,14 +37,19 @@ import com.xently.xui.utils.ui.view.showAndEnableViews
  *      isQueryRefinementEnabled = true
  * }
  * ```
+ * 2. In [onOptionsItemSelected]
+ * ```kotlin
+ * // Prevents launching of SearchDialog that's done by default
+ * if(item.itemId == R.id.menu_list_search) return false
+ * ```
  * @see SearchableActivity
  */
-abstract class ListFragment<T> : SwipeRefreshFragment<T>(), IListFragment<T> {
+abstract class ListFragment<T> : RefreshFragment<T>(), IListFragment<T> {
 
     private var iSearchParamsChange: ISearchParamsChange? = null
 
-    private var _binding: ListFragmentBinding? = null
-    protected val binding: ListFragmentBinding by lazy { _binding!! }
+    private var _binding: XuiListFragmentBinding? = null
+    protected val binding: XuiListFragmentBinding by lazy { _binding!! }
 
     /**
      * used to identify the fragment(screen) from which search was initiated
@@ -86,7 +74,7 @@ abstract class ListFragment<T> : SwipeRefreshFragment<T>(), IListFragment<T> {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = ListFragmentBinding.inflate(inflater, container, false)
+        _binding = XuiListFragmentBinding.inflate(inflater, container, false)
         initRequiredViews()
         return binding.root
     }
@@ -109,7 +97,7 @@ abstract class ListFragment<T> : SwipeRefreshFragment<T>(), IListFragment<T> {
 
         with(binding.fab) {
             val fabClickListener = onFabClickListener(requireContext())
-            if (fabClickListener == null) hideViewsCompletely(this)
+            if (fabClickListener == null) hideViews(this)
             else showAndEnableViews(this)
             setOnClickListener(fabClickListener)
         }
@@ -155,10 +143,44 @@ abstract class ListFragment<T> : SwipeRefreshFragment<T>(), IListFragment<T> {
 
     protected open fun onFabClickListener(context: Context): View.OnClickListener? = null
 
-    protected open fun onCreateRecyclerView(recyclerView: RecyclerView): RecyclerView {
-        return recyclerView.apply {
+    /**
+     * Called when the inflated RecyclerView is scrolled or has a scroll state change
+     * @see RecyclerView.OnScrollListener
+     */
+    protected open fun onRecyclerViewScrollEvent(event: RecyclerViewScrollEvent) = Unit
+
+    protected open fun onCreateRecyclerView(rv: RecyclerView): RecyclerView {
+        return rv.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    val direction = if (dy > 0) DOWN else UP
+                    onRecyclerViewScrollEvent(RecyclerViewScrollEvent(direction))
+                    binding.fab.run {
+                        if (hasOnClickListeners()) {
+                            if (dy > 0 && isShown) hide() else if (dy < 0 && !isShown) show()
+                        }
+                    }
+                }
+
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    val state = when (newState) {
+                        SCROLL_STATE_IDLE -> {
+                            binding.fab.run {
+                                if (hasOnClickListeners()) if (!isShown) show()
+                            }
+                            IDLE
+                        }
+                        SCROLL_STATE_SETTLING -> SETTLING
+                        SCROLL_STATE_DRAGGING -> DRAGGING
+                        else -> IDLE
+                    }
+                    onRecyclerViewScrollEvent(RecyclerViewScrollEvent(state = state))
+                }
+            })
         }
     }
 

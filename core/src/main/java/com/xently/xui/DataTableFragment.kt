@@ -1,5 +1,6 @@
 package com.xently.xui
 
+import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
@@ -21,60 +22,35 @@ import com.evrencoskun.tableview.pagination.Pagination.OnTableViewPageTurnedList
 import com.evrencoskun.tableview.sort.SortState
 import com.xently.xui.adapters.table.ColumnHeaderViewHolder
 import com.xently.xui.adapters.table.DataTableAdapter
-import com.xently.xui.databinding.DataTableFragmentBinding
+import com.xently.xui.databinding.XuiDataTableFragmentBinding
+import com.xently.xui.models.TableConfig
 import com.xently.xui.utils.ListLoadEvent
-import com.xently.xui.utils.ListLoadEvent.Status.LOADED
+import com.xently.xui.utils.ListLoadEvent.Status.*
+import com.xently.xui.utils.RefreshEvent
+import com.xently.xui.utils.RefreshEvent.State.*
 import com.xently.xui.utils.getSharedPref
 import com.xently.xui.utils.getThemedColor
 import com.xently.xui.utils.ui.fragment.hideKeyboard
+import com.xently.xui.utils.ui.view.hideViews
+import com.xently.xui.utils.ui.view.showViews
+import com.xently.xui.utils.ui.view.useText
 import com.xently.xui.viewmodels.DataTableViewModel
 
 abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>) :
-    SwipeRefreshFragment<T>(), ITableViewListener, OnTableViewPageTurnedListener {
-
-    /**
-     * A set of column positions whose values should be aligned to the **CENTER** of the cell.
-     * Default alignment is to the **START** or **LEFT** of the cell. **0** is the position of the
-     * first column in the data-table
-     */
-    open val alignValuesCenter: Set<Int> = emptySet()
-
-    /**
-     * A set of column positions whose values should be aligned to the **RIGHT** of the cell.
-     * Default alignment is to the **START** or **LEFT** of the cell. **0** is the position of the
-     * first column in the data-table
-     */
-    open val alignValuesRight: Set<Int> = emptySet()
-
-    /**
-     * Do not show column at position provided. **0** is the position of the first column in the
-     * data-table
-     */
-    open val hideColumnAtPosition: Int? = null
-
-    /**
-     * Setup/initialize data table sorted in [defaultSortOrder] order using values at column index
-     * provided. **0** is the position of the first column in the data-table
-     */
-    open val defaultSortColumnPosition: Int? = null
-
-    /**
-     * Sort order to use when sorting table column at [defaultSortColumnPosition]
-     */
-    open val defaultSortOrder: SortState = SortState.ASCENDING
+    RefreshFragment<T>(), ITableViewListener, OnTableViewPageTurnedListener {
 
     /**
      * Retrieves **stored** value for default sort column
      */
-    val savedDefaultSortColumnPosition: Int?
-        get() {
-            val inAcceptable = Int.MIN_VALUE
-            val pref =
-                prefColumnSortState.getInt(this@DataTableFragment::class.java.name, inAcceptable)
-            // Do not accept the default value as saved sort column position
-            if (pref == inAcceptable) return null
-            return pref
-        }
+    @Suppress("UNUSED_PARAMETER")
+    fun getSavedDefaultSortColumnPosition(context: Context): Int? {
+        val inAcceptable = Int.MIN_VALUE
+        val pref =
+            prefColumnSortState.getInt(this::class.java.name, inAcceptable)
+        // Do not accept the default value as saved sort column position
+        if (pref == inAcceptable) return null
+        return pref
+    }
 
     var pagination: Pagination? = null
         @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE) set
@@ -86,19 +62,21 @@ abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>
     private val sortColumnPositionPrefValueKey = "sort_column_position"
     private var clickedDataTableColumnPosition: Int? = null
     private var columnHeaderViewHolder: ColumnHeaderViewHolder? = null
+    private var tableConfig: TableConfig = TableConfig()
 
     protected val tableAdapter: DataTableAdapter<T> by lazy {
-        DataTableAdapter(requireContext(), viewModel, alignValuesCenter, alignValuesRight)
+        DataTableAdapter(requireContext(), viewModel, tableConfig)
     }
 
-    private var _binding: DataTableFragmentBinding? = null
-    protected val binding: DataTableFragmentBinding
+    private var _binding: XuiDataTableFragmentBinding? = null
+    protected val binding: XuiDataTableFragmentBinding
         get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         prefColumnSortState = getSharedPref(requireContext(), "DATA_TABLE_SORT_COLUMN_ASCENDING")
+        tableConfig = getTableConfig(requireContext())
     }
 
     override fun onCreateView(
@@ -106,7 +84,11 @@ abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = DataTableFragmentBinding.inflate(inflater, container, false)
+        _binding = XuiDataTableFragmentBinding.inflate(inflater, container, false).apply {
+            with(dataTable) {
+                if (tableConfig.readOnly) hideViews(headerContainer, footerContainer)
+            }
+        }
         initRequiredViews()
         return binding.root
     }
@@ -136,19 +118,19 @@ abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>
         with(tableBinding.table) {
             adapter = tableAdapter
             tableViewListener = this@DataTableFragment
-            if (hideColumnAtPosition != null) hideColumn(hideColumnAtPosition!!)
-            if (defaultSortColumnPosition != null) {
-                val sortCol = defaultSortColumnPosition ?: return@with
-                sortColumn(sortCol, defaultSortOrder)
+            if (tableConfig.hideColumnAtPosition != null) hideColumn(tableConfig.hideColumnAtPosition!!)
+            val sortCol = tableConfig.defaultSortColumnPosition
+            if (sortCol != null) {
+                sortColumn(sortCol, tableConfig.defaultSortOrder)
                 setAsPreviousSortColumn(sortCol)
             }
         }
 
-        binding.swipeRefresh.apply {
-            setOnRefreshListener(onRefreshListener)
-        }
-
-        pagination = Pagination(tableBinding.table, dataTablePageCount, this)
+        pagination = if (tableConfig.readOnly) null else Pagination(
+            tableBinding.table,
+            dataTablePageCount,
+            this
+        )
         tableBinding.previous.setOnClickListener {
             pagination?.previousPage()
         }
@@ -189,7 +171,7 @@ abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>
 
         with(tableBinding.pageSize) {
             background.colorFilter = PorterDuffColorFilter(
-                getThemedColor(context, R.attr.colorControlNormal),
+                context.getThemedColor(R.attr.colorControlNormal),
                 PorterDuff.Mode.SRC_ATOP
             )
             // Create an ArrayAdapter using the string array and a default spinner layout
@@ -235,28 +217,56 @@ abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>
     }
 
     override fun onListLoadEvent(event: ListLoadEvent<T>) {
+        val swipeRefresh = binding.swipeRefresh
         when (event.status) {
-            LOADED -> {
-                super.onListLoadEvent(event)
-                val data = event.data ?: emptyList()
-                totalEntries = data.size
-                tableAdapter.submitList(data)
+            NULL -> {
+                onRefreshEvent(RefreshEvent(STARTED))
+                hideViews(statusContainer)
+                showViews(swipeRefresh)
             }
-            else -> super.onListLoadEvent(event)
+            EMPTY -> {
+                onRefreshEvent()
+                hideViews(swipeRefresh)
+                showViews(statusContainer)
+            }
+            LOADED -> {
+                onRefreshEvent()
+                hideViews(statusContainer)
+                showViews(swipeRefresh)
+                with(event.data ?: emptyList()) {
+                    totalEntries = size
+                    tableAdapter.submitList(this)
+                }
+            }
+        }
+    }
+
+    override fun onRefreshEvent(event: RefreshEvent) {
+        val pb = binding.dataTable.progressBar
+        when (event.state) {
+            STARTED -> {
+                showViews(pb)
+                onRefreshRequested(event.forced)
+            }
+            ACTIVE -> showViews(pb)
+            ENDED -> hideViews(pb)
         }
     }
 
     override fun onPageTurned(numItems: Int, itemsStart: Int, itemsEnd: Int) {
         paginateFrom = itemsStart + 1
         paginateTo = itemsEnd + 1
-        binding.dataTable.footer.text = getString(
-            R.string.xui_data_table_shown_entries,
-            paginateFrom,
-            paginateTo,
-            totalEntries
-        )
-        binding.dataTable.page.text =
-            Editable.Factory.getInstance().newEditable("${pagination?.currentPage}")
+        binding.dataTable.run {
+            footer.useText(
+                getString(
+                    R.string.xui_data_table_shown_entries,
+                    paginateFrom,
+                    paginateTo,
+                    totalEntries
+                )
+            )
+            page.useText("${pagination?.currentPage}")
+        }
     }
 
     override fun onCellLongPressed(p0: RecyclerView.ViewHolder, p1: Int, p2: Int) = Unit
@@ -266,9 +276,8 @@ abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>
     override fun onRowHeaderClicked(p0: RecyclerView.ViewHolder, p1: Int) = Unit
 
     override fun onColumnHeaderClicked(p0: RecyclerView.ViewHolder, p1: Int) {
-
+        if (tableConfig.readOnly) return
         columnHeaderViewHolder = (p0 as ColumnHeaderViewHolder?)?.getViewHolderAtPosition(p1)
-
         clickedDataTableColumnPosition = p1
 
         val sortAscendingPrefValueKey = "sort_ascending"
@@ -307,8 +316,10 @@ abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>
 
     override fun onRowHeaderLongPressed(p0: RecyclerView.ViewHolder, p1: Int) = Unit
 
+    open fun getTableConfig(context: Context) =
+        TableConfig().copy(defaultSortColumnPosition = getSavedDefaultSortColumnPosition(context))
+
     private fun initRequiredViews() {
-        swipeRefresh = binding.swipeRefresh
         statusContainer = binding.errorContainer
     }
 
@@ -316,15 +327,15 @@ abstract class DataTableFragment<T>(private val viewModel: DataTableViewModel<T>
      * Reset previous sort column to its original state
      */
     private fun resetPreviousSortColumnState(viewHolder: RecyclerView.ViewHolder, column: Int) {
-        val savedSortColumnPosition: Int = prefColumnSortState.getInt(
+        val savedSortColumn: Int = prefColumnSortState.getInt(
             sortColumnPositionPrefValueKey,
-            defaultSortColumnPosition ?: column
+            tableConfig.defaultSortColumnPosition ?: column
         )
 
-        if (savedSortColumnPosition != column || column != defaultSortColumnPosition) {
+        if (savedSortColumn != column || column != tableConfig.defaultSortColumnPosition) {
             // Position is for previous sort column. Hide it's sort icon button
             if (viewHolder is ColumnHeaderViewHolder) viewHolder.getViewHolderAtPosition(
-                savedSortColumnPosition
+                savedSortColumn
             )?.hideSortIcon()
         }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="refresh_button_size">40dp</dimen>
-    <dimen name="refresh_icon_dimen">@dimen/xui_menu_icon_width</dimen>
+    <dimen name="xui_refresh_button_size">40dp</dimen>
+    <dimen name="xui_refresh_icon_dimen">@dimen/xui_menu_icon_width</dimen>
 
     <dimen name="xui_data_table_cell_padding">8dp</dimen>
     <dimen name="xui_data_table_column_header_height">35dp</dimen>
@@ -23,5 +23,5 @@
     <dimen name="xui_data_table_header_footer_icons_height">30dp</dimen>
     <dimen name="xui_data_table_header_footer_text_size">16sp</dimen>
     <dimen name="xui_no_data_text_size">18sp</dimen>
-    <dimen name="footer_views_container_padding">8dp</dimen>
+    <dimen name="xui_footer_views_container_padding">8dp</dimen>
 </resources>

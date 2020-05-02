@@ -9,12 +9,13 @@ import com.evrencoskun.tableview.TableView
 import com.evrencoskun.tableview.adapter.AbstractTableAdapter
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractViewHolder
 import com.xently.xui.R
-import com.xently.xui.databinding.DataTableCellBinding
-import com.xently.xui.databinding.DataTableColumnHeaderBinding
-import com.xently.xui.databinding.DataTableRowHeaderBinding
+import com.xently.xui.databinding.XuiDataTableCellBinding
+import com.xently.xui.databinding.XuiDataTableColumnHeaderBinding
+import com.xently.xui.databinding.XuiDataTableRowHeaderBinding
 import com.xently.xui.models.Cell
 import com.xently.xui.models.ColumnHeader
 import com.xently.xui.models.RowHeader
+import com.xently.xui.models.TableConfig
 import com.xently.xui.viewmodels.DataTableViewModel
 
 /**
@@ -23,11 +24,10 @@ import com.xently.xui.viewmodels.DataTableViewModel
 class DataTableAdapter<T>(
     private val context: Context,
     private val viewModel: DataTableViewModel<T>,
-    private val alignValuesCenter: Set<Int> = emptySet(),
-    private val alignValuesRight: Set<Int> = emptySet()
+    private val tableConfig: TableConfig = TableConfig()
 ) : AbstractTableAdapter<ColumnHeader, RowHeader, Cell>() {
 
-    fun <L : List<T>> submitList(list: L) {
+    fun submitList(list: Iterable<T>) {
         setAllItems(
             viewModel.columnHeaderData(context),
             viewModel.rowHeaderData(context, list),
@@ -39,11 +39,11 @@ class DataTableAdapter<T>(
         parent: ViewGroup,
         viewType: Int
     ): AbstractViewHolder = ColumnHeaderViewHolder(
-        DataTableColumnHeaderBinding.inflate(
+        XuiDataTableColumnHeaderBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
-        ), tableView
+        ), tableView, tableConfig.readOnly
     )
 
     override fun onBindColumnHeaderViewHolder(
@@ -59,11 +59,12 @@ class DataTableAdapter<T>(
 
     override fun onCreateRowHeaderViewHolder(parent: ViewGroup, viewType: Int): AbstractViewHolder =
         RowHeaderViewHolder(
-            DataTableRowHeaderBinding.inflate(
+            XuiDataTableRowHeaderBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
+            ),
+            tableConfig.readOnly
         )
 
     override fun onBindRowHeaderViewHolder(
@@ -71,20 +72,18 @@ class DataTableAdapter<T>(
         rowHeaderItemModel: RowHeader?,
         rowPosition: Int
     ) {
-        val rh: RowHeaderViewHolder = holder as RowHeaderViewHolder? ?: return
         val model: RowHeader = rowHeaderItemModel ?: return
-
-        rh.setTextViewData(model)
+        (holder as? RowHeaderViewHolder)?.setTextViewData(model)
     }
 
     override fun onCreateCellViewHolder(parent: ViewGroup, viewType: Int): AbstractViewHolder =
         CellViewHolder(
-            DataTableCellBinding.inflate(
+            XuiDataTableCellBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
             ),
-            alignValuesCenter, alignValuesRight
+            tableConfig.alignValuesCenter, tableConfig.alignValuesRight, tableConfig.readOnly
         )
 
     override fun onBindCellViewHolder(
@@ -93,15 +92,13 @@ class DataTableAdapter<T>(
         columnPosition: Int,
         rowPosition: Int
     ) {
-        val ch: CellViewHolder = holder as CellViewHolder? ?: return
         val model: Cell = cellItemModel ?: return
-
-        ch.setTextViewData(model, columnPosition)
+        (holder as? CellViewHolder)?.setTextViewData(model, columnPosition)
     }
 
     @SuppressLint("InflateParams")
     override fun onCreateCornerView(parent: ViewGroup): View = LayoutInflater.from(context)
-        .inflate(R.layout.data_table_corner, null, false)
+        .inflate(R.layout.xui_data_table_corner, null, false)
 
     override fun getCellItemViewType(position: Int): Int = 0
 

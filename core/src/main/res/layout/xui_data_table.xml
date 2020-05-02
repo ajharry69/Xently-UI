@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:id="@+id/header_container"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		app:layout_constraintBottom_toTopOf="@id/table"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent">
+
+		<androidx.constraintlayout.widget.ConstraintLayout
+			android:id="@+id/page_size_container"
+			android:layout_width="wrap_content"
+			android:layout_height="0dp"
+			android:layout_marginStart="@dimen/xui_data_table_cell_padding"
+			android:layout_marginLeft="@dimen/xui_data_table_cell_padding"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toStartOf="@id/page_container"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent">
+
+			<TextView
+				android:id="@+id/page_size_prefix"
+				android:layout_width="wrap_content"
+				android:layout_height="0dp"
+				android:gravity="center_vertical|start"
+				android:maxLines="1"
+				android:singleLine="true"
+				android:text="@string/xui_data_table_show"
+				android:textAlignment="gravity"
+				android:textSize="@dimen/xui_data_table_header_footer_text_size"
+				android:textStyle="bold"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toStartOf="@id/page_size"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent" />
+
+			<Spinner
+				android:id="@+id/page_size"
+				android:layout_width="wrap_content"
+				android:layout_height="0dp"
+				android:entries="@array/xui_data_table_page_size_entries"
+				app:backgroundTint="?attr/colorControlNormal"
+				app:layout_constraintBottom_toBottomOf="@id/page_size_prefix"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toEndOf="@id/page_size_prefix"
+				app:layout_constraintTop_toTopOf="@id/page_size_prefix" />
+		</androidx.constraintlayout.widget.ConstraintLayout>
+
+		<androidx.constraintlayout.widget.ConstraintLayout
+			android:id="@+id/page_container"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			app:layout_constraintBottom_toBottomOf="@id/page_size_container"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toEndOf="@id/page_size_container"
+			app:layout_constraintTop_toTopOf="@id/page_size_container">
+
+			<TextView
+				android:id="@+id/page_prefix"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				android:gravity="end|center_vertical"
+				android:maxLines="1"
+				android:singleLine="true"
+				android:text="@string/xui_data_table_goto_page"
+				android:textAlignment="textEnd"
+				android:textSize="@dimen/xui_data_table_header_footer_text_size"
+				android:textStyle="bold"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toStartOf="@id/page"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent" />
+
+			<EditText
+				android:id="@+id/page"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:cursorVisible="false"
+				android:gravity="center"
+				android:hint="@string/xui_zero"
+				android:imeOptions="actionGo"
+				android:importantForAutofill="no"
+				android:inputType="number"
+				android:maxLines="1"
+				android:padding="@dimen/xui_data_table_cell_padding"
+				android:selectAllOnFocus="true"
+				android:singleLine="true"
+				android:textAlignment="gravity"
+				app:layout_constraintBottom_toBottomOf="@id/page_prefix"
+				app:layout_constraintEnd_toStartOf="@id/submit_page"
+				app:layout_constraintStart_toEndOf="@id/page_prefix"
+				app:layout_constraintTop_toTopOf="@id/page_prefix" />
+
+			<androidx.appcompat.widget.AppCompatImageButton
+				android:id="@+id/submit_page"
+				android:layout_width="@dimen/xui_data_table_header_footer_icons_height"
+				android:layout_height="wrap_content"
+				android:adjustViewBounds="true"
+				android:background="@color/xui_colorTransparent"
+				android:contentDescription="@string/xui_data_table_goto_page"
+				android:scaleType="fitXY"
+				app:layout_constraintBottom_toBottomOf="@id/page"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toEndOf="@id/page"
+				app:layout_constraintTop_toTopOf="@id/page"
+				app:srcCompat="@drawable/xui_ic_action_forward"
+				app:tint="?attr/colorControlNormal" />
+		</androidx.constraintlayout.widget.ConstraintLayout>
+	</androidx.constraintlayout.widget.ConstraintLayout>
+
+	<ProgressBar
+		android:id="@+id/progress_bar"
+		style="?android:attr/progressBarStyleHorizontal"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:indeterminate="true"
+		android:visibility="gone"
+		app:layout_constraintBottom_toTopOf="@id/table"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/header_container"
+		tools:visibility="visible" />
+
+	<com.evrencoskun.tableview.TableView
+		android:id="@+id/table"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		app:column_header_height="@dimen/xui_data_table_column_header_height"
+		app:layout_constraintBottom_toTopOf="@id/footer_container"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/header_container"
+		app:row_header_width="@dimen/xui_data_table_row_header_width"
+		app:selected_color="?attr/colorControlNormal"
+		app:separator_color="?attr/colorOnBackground"
+		app:shadow_color="?attr/colorControlNormal"
+		app:unselected_color="?android:attr/colorBackground" />
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:id="@+id/footer_container"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:padding="@dimen/xui_footer_views_container_padding"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/table">
+
+		<androidx.appcompat.widget.AppCompatImageButton
+			android:id="@+id/previous"
+			android:layout_width="wrap_content"
+			android:layout_height="@dimen/xui_data_table_header_footer_icons_height"
+			android:adjustViewBounds="true"
+			android:background="@color/xui_colorTransparent"
+			android:contentDescription="@string/xui_data_table_button_previous"
+			android:scaleType="fitXY"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toStartOf="@id/footer"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			app:srcCompat="@drawable/xui_ic_action_previous"
+			app:tint="?attr/colorControlNormal" />
+
+		<TextView
+			android:id="@+id/footer"
+			android:layout_width="0dp"
+			android:layout_height="0dp"
+			android:gravity="center_horizontal|center_vertical"
+			android:text="@string/xui_data_table_shown_entries"
+			android:textAlignment="gravity"
+			android:textSize="@dimen/xui_data_table_header_footer_text_size"
+			android:textStyle="bold"
+			app:layout_constraintBottom_toBottomOf="@id/previous"
+			app:layout_constraintEnd_toStartOf="@id/next"
+			app:layout_constraintStart_toEndOf="@id/previous"
+			app:layout_constraintTop_toTopOf="@id/previous"
+			tools:text="1 to 10 of 80 entries" />
+
+		<androidx.appcompat.widget.AppCompatImageButton
+			android:id="@+id/next"
+			android:layout_width="wrap_content"
+			android:layout_height="@dimen/xui_data_table_header_footer_icons_height"
+			android:adjustViewBounds="true"
+			android:background="@color/xui_colorTransparent"
+			android:contentDescription="@string/xui_data_table_button_next"
+			android:scaleType="fitXY"
+			android:text="@string/xui_data_table_button_next"
+			app:layout_constraintBottom_toBottomOf="@id/footer"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toEndOf="@id/footer"
+			app:layout_constraintTop_toTopOf="@id/footer"
+			app:srcCompat="@drawable/xui_ic_action_next"
+			app:tint="?attr/colorControlNormal" />
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

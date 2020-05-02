@@ -10,11 +10,19 @@ fun Fragment.showSnackBar(
     message: String,
     duration: Int = Snackbar.LENGTH_SHORT, actionButtonText: String? = null,
     actionButtonClick: ((snackBar: Snackbar) -> Unit)? = null
-) = showSnackBar(requireView(), message, duration, actionButtonText, actionButtonClick)
+): Snackbar? = try {
+    showSnackBar(requireView(), message, duration, actionButtonText, actionButtonClick)
+} catch (ex: Exception) {
+    null
+}
 
 @JvmOverloads
 fun Fragment.showSnackBar(
     @StringRes message: Int,
     duration: Int = Snackbar.LENGTH_SHORT, actionButtonText: String? = null,
     actionButtonClick: ((snackBar: Snackbar) -> Unit)? = null
-) = showSnackBar(requireView(), message, duration, actionButtonText, actionButtonClick)
+): Snackbar? = try {
+    showSnackBar(requireView(), message, duration, actionButtonText, actionButtonClick)
+} catch (ex: Exception) {
+    null
+}

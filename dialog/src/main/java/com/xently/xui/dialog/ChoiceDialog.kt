@@ -6,7 +6,7 @@ import androidx.annotation.ArrayRes
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.xently.dialog.ChoiceDialogParams
+import com.xently.xui.dialog.utils.ChoiceDialogParams
 
 /**
  * @see DialogFragment

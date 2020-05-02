@@ -1,4 +1,4 @@
-package com.xently.dialog
+package com.xently.xui.dialog.utils
 
 import android.content.Context
 import android.os.Parcel

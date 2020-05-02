@@ -14,7 +14,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 import com.xently.xui.utils.Log.Type.*
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-object Log {
+internal object Log {
     enum class Type {
         ASSERT,
         DEBUG,
@@ -98,12 +98,12 @@ object Log {
  * Creates and or Returns a [SharedPreferences] by the name [name] in [Context.MODE_PRIVATE]
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-fun getSharedPref(context: Context, name: String): SharedPreferences =
+internal fun getSharedPref(context: Context, name: String): SharedPreferences =
     context.getSharedPreferences(name, Context.MODE_PRIVATE)
 
 @ColorInt
-fun getThemedColor(context: Context, @AttrRes themeResId: Int): Int {
-    val a = context.obtainStyledAttributes(null, intArrayOf(themeResId))
+fun Context.getThemedColor(@AttrRes themeResId: Int): Int {
+    val a = obtainStyledAttributes(null, intArrayOf(themeResId))
     try {
         return a.getColor(0, 9)
     } finally {
@@ -112,11 +112,37 @@ fun getThemedColor(context: Context, @AttrRes themeResId: Int): Int {
 }
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-fun tintDrawable(drawable: Drawable, @ColorInt tint: Int): Drawable {
-    return DrawableCompat.wrap(drawable).mutate().apply {
+fun Drawable.tintDrawable(@ColorInt tint: Int): Drawable {
+    return DrawableCompat.wrap(this).mutate().apply {
         setTint(tint)
     }
 }
 
-fun isDarkTheme(context: Context): Boolean = context.resources.configuration.uiMode and
+fun Context.isDarkTheme(): Boolean = resources.configuration.uiMode and
         Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
+
+@JvmOverloads
+fun <T, M> Iterable<T>.merge(l1: List<M>, shuffle: Boolean = true): List<Any> =
+    arrayListOf<Any>().apply {
+        this@merge.forEach {
+            add(it as Any)
+        }
+        if (l1.isEmpty()) return this@apply
+        if (shuffle) {
+            val offset = size / l1.size + 1
+            var index = 0
+            for (ad in l1) {
+                add(index, ad as Any)
+                index += offset
+            }
+        } else {
+            l1.forEach {
+                add(it as Any)
+            }
+        }
+    }
+
+operator fun <T, M> Iterable<T>.plus(l1: Iterable<M>): List<Any> = arrayListOf<Any>().apply {
+    this@plus.forEach { add(it as Any) }
+    l1.forEach { add(it as Any) }
+}

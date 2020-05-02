@@ -2,6 +2,7 @@ package com.xently.xui.adapters.list
 
 import androidx.recyclerview.widget.RecyclerView
 
+@Suppress("MemberVisibilityCanBePrivate")
 abstract class LegacyListAdapter<M, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>() {
 
     private var list: Iterable<M> = emptyList()

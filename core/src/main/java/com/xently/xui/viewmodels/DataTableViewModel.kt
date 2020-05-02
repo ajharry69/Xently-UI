@@ -11,7 +11,7 @@ abstract class DataTableViewModel<T> {
      *
      * **N/B:** Number of cells per row should equal number of columns returned by [columnHeaderData]
      */
-    abstract fun rowCellsData(context: Context, list: List<T>): List<List<Cell>>
+    abstract fun rowCellsData(context: Context, list: Iterable<T>): List<List<Cell>>
 
     /**
      * Used to name(title) table columns
@@ -21,6 +21,7 @@ abstract class DataTableViewModel<T> {
     /**
      * Used to name(title) rows
      */
-    open fun rowHeaderData(context: Context, list: List<T>): List<RowHeader> =
-        list.mapIndexed { i, _ -> RowHeader("${i + 1}") }
+    open fun rowHeaderData(context: Context, list: Iterable<T>) = list.mapIndexed { i, _ ->
+        RowHeader("${i + 1}")
+    }
 }

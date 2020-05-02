@@ -3,7 +3,7 @@ package com.xently.xui.dialog
 import android.app.Dialog
 import androidx.annotation.DrawableRes
 import androidx.annotation.StyleRes
-import com.xently.dialog.DialogParams
+import com.xently.xui.dialog.utils.DialogParams
 
 /**
  * @see DialogFragment

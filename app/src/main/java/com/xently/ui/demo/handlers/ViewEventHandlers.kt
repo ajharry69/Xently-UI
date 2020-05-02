@@ -2,10 +2,6 @@ package com.xently.ui.demo.handlers
 
 import android.content.Context
 import androidx.fragment.app.FragmentManager
-import com.xently.dialog.ButtonText
-import com.xently.dialog.ChoiceDialogParams
-import com.xently.dialog.DateTimePickerParams
-import com.xently.dialog.DialogParams
 import com.xently.ui.demo.R
 import com.xently.ui.demo.ui.dialog.DialogUIFragment.Companion.ANOTHER_MESSAGE_DIALOG_TAG
 import com.xently.ui.demo.ui.dialog.DialogUIFragment.Companion.CUSTOM_DIALOG_TAG
@@ -24,6 +20,10 @@ import com.xently.xui.dialog.ChoiceDialog.ItemSelectedListener
 import com.xently.xui.dialog.DatePickerDialog.DateSetListener
 import com.xently.xui.dialog.DialogFragment.ButtonClickListener
 import com.xently.xui.dialog.TimePickerDialog.TimeSetListener
+import com.xently.xui.dialog.utils.ButtonText
+import com.xently.xui.dialog.utils.ChoiceDialogParams
+import com.xently.xui.dialog.utils.DateTimePickerParams
+import com.xently.xui.dialog.utils.DialogParams
 
 class ViewEventHandlers(
     private val context: Context,

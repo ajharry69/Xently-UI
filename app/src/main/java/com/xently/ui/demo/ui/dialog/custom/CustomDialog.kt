@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.xently.dialog.ButtonText
 import com.xently.ui.demo.R
 import com.xently.xui.dialog.DialogFragment
+import com.xently.xui.dialog.utils.ButtonText
 
 class CustomDialog : DialogFragment() {
 

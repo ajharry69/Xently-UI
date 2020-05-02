@@ -11,7 +11,7 @@ import android.view.*
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.xently.dialog.ButtonText
+import com.xently.xui.dialog.utils.ButtonText
 
 /**
  * With this class overridden, there is no need of calling [onCreateDialog] again. In case the
@@ -443,6 +443,42 @@ open class DialogFragment : androidx.fragment.app.DialogFragment() {
     private fun setDialogMessage(context: Context) {
         if (dialogMessage == null) dialogMessage =
             dialogMessageFromResource?.let { context.getString(it) }
+    }
+
+    open class Factory {
+        private var launchMode: LaunchMode = defaultLaunchMode
+        private var animation: Int? = null
+        private var title: String? = null
+
+        fun setLaunchMode(mode: LaunchMode): Factory {
+            launchMode = mode
+            return this
+        }
+
+        fun setAnimation(@StyleRes anim: Int): Factory {
+            animation = anim
+            return this
+        }
+
+        fun setTitle(title: String): Factory {
+            this.title = title
+            return this
+        }
+
+        fun setTitle(context: Context, @StringRes title: Int, vararg format: Any): Factory {
+            this.title = context.getString(title, *format)
+            return this
+        }
+
+        protected  fun <T : DialogFragment> T.init() {
+            launchMode = this@Factory.launchMode
+            dialogAnimationFromResource = this@Factory.animation
+            dialogTitle = this@Factory.title
+        }
+
+        fun create() = DialogFragment().apply {
+            init()
+        }
     }
 
     companion object {

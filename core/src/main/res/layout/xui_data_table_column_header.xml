@@ -39,7 +39,7 @@
             android:contentDescription="@string/xui_content_desc_sort"
             android:scaleType="fitXY"
             android:visibility="gone"
-            app:srcCompat="@drawable/ic_action_arrow_down"
+            app:srcCompat="@drawable/xui_ic_action_arrow_down"
             tools:ignore="RtlSymmetry" />
     </LinearLayout>
 

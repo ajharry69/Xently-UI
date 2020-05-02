@@ -2,8 +2,8 @@ package com.xently.xui.utils.ui.fragment
 
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
-import com.xently.dialog.ButtonText
-import com.xently.dialog.DialogParams
+import com.xently.xui.dialog.utils.ButtonText
+import com.xently.xui.dialog.utils.DialogParams
 import com.xently.xui.R
 import com.xently.xui.dialog.MessageDialog
 
@@ -16,7 +16,7 @@ fun Fragment.onCreateDeletionDialog(message: String): MessageDialog {
                 getString(R.string.xui_delete_dialog_neg_btn)
             )
         ),
-        icon = R.drawable.ic_action_warning
+        icon = R.drawable.xui_ic_action_warning
     )
 }
 

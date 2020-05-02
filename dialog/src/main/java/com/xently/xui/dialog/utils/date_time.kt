@@ -6,7 +6,7 @@ import androidx.annotation.RestrictTo
  * Contains properties and methods that returns date formatting [String]s
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-object DateFormat {
+internal object DateFormat {
 
     /**
      * Time in HH:mm

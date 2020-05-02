@@ -11,7 +11,7 @@ import com.xently.xui.models.ColumnHeader
 import com.xently.xui.viewmodels.DataTableViewModel
 
 class EmployeeTableViewModel : DataTableViewModel<Employee>() {
-    override fun rowCellsData(context: Context, list: List<Employee>): List<List<Cell>> {
+    override fun rowCellsData(context: Context, list: Iterable<Employee>): List<List<Cell>> {
         return list.mapIndexed { index, employee ->
             val dataId = index + 1 + employee.id
             arrayListOf(

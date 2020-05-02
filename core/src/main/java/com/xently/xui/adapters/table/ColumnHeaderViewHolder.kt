@@ -1,7 +1,6 @@
 package com.xently.xui.adapters.table
 
 import android.view.Gravity
-import android.view.View
 import android.widget.LinearLayout
 import com.evrencoskun.tableview.ITableView
 import com.evrencoskun.tableview.TableView
@@ -10,17 +9,20 @@ import com.evrencoskun.tableview.sort.SortState
 import com.evrencoskun.tableview.sort.SortState.ASCENDING
 import com.evrencoskun.tableview.sort.SortState.DESCENDING
 import com.xently.xui.R
-import com.xently.xui.databinding.DataTableColumnHeaderBinding
+import com.xently.xui.databinding.XuiDataTableColumnHeaderBinding
 import com.xently.xui.models.ColumnHeader
 import com.xently.xui.utils.getThemedColor
+import com.xently.xui.utils.ui.view.hideViews
+import com.xently.xui.utils.ui.view.showViews
 import java.util.*
 
 /**
  * Used to populate [TableView]
  */
 class ColumnHeaderViewHolder(
-    private val binding: DataTableColumnHeaderBinding,
-    private val iTableView: ITableView
+    private val binding: XuiDataTableColumnHeaderBinding,
+    private val iTableView: ITableView,
+    private val readOnly: Boolean = false
 ) : AbstractSorterViewHolder(binding.root) {
 
     val title: String? get() = binding.data.text.toString().toUpperCase(Locale.getDefault())
@@ -36,32 +38,35 @@ class ColumnHeaderViewHolder(
     }
 
     fun onSortRequested() {
-        binding.sort.setOnClickListener {
-            when (sortState) {
-                ASCENDING -> iTableView.sortColumn(adapterPosition, ASCENDING)
-                DESCENDING -> iTableView.sortColumn(adapterPosition, DESCENDING)
-                else -> iTableView.sortColumn(adapterPosition, DESCENDING)
+        if (!readOnly) {
+            binding.sort.setOnClickListener {
+                when (sortState) {
+                    ASCENDING -> iTableView.sortColumn(adapterPosition, ASCENDING)
+                    DESCENDING -> iTableView.sortColumn(adapterPosition, DESCENDING)
+                    else -> iTableView.sortColumn(adapterPosition, DESCENDING)
+                }
             }
         }
     }
 
     fun hideSortIcon() {
-        binding.sort.visibility = View.GONE
+        hideViews(binding.sort)
     }
 
     fun getViewHolderAtPosition(position: Int): ColumnHeaderViewHolder? =
         iTableView.columnHeaderRecyclerView.findViewHolderForAdapterPosition(position) as ColumnHeaderViewHolder?
 
     override fun setSelected(selectionState: SelectionState) {
+        if (readOnly) return
         super.setSelected(selectionState)
 
-        val data = binding.data
-        val context = data.context
-
-        data.setTextColor(getThemedColor(context, android.R.attr.textColorPrimary))
+        with(binding.data) {
+            setTextColor(context.getThemedColor(android.R.attr.textColorPrimary))
+        }
     }
 
     override fun onSortingStatusChanged(pSortState: SortState) {
+        if (readOnly) return
         super.onSortingStatusChanged(pSortState)
 
         // It is necessary to remeasure itself.
@@ -77,23 +82,27 @@ class ColumnHeaderViewHolder(
         when (state) {
             ASCENDING -> {
                 with(binding.sort) {
-                    visibility = View.VISIBLE
-                    setImageResource(R.drawable.ic_action_arrow_up)
+                    showViews(this)
+                    setImageResource(R.drawable.xui_ic_action_arrow_up)
                 }
             }
             DESCENDING -> {
                 with(binding.sort) {
-                    visibility = View.VISIBLE
-                    setImageResource(R.drawable.ic_action_arrow_down)
+                    showViews(this)
+                    setImageResource(R.drawable.xui_ic_action_arrow_down)
                 }
             }
-            else -> binding.sort.visibility = View.GONE
+            else -> hideViews(binding.sort)
         }
     }
 
     private fun resetColumnDimensions() {
-        binding.container.layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT
-        binding.container.requestLayout()
-        binding.data.requestLayout()
+        with(binding) {
+            with(container) {
+                layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT
+                requestLayout()
+            }
+            data.requestLayout()
+        }
     }
 }
