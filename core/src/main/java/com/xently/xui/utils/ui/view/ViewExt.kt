@@ -1,6 +1,7 @@
 package com.xently.xui.utils.ui.view
 
 import android.app.Activity
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,6 +11,7 @@ import android.view.View
 import android.view.View.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
@@ -414,4 +416,31 @@ fun SwipeRefreshLayout.showProgress(show: Boolean = true) {
 
     // End the refresh process just in case it wasn't
     if (isRefreshing && !show) isRefreshing = false
+}
+
+/**
+ * scales down the image contained in [imagePath] to the size of [ImageView] and sets
+ * it to [this@setImageFromPath]
+ * @param imagePath absolute file path of image to be shown on [this@setImageFromPath]
+ * ([ImageView])
+ */
+fun ImageView.setImageFromPath(imagePath: String) {
+    val bmOptions = BitmapFactory.Options().apply {
+        // Get the dimensions of the bitmap
+        inJustDecodeBounds = true
+
+        val photoW: Int = outWidth
+        val photoH: Int = outHeight
+
+        // Determine how much to scale down the image
+        val scaleFactor: Int = (photoW / width).coerceAtMost(photoH / height)
+
+        // Decode the image file into a Bitmap sized to fill the View
+        inJustDecodeBounds = false
+        inSampleSize = scaleFactor
+        // inPurgeable = true
+    }
+    BitmapFactory.decodeFile(imagePath, bmOptions)?.also { bitmap ->
+        setImageBitmap(bitmap)
+    }
 }
